@@ -15,39 +15,28 @@ const products = [
   {
     id: "golf",
     name: "Golf",
-    eyebrow: "Golf",
+    eyebrow: "BASALT GOLF",
     headline: "Understand Every Inch.",
     copy:
       "Helping golf courses understand, measure and improve every acre through professional spatial intelligence.",
     primary: "Explore Golf",
     secondary: "Discuss Your Course",
     href: "/golf",
+    secondaryHref: "#contact",
     anchor: "#golf",
     scene: "scene-golf",
   },
   {
-    id: "sports",
-    name: "Sports Grounds",
-    eyebrow: "Sports Grounds",
-    headline: "Understand Every Inch.",
-    copy:
-      "Helping sports facilities understand, measure and improve every playing surface through professional spatial intelligence.",
-    primary: "Explore Sports Grounds",
-    secondary: "Discuss Your Facility",
-    href: "/sports-grounds",
-    anchor: "#sports-grounds",
-    scene: "scene-sports",
-  },
-  {
     id: "estates",
-    name: "Estates",
-    eyebrow: "Estates",
-    headline: "Understand Every Inch.",
+    name: "Estates & Land Management",
+    eyebrow: "Basalt Estates",
+    headline: "Understand Your Land. Plan With Confidence.",
     copy:
-      "Helping estates understand, measure and manage land with confidence through professional spatial intelligence.",
-    primary: "Explore Estates",
-    secondary: "Discuss Your Estate",
-    href: "/estates",
+      "Basalt provides landowners, estates and farms with detailed spatial intelligence to support drainage, infrastructure planning, environmental management and long-term land improvement.",
+    primary: "Discuss Your Land",
+    secondary: "View Example Reports",
+    href: "#contact",
+    secondaryHref: "#estate-example-reports",
     anchor: "#estates",
     scene: "scene-estates",
   },
@@ -83,71 +72,36 @@ const sectorPanels = [
     ],
   },
   {
-    product: "Basalt Sports Grounds",
-    sectionHeading: "Helping Sports Facilities Perform Better",
-    headline:
-      "Aerial mapping and terrain insight for clubs planning maintenance, drainage and facility investment.",
-    overview:
-      "Basalt creates clear evidence for volunteer committees, funding applications and contractor conversations.",
-    scene: "scene-sports",
-    variant: "sports" as const,
-    href: "/sports-grounds",
-    cta: "Explore Sports Grounds",
-    secondaryHref: "#contact",
-    secondaryCta: "Discuss Your Facility",
-    problems: [
-      "Waterlogging",
-      "Pitch levels",
-      "Access routes",
-      "Development zones",
-      "Progress records",
-    ],
-    deliverables: [
-      "Pitch Mapping",
-      "Drainage",
-      "Surface Assessment",
-      "Maintenance Planning",
-    ],
-    reportTitle: "Grounds Evidence Pack",
-    reportItems: [
-      "Pitch Levels",
-      "Drainage",
-      "Surface Assessment",
-      "Maintenance Planning",
-    ],
-  },
-  {
     product: "Basalt Estates",
     sectionHeading: "Helping Estates Understand and Manage Land",
-    headline:
-      "Landscape intelligence for land, woodland, access, infrastructure and long-term estate management.",
+    headline: "Understand Your Land. Plan With Confidence.",
     overview:
-      "Basalt turns complex managed landscapes into clear records for planning, monitoring and asset review.",
+      "Basalt provides landowners, estates and farms with detailed spatial intelligence to support drainage, infrastructure planning, environmental management and long-term land improvement.",
     scene: "scene-estates",
     variant: "estates" as const,
-    href: "/estates",
-    cta: "Explore Basalt Estates",
-    secondaryHref: "#contact",
-    secondaryCta: "Discuss Your Estate",
+    href: "#contact",
+    cta: "Discuss Your Land",
+    secondaryHref: "#estate-example-reports",
+    secondaryCta: "View Example Reports",
     problems: [
-      "Woodland records",
-      "Boundary review",
-      "Water management",
-      "Access planning",
-      "Change monitoring",
+      "Field drainage",
+      "Fencing and boundaries",
+      "Infrastructure planning",
+      "Asset records",
+      "Environmental monitoring",
     ],
     deliverables: [
-      "Woodland Mapping",
-      "Access Routes",
-      "Boundary Surveys",
-      "Water Management",
+      "Terrain Model",
+      "Drainage Assessment",
+      "Boundary Measurements",
+      "Digital Asset Register",
     ],
-    reportTitle: "Estate Intelligence Report",
+    reportTitle: "Land Management Report",
     reportItems: [
-      "Woodland Mapping",
-      "Access Routes",
-      "Boundary Surveys",
-      "Water Management",
+      "Terrain Model",
+      "Drainage Assessment",
+      "Boundary Measurements",
+      "Digital Asset Register",
     ],
   },
 ];
@@ -290,6 +244,138 @@ const golfBenefits = [
   },
 ];
 
+const estateQuestions = [
+  {
+    question: "Why is this field always wet?",
+    copy:
+      "Identify terrain, low points and surface-water flow to better understand drainage challenges.",
+  },
+  {
+    question: "How much fencing do we need?",
+    copy:
+      "Measure boundary lengths, paddock layouts and infrastructure accurately before work begins.",
+  },
+  {
+    question: "Where should new water troughs or gateways go?",
+    copy:
+      "Use terrain, access routes and field layouts to plan practical livestock improvements.",
+  },
+  {
+    question: "How much material will this project require?",
+    copy:
+      "Calculate earthworks, tracks, yard extensions and other land improvement projects with confidence.",
+  },
+  {
+    question: "Where are all of our assets?",
+    copy:
+      "Create a digital record of tracks, gates, drains, bridges, culverts, buildings and infrastructure.",
+  },
+  {
+    question: "How has our land changed?",
+    copy:
+      "Compare surveys over time to monitor woodland, drainage, environmental projects and infrastructure improvements.",
+  },
+];
+
+const estateValueThemes = [
+  {
+    title: "Drainage & Water",
+    copy:
+      "Map terrain, drainage pathways, low points and wet areas to support practical drainage improvements.",
+    labels: [
+      "Surface-water flow",
+      "Low-point mapping",
+      "Drainage planning",
+      "Watercourse mapping",
+    ],
+  },
+  {
+    title: "Farm & Estate Improvements",
+    copy:
+      "Support fencing, gateways, tracks, paddock planning, yards and capital improvements with accurate measurements.",
+    labels: [
+      "Fence lengths",
+      "Track planning",
+      "Earthworks",
+      "Volume calculations",
+    ],
+  },
+  {
+    title: "Land Assets",
+    copy:
+      "Create a structured digital record of infrastructure across the estate.",
+    labels: ["Gates", "Drains", "Water troughs", "Buildings", "Culverts", "Tracks"],
+  },
+  {
+    title: "Environmental Management",
+    copy: "Monitor woodland, hedgerows, habitats and land over time.",
+    labels: [
+      "Woodland mapping",
+      "Hedgerow surveys",
+      "Habitat monitoring",
+      "Change detection",
+    ],
+  },
+];
+
+const estateReportOutputs = [
+  {
+    name: "Terrain Model",
+    copy: "Shows levels, landform and low points across fields, tracks and managed land.",
+  },
+  {
+    name: "Drainage Assessment",
+    copy: "Links visible wet areas with terrain information to support practical drainage planning.",
+  },
+  {
+    name: "Surface Water Analysis",
+    copy: "Highlights likely flow routes, collection points and water movement across the site.",
+  },
+  {
+    name: "Earthwork Volumes",
+    copy: "Measures material quantities for tracks, yard extensions and land improvement projects.",
+  },
+  {
+    name: "Boundary Measurements",
+    copy: "Provides clear measured lengths for fences, paddocks and managed boundaries.",
+  },
+  {
+    name: "Farm Infrastructure Map",
+    copy: "Records tracks, gates, drains, water troughs, buildings, culverts and access routes.",
+  },
+  {
+    name: "Digital Asset Register",
+    copy: "Creates a structured digital record of estate assets that can be revisited over time.",
+  },
+  {
+    name: "Environmental Baseline Survey",
+    copy: "Maps woodland, hedgerows, habitats and landscape features for long-term monitoring.",
+  },
+  {
+    name: "Change Comparison",
+    copy: "Compares surveys over months or years to show how land and infrastructure evolve.",
+  },
+];
+
+const estateBenefits = [
+  {
+    title: "Plan Improvements",
+    copy: "Understand your land before investing.",
+  },
+  {
+    title: "Measure Accurately",
+    copy: "Reduce assumptions with survey-grade measurements.",
+  },
+  {
+    title: "Protect Your Assets",
+    copy: "Maintain a permanent digital record of infrastructure and land.",
+  },
+  {
+    title: "Monitor Change",
+    copy: "Compare surveys over months or years to understand how the estate evolves.",
+  },
+];
+
 const surveySteps = [
   {
     title: "Plan",
@@ -399,7 +485,7 @@ function ReportPreview({
   title: string;
   note: string;
   items: string[];
-  variant: "golf" | "sports" | "estates";
+  variant: "golf" | "estates";
 }) {
   return (
     <div className="report-shell">
@@ -455,12 +541,23 @@ export default function Home() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [hasSelectedSector, setHasSelectedSector] = useState(false);
   const [activeGolfOutput, setActiveGolfOutput] = useState(golfReportOutputs[0]);
+  const [activeEstateOutput, setActiveEstateOutput] = useState(estateReportOutputs[0]);
   const [heroInView, setHeroInView] = useState(true);
   const [tabVisible, setTabVisible] = useState(true);
   const heroRef = useRef<HTMLElement | null>(null);
   const reducedMotion = useReducedMotion();
   const activeProduct = products[activeIndex];
   const activeSector = sectorPanels[activeIndex];
+  const isEstateSector = activeSector.variant === "estates";
+  const contactHeading = isEstateSector
+    ? "Spatial Intelligence For Better Land Management"
+    : "Bring your landscape into focus.";
+  const contactCopy = isEstateSector
+    ? "Whether you're improving drainage, planning infrastructure, managing environmental projects or maintaining a large estate, Basalt provides the information needed to make confident long-term decisions."
+    : "Tell us about your course or land project and we will help identify the right Basalt approach.";
+  const contactPrimary = isEstateSector ? "Discuss Your Project" : "Discuss your site";
+  const contactSecondaryHref = isEstateSector ? "#estate-example-reports" : "/golf";
+  const contactSecondaryLabel = isEstateSector ? "View Example Reports" : "Explore Basalt Golf";
 
   const shouldAutoRotate = useMemo(
     () => !hasInteracted && !reducedMotion && heroInView && tabVisible,
@@ -576,7 +673,7 @@ export default function Home() {
               </div>
 
               <div
-                className="mt-6 grid gap-1 rounded-[8px] border border-white/14 bg-black/28 p-1.5 shadow-2xl shadow-black/18 backdrop-blur-2xl sm:grid-cols-3 lg:max-w-2xl"
+                className="mt-6 grid gap-1 rounded-[8px] border border-white/14 bg-black/28 p-1.5 shadow-2xl shadow-black/18 backdrop-blur-2xl sm:grid-cols-2 lg:max-w-2xl"
                 role="tablist"
                 aria-label="Choose your sector"
               >
@@ -634,7 +731,7 @@ export default function Home() {
                   {activeProduct.primary} <ArrowRight className="size-4" />
                 </Link>
                 <a
-                  href="#contact"
+                  href={activeProduct.secondaryHref}
                   className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/16"
                 >
                   {activeProduct.secondary}
@@ -910,6 +1007,173 @@ export default function Home() {
             </motion.div>
           ) : null}
 
+          {activeSector.variant === "estates" ? (
+            <motion.div
+              className="mt-18 space-y-18 lg:mt-24 lg:space-y-24"
+              initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
+              <section>
+                <div className="mb-10 max-w-3xl">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    Questions We Help Landowners Answer
+                  </p>
+                  <p className="mt-5 text-base leading-7 text-white/62">
+                    Every estate is different. Basalt helps answer practical
+                    questions that support better land management, investment
+                    and maintenance decisions.
+                  </p>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {estateQuestions.map((item, index) => (
+                    <motion.article
+                      key={item.question}
+                      className="golf-question-card"
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.45, delay: index * 0.04 }}
+                    >
+                      <div className="golf-card-visual">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                      <h3 className="mt-5 text-xl font-semibold text-white">
+                        {item.question}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-white/60">
+                        {item.copy}
+                      </p>
+                    </motion.article>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <div className="mb-10 max-w-3xl">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    A Complete View Of Your Land
+                  </p>
+                </div>
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {estateValueThemes.map((theme, index) => (
+                    <motion.article
+                      key={theme.title}
+                      className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6"
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.45, delay: index * 0.05 }}
+                    >
+                      <h3 className="text-2xl font-semibold text-white">
+                        {theme.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-6 text-white/60">
+                        {theme.copy}
+                      </p>
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {theme.labels.map((label) => (
+                          <span
+                            key={label}
+                            className="rounded-full border border-white/10 bg-black/16 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-white/50"
+                          >
+                            {label}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+              </section>
+
+              <section id="estate-example-reports">
+                <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                      What You&apos;ll Receive
+                    </p>
+                    <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
+                      Practical outputs for land management.
+                    </h2>
+                  </div>
+                  <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+                    Outputs are shaped around the decisions you need to make
+                    across drainage, infrastructure, assets and environmental
+                    management.
+                  </p>
+                </div>
+
+                <div className="golf-output-shell">
+                  <motion.div
+                    key={activeEstateOutput.name}
+                    className="report-map report-estates"
+                    initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <span className="report-grid" />
+                    <span className="report-route report-route-one" />
+                    <span className="report-route report-route-two" />
+                    <span className="report-zone report-zone-one" />
+                    <span className="report-zone report-zone-two" />
+                    <span className="report-marker report-marker-one" />
+                    <span className="report-marker report-marker-two" />
+                    <div className="absolute inset-x-4 bottom-4 rounded-[6px] border border-white/12 bg-black/46 p-4 backdrop-blur-xl">
+                      <p className="text-xs uppercase tracking-[0.24em] text-white/42">
+                        Example output
+                      </p>
+                      <h3 className="mt-2 text-2xl font-semibold text-white">
+                        {activeEstateOutput.name}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-white/64">
+                        {activeEstateOutput.copy}
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  <div className="grid content-start gap-2">
+                    {estateReportOutputs.map((output) => (
+                      <button
+                        key={output.name}
+                        type="button"
+                        onClick={() => setActiveEstateOutput(output)}
+                        className={`rounded-[6px] border p-3 text-left text-sm transition ${
+                          activeEstateOutput.name === output.name
+                            ? "border-white/24 bg-white/10 text-white"
+                            : "border-white/10 bg-white/[0.035] text-white/58 hover:bg-white/[0.06] hover:text-white"
+                        }`}
+                      >
+                        {output.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    Why Landowners Choose Basalt
+                  </p>
+                  <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    {estateBenefits.map((benefit) => (
+                      <div key={benefit.title}>
+                        <h3 className="text-lg font-semibold text-white">
+                          {benefit.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-6 text-white/58">
+                          {benefit.copy}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            </motion.div>
+          ) : null}
+
           <p className="mt-14 text-sm leading-6 text-white/42 lg:mt-18">
             The questions change by sector. The technology behind every Basalt
             survey remains the same.
@@ -1160,25 +1424,24 @@ export default function Home() {
             <div>
               <BasaltLogo variant="horizontal" theme="grey" size="compact" className="text-sm" />
               <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Bring your landscape into focus.
+                {contactHeading}
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
-                Tell us about your course, sports grounds or estate and we will help identify the right Basalt approach.
+                {contactCopy}
               </p>
             </div>
             <div className="flex flex-col gap-3">
               <label className="sr-only" htmlFor="site-type">Site type</label>
               <select id="site-type" className="h-12 rounded-full border border-white/14 bg-[#101713] px-5 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-[#b8f2d2]">
                 <option>Golf</option>
-                <option>Sports Grounds</option>
-                <option>Estates</option>
+                <option>Estates & Land Management</option>
                 <option>Other</option>
               </select>
               <a href="mailto:hello@basalt.co?subject=Discuss%20your%20site" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]">
-                Discuss your site <ArrowRight className="size-4" />
+                {contactPrimary} <ArrowRight className="size-4" />
               </a>
-              <Link href="/golf" className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14">
-                Explore Basalt Golf
+              <Link href={contactSecondaryHref} className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14">
+                {contactSecondaryLabel}
               </Link>
             </div>
           </div>
@@ -1190,8 +1453,7 @@ export default function Home() {
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <Link href="/golf" className="transition hover:text-white">Golf</Link>
-            <Link href="/sports-grounds" className="transition hover:text-white">Sports Grounds</Link>
-            <Link href="/estates" className="transition hover:text-white">Estates</Link>
+            <Link href="/estates" className="transition hover:text-white">Estates & Land Management</Link>
             <a href="#reports" className="transition hover:text-white">Reports</a>
           </div>
         </div>

@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Basalt | Spatial Intelligence for Golf, Sports Grounds and Estates",
+  title: "Basalt | Spatial Intelligence for Golf and Land Management",
   description:
-    "Basalt transforms aerial and spatial data into practical maps, terrain insight and reports for golf courses, sports grounds and managed estates.",
+    "Basalt transforms aerial and spatial data into practical maps, terrain insight and reports for golf courses, landowners and managed estates.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Basalt | Spatial Intelligence for Golf, Sports Grounds and Estates",
+    title: "Basalt | Spatial Intelligence for Golf and Land Management",
     description:
       "Basalt transforms aerial and spatial data into practical maps, terrain insight and reports for complex outdoor environments.",
     images: [
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Basalt | Spatial Intelligence for Golf, Sports Grounds and Estates",
+    title: "Basalt | Spatial Intelligence for Golf and Land Management",
     description:
       "Basalt transforms aerial and spatial data into practical maps, terrain insight and reports for complex outdoor environments.",
     images: ["/brand/basalt-social.svg"],
