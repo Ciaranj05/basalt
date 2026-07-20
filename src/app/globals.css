@@ -71,6 +71,47 @@ body {
   mix-blend-mode: screen;
 }
 
+.course-contours {
+  background:
+    repeating-radial-gradient(ellipse at 44% 46%, rgba(255, 255, 255, 0.18) 0 1px, transparent 2px 18px),
+    linear-gradient(118deg, transparent 0 28%, rgba(255, 255, 255, 0.14) 28.2% 28.5%, transparent 28.8%),
+    linear-gradient(42deg, transparent 0 58%, rgba(255, 255, 255, 0.12) 58.2% 58.5%, transparent 58.8%);
+  mix-blend-mode: screen;
+}
+
+.morning-mist {
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.14) 38%, transparent 72%),
+    linear-gradient(104deg, transparent 8%, rgba(255, 255, 255, 0.08) 46%, transparent 86%);
+  filter: blur(22px);
+  opacity: 0.32;
+  transform: translateX(-8%);
+  animation: mist-drift 18s ease-in-out infinite alternate;
+}
+
+.grass-shadow {
+  background:
+    radial-gradient(ellipse at 22% 82%, rgba(0, 0, 0, 0.34), transparent 28%),
+    radial-gradient(ellipse at 70% 22%, rgba(245, 221, 170, 0.12), transparent 26%);
+  opacity: 0.84;
+  animation: light-breathe 14s ease-in-out infinite alternate;
+}
+
+.quiet-pin {
+  position: relative;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transform: rotate(30deg);
+}
+
+.quiet-pin::after {
+  position: absolute;
+  inset: -0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  content: "";
+}
+
 .course-lines {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -200,6 +241,26 @@ body {
   width: min(100%, 330px);
 }
 
+@keyframes mist-drift {
+  from {
+    transform: translateX(-9%);
+  }
+
+  to {
+    transform: translateX(8%);
+  }
+}
+
+@keyframes light-breathe {
+  from {
+    opacity: 0.72;
+  }
+
+  to {
+    opacity: 0.92;
+  }
+}
+
 @media (min-width: 640px) {
   .hero-panel {
     width: 100%;
@@ -212,5 +273,16 @@ body {
 
   .hero-actions {
     width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
