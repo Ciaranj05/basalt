@@ -56,10 +56,11 @@ const products = [
 const sectorPanels = [
   {
     product: "Basalt Golf",
+    sectionHeading: "Helping Golf Courses Make Better Decisions",
     headline:
       "Spatial intelligence for golf course maintenance, planning and long-term investment.",
     overview:
-      "Select Golf to see how Basalt translates course survey data into practical insight for greenkeepers, committees and contractors.",
+      "Basalt translates course survey data into practical insight for greenkeepers, committees and contractors.",
     scene: "scene-golf",
     variant: "golf" as const,
     href: "/golf",
@@ -82,10 +83,11 @@ const sectorPanels = [
   },
   {
     product: "Basalt Sports Grounds",
+    sectionHeading: "Helping Sports Facilities Perform Better",
     headline:
       "Aerial mapping and terrain insight for clubs planning maintenance, drainage and facility investment.",
     overview:
-      "Select Sports Grounds to see how Basalt creates clear evidence for volunteer committees, funding applications and contractor conversations.",
+      "Basalt creates clear evidence for volunteer committees, funding applications and contractor conversations.",
     scene: "scene-sports",
     variant: "sports" as const,
     href: "/sports-grounds",
@@ -113,10 +115,11 @@ const sectorPanels = [
   },
   {
     product: "Basalt Estates",
+    sectionHeading: "Helping Estates Understand and Manage Land",
     headline:
       "Landscape intelligence for land, woodland, access, infrastructure and long-term estate management.",
     overview:
-      "Select Estates to see how Basalt turns complex managed landscapes into clear records for planning, monitoring and asset review.",
+      "Basalt turns complex managed landscapes into clear records for planning, monitoring and asset review.",
     scene: "scene-estates",
     variant: "estates" as const,
     href: "/estates",
@@ -503,48 +506,16 @@ export default function Home() {
           <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Choose Your Sector
+                Selected Sector
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                One platform, tailored to your landscape.
+                {activeSector.sectionHeading}
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Select the sector closest to your site. The technology stays the
-              same; the customer problems, deliverables and report outputs
-              adapt.
+              The sector you choose in the hero shapes the examples below, while
+              the same Basalt survey platform powers the entire page.
             </p>
-          </div>
-
-          <div
-            className="mb-5 grid gap-2 rounded-[8px] border border-white/12 bg-white/[0.04] p-2 sm:grid-cols-3"
-            role="tablist"
-            aria-label="Choose sector"
-          >
-            {products.map((product, index) => (
-              <button
-                key={product.id}
-                type="button"
-                role="tab"
-                aria-selected={activeIndex === index}
-                aria-controls="sector-panel"
-                onClick={() => selectProduct(index)}
-                className={`relative rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
-                  activeIndex === index
-                    ? "text-white"
-                    : "text-white/52 hover:bg-white/[0.045] hover:text-white/82"
-                }`}
-              >
-                {product.name}
-                {activeIndex === index ? (
-                  <motion.span
-                    layoutId="sector-product-indicator"
-                    className="absolute inset-x-4 bottom-2 h-px rounded-full bg-white/58 shadow-[0_0_18px_rgba(255,255,255,0.18)]"
-                    transition={{ duration: 0.45, ease: "easeOut" }}
-                  />
-                ) : null}
-              </button>
-            ))}
           </div>
 
           <motion.div
