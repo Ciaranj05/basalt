@@ -15,12 +15,12 @@ const products = [
   {
     id: "golf",
     name: "Golf",
-    eyebrow: "Basalt Golf",
-    headline: "Understand every inch.",
+    eyebrow: "Golf",
+    headline: "Understand Every Inch.",
     copy:
-      "Spatial intelligence for golf course maintenance, environmental planning and long-term capital decisions.",
-    primary: "Explore Basalt Golf",
-    secondary: "Discuss your course",
+      "Helping golf courses understand, measure and improve every acre through professional spatial intelligence.",
+    primary: "Explore Golf",
+    secondary: "Discuss Your Course",
     href: "/golf",
     anchor: "#golf",
     scene: "scene-golf",
@@ -28,12 +28,12 @@ const products = [
   {
     id: "sports",
     name: "Sports Grounds",
-    eyebrow: "Basalt Sports Grounds",
-    headline: "Understand your grounds before you invest.",
+    eyebrow: "Sports Grounds",
+    headline: "Understand Every Inch.",
     copy:
-      "Accurate aerial mapping, terrain insight and practical reporting for GAA, football, rugby, cricket, hockey and community sports facilities.",
+      "Helping sports facilities understand, measure and improve every playing surface through professional spatial intelligence.",
     primary: "Explore Sports Grounds",
-    secondary: "Discuss your grounds",
+    secondary: "Discuss Your Facility",
     href: "/sports-grounds",
     anchor: "#sports-grounds",
     scene: "scene-sports",
@@ -41,12 +41,12 @@ const products = [
   {
     id: "estates",
     name: "Estates",
-    eyebrow: "Basalt Estates",
-    headline: "See the full landscape.",
+    eyebrow: "Estates",
+    headline: "Understand Every Inch.",
     copy:
-      "Landscape intelligence for land, woodland, access, drainage, infrastructure, environmental assets and long-term estate management.",
-    primary: "Explore Basalt Estates",
-    secondary: "Discuss your estate",
+      "Helping estates understand, measure and manage land with confidence through professional spatial intelligence.",
+    primary: "Explore Estates",
+    secondary: "Discuss Your Estate",
     href: "/estates",
     anchor: "#estates",
     scene: "scene-estates",
@@ -307,6 +307,7 @@ function SurveyGlyph({ index }: { index: number }) {
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasSelectedSector, setHasSelectedSector] = useState(false);
   const [heroInView, setHeroInView] = useState(true);
   const [tabVisible, setTabVisible] = useState(true);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -358,6 +359,7 @@ export default function Home() {
 
   const selectProduct = (index: number) => {
     setHasInteracted(true);
+    setHasSelectedSector(true);
     setActiveIndex(index);
   };
 
@@ -391,7 +393,7 @@ export default function Home() {
             <BasaltLogo variant="horizontal" theme="dark" />
           </Link>
           <div className="hidden items-center gap-8 text-sm text-white/68 md:flex">
-            <a href="#products" className="transition hover:text-white">Products</a>
+            <a href="#products" className="transition hover:text-white">Sectors</a>
             <a href="#reports" className="transition hover:text-white">Reports</a>
             <a href="#contact" className="transition hover:text-white">About</a>
           </div>
@@ -413,9 +415,65 @@ export default function Home() {
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Basalt
+              </p>
+              <div className="mt-5 max-w-3xl">
+                <p className="text-2xl font-semibold tracking-normal text-white sm:text-3xl">
+                  Choose Your Sector
+                </p>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/62 sm:text-base">
+                  Select the sector most relevant to you to see how Basalt helps
+                  different organisations understand, measure and manage outdoor
+                  assets.
+                </p>
+              </div>
+
+              <div
+                className="mt-6 grid gap-1 rounded-[8px] border border-white/14 bg-black/28 p-1.5 shadow-2xl shadow-black/18 backdrop-blur-2xl sm:grid-cols-3 lg:max-w-2xl"
+                role="tablist"
+                aria-label="Choose your sector"
+              >
+                {products.map((product, index) => (
+                  <button
+                    key={product.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeIndex === index}
+                    aria-controls="sector-panel"
+                    onClick={() => selectProduct(index)}
+                    className={`relative min-h-12 rounded-[6px] px-4 py-3 text-center text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
+                      activeIndex === index
+                        ? "text-[#07110d]"
+                        : "text-white/58 hover:bg-white/[0.07] hover:text-white"
+                    }`}
+                  >
+                    {activeIndex === index ? (
+                      <motion.span
+                        layoutId="hero-sector-pill"
+                        className="absolute inset-0 rounded-[6px] bg-white shadow-[0_18px_44px_rgba(0,0,0,0.2)]"
+                        transition={{ duration: 0.45, ease: "easeOut" }}
+                      />
+                    ) : null}
+                    <span className="relative z-10">{product.name}</span>
+                  </button>
+                ))}
+              </div>
+
+              {!hasSelectedSector ? (
+                <motion.p
+                  className="mt-3 text-sm text-white/46"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  Select a sector to see tailored solutions.
+                </motion.p>
+              ) : null}
+
+              <p className="mt-6 text-sm uppercase tracking-[0.28em] text-white/50">
                 {activeProduct.eyebrow}
               </p>
-              <h1 className="mt-5 text-5xl font-semibold leading-[0.93] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl">
+              <h1 className="mt-3 text-5xl font-semibold leading-[0.93] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl">
                 {activeProduct.headline}
               </h1>
               <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/74 sm:text-xl">
@@ -436,37 +494,6 @@ export default function Home() {
                 </a>
               </div>
             </motion.div>
-
-            <div
-              className="mt-12 grid gap-2 rounded-[8px] border border-white/12 bg-black/24 p-2 backdrop-blur-2xl sm:grid-cols-3 lg:max-w-2xl"
-              role="tablist"
-              aria-label="Basalt products"
-            >
-              {products.map((product, index) => (
-                <button
-                  key={product.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeIndex === index}
-                  aria-controls="sector-panel"
-                  onClick={() => selectProduct(index)}
-                  className={`relative rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
-                    activeIndex === index
-                      ? "text-white"
-                      : "text-white/52 hover:bg-white/[0.045] hover:text-white/82"
-                  }`}
-                >
-                  <span className="block">{product.name}</span>
-                  {activeIndex === index ? (
-                    <motion.span
-                      layoutId="hero-product-indicator"
-                      className="absolute inset-x-4 bottom-2 h-px rounded-full bg-white/58 shadow-[0_0_18px_rgba(255,255,255,0.18)]"
-                      transition={{ duration: 0.45, ease: "easeOut" }}
-                    />
-                  ) : null}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </section>
