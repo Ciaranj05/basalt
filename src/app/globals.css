@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050807;
+  --foreground: #f4f7f2;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: #b8f2d2;
+  color: #07110d;
+}
+
+.asset-map {
+  background:
+    linear-gradient(142deg, transparent 0 17%, rgba(255, 255, 255, 0.12) 17.3% 17.8%, transparent 18.1%),
+    linear-gradient(32deg, transparent 0 31%, rgba(255, 255, 255, 0.1) 31.2% 31.7%, transparent 32%),
+    linear-gradient(72deg, transparent 0 48%, rgba(255, 255, 255, 0.11) 48.2% 48.8%, transparent 49.1%),
+    radial-gradient(circle at 22% 25%, rgba(184, 242, 210, 0.22), transparent 18%),
+    radial-gradient(circle at 68% 34%, rgba(255, 210, 122, 0.16), transparent 15%),
+    radial-gradient(circle at 53% 70%, rgba(124, 183, 255, 0.14), transparent 20%),
+    linear-gradient(135deg, #102118 0%, #0a1511 45%, #0b1919 100%);
+}
+
+.asset-map::before,
+.asset-map::after {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  content: "";
+}
+
+.asset-map::before {
+  inset: 14% 17% 22% 12%;
+  transform: rotate(-18deg);
+}
+
+.asset-map::after {
+  inset: 28% 12% 17% 38%;
+  transform: rotate(24deg);
+}
+
+.course-data {
+  background:
+    linear-gradient(125deg, transparent 0 21%, rgba(184, 242, 210, 0.32) 21.2% 21.6%, transparent 21.9%),
+    linear-gradient(38deg, transparent 0 36%, rgba(124, 183, 255, 0.24) 36.2% 36.6%, transparent 36.9%),
+    linear-gradient(76deg, transparent 0 51%, rgba(255, 210, 122, 0.22) 51.2% 51.55%, transparent 51.9%),
+    repeating-radial-gradient(ellipse at 58% 48%, rgba(255, 255, 255, 0.15) 0 1px, transparent 2px 13px),
+    radial-gradient(circle at 35% 52%, rgba(184, 242, 210, 0.2), transparent 19%),
+    radial-gradient(circle at 70% 40%, rgba(124, 183, 255, 0.16), transparent 21%);
+  mix-blend-mode: screen;
+}
+
+.course-lines {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    repeating-radial-gradient(ellipse at 44% 45%, rgba(184, 242, 210, 0.16) 0 1px, transparent 2px 18px);
+  background-size: 46px 46px, 46px 46px, auto;
+  mix-blend-mode: screen;
+}
+
+.layer-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.92;
+}
+
+.layer-emerald {
+  background: radial-gradient(circle at 44% 42%, rgba(184, 242, 210, 0.33), transparent 32%);
+}
+
+.layer-blue,
+.layer-cyan {
+  background: radial-gradient(circle at 52% 56%, rgba(124, 183, 255, 0.34), transparent 34%);
+}
+
+.layer-amber,
+.layer-sand {
+  background: radial-gradient(circle at 45% 50%, rgba(255, 210, 122, 0.32), transparent 34%);
+}
+
+.layer-stone,
+.layer-slate {
+  background: radial-gradient(circle at 52% 44%, rgba(226, 232, 240, 0.2), transparent 34%);
+}
+
+.hero-panel {
+  width: calc(100vw - 40px);
+  max-width: 56rem;
+}
+
+.hero-panel > * {
+  max-width: 100%;
+}
+
+.hero-description,
+.hero-actions {
+  width: min(100%, 330px);
+}
+
+@media (min-width: 640px) {
+  .hero-panel {
+    width: 100%;
+  }
+
+  .hero-description {
+    width: 100%;
+    max-width: 42rem;
+  }
+
+  .hero-actions {
+    width: auto;
+  }
+}
