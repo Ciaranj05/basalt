@@ -40,7 +40,7 @@ export default function GolfPage() {
             Basalt Golf
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
-            Understand every acre.
+            Understand every inch.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">
             Spatial intelligence for golf course maintenance, environmental

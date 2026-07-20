@@ -16,7 +16,7 @@ const products = [
     id: "golf",
     name: "Golf",
     eyebrow: "Basalt Golf",
-    headline: "Understand every acre.",
+    headline: "Understand every inch.",
     copy:
       "Spatial intelligence for golf course maintenance, environmental planning and long-term capital decisions.",
     primary: "Explore Basalt Golf",
