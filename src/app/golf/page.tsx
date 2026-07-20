@@ -37,7 +37,7 @@ export default function GolfPage() {
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:py-24">
         <div>
           <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-            Available now
+            Basalt Golf
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
             Understand every acre.

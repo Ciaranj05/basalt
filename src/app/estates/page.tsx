@@ -4,9 +4,9 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 
 export const metadata: Metadata = {
-  title: "Basalt Estates | Future Landscape Intelligence Product",
+  title: "Basalt Estates | Landscape Intelligence for Managed Estates",
   description:
-    "Basalt Estates is a future product concept for mapping land, woodland, water, access, buildings, infrastructure and long-term change across managed estates.",
+    "Basalt Estates maps land, woodland, water, access, buildings, infrastructure and long-term change across managed estates.",
 };
 
 const capabilities = [
@@ -38,7 +38,7 @@ export default function EstatesPage() {
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:py-24">
         <div>
           <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-            Future product
+            Basalt Estates
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
             See the full landscape.
@@ -80,9 +80,10 @@ export default function EstatesPage() {
         <div className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/[0.04] p-6">
           <ShieldCheck className="mt-1 size-5 shrink-0 text-[#a6d8bd]" />
           <p className="text-sm leading-6 text-white/62">
-            Basalt Estates is presented as an illustrative future product
-            concept. It does not represent regulated forestry, planning,
-            engineering or environmental consultancy services.
+            Basalt Estates provides spatial intelligence and visual
+            decision-support information. It does not replace regulated
+            forestry, planning, engineering or environmental consultancy
+            services.
           </p>
         </div>
       </section>

@@ -19,7 +19,6 @@ const products = [
     headline: "Understand every acre.",
     copy:
       "Spatial intelligence for golf course maintenance, environmental planning and long-term capital decisions.",
-    status: "Available now",
     primary: "Explore Basalt Golf",
     secondary: "Discuss your course",
     href: "/golf",
@@ -33,7 +32,6 @@ const products = [
     headline: "Understand your grounds before you invest.",
     copy:
       "Accurate aerial mapping, terrain insight and practical reporting for GAA, football, rugby, cricket, hockey and community sports facilities.",
-    status: "Early access",
     primary: "Explore Sports Grounds",
     secondary: "Discuss your grounds",
     href: "/sports-grounds",
@@ -47,7 +45,6 @@ const products = [
     headline: "See the full landscape.",
     copy:
       "Landscape intelligence for land, woodland, access, drainage, infrastructure, environmental assets and long-term estate management.",
-    status: "Future product",
     primary: "Explore Basalt Estates",
     secondary: "Discuss your estate",
     href: "/estates",
@@ -118,13 +115,13 @@ function SceneVisual({ scene, label }: { scene: string; label: string }) {
 function ReportPreview({
   product,
   title,
-  status,
+  note,
   items,
   variant,
 }: {
   product: string;
   title: string;
-  status: string;
+  note: string;
   items: string[];
   variant: "golf" | "sports" | "estates";
 }) {
@@ -137,8 +134,8 @@ function ReportPreview({
           </p>
           <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
         </div>
-        <span className="rounded-full bg-white px-3 py-1 font-mono text-xs text-[#07110d]">
-          {status}
+        <span className="rounded-full border border-white/10 bg-white/7 px-3 py-1 font-mono text-xs uppercase tracking-[0.16em] text-white/52">
+          {note}
         </span>
       </div>
       <div className="grid gap-4 pt-5 lg:grid-cols-[1.1fr_0.9fr]">
@@ -283,9 +280,6 @@ export default function Home() {
               <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/74 sm:text-xl">
                 {activeProduct.copy}
               </p>
-              <div className="mt-5 inline-flex rounded-full border border-white/14 bg-white/8 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em] text-white/68 backdrop-blur">
-                {activeProduct.status}
-              </div>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href={activeProduct.href}
@@ -315,16 +309,20 @@ export default function Home() {
                   aria-selected={activeIndex === index}
                   aria-controls={`${product.id}-chapter`}
                   onClick={() => selectProduct(index)}
-                  className={`rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
+                  className={`relative rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
                     activeIndex === index
-                      ? "bg-white text-[#07110d]"
-                      : "text-white/58 hover:bg-white/8 hover:text-white"
+                      ? "text-white"
+                      : "text-white/52 hover:bg-white/[0.045] hover:text-white/82"
                   }`}
                 >
                   <span className="block">{product.name}</span>
-                  <span className="mt-1 block font-mono text-[0.68rem] uppercase tracking-[0.18em] opacity-70">
-                    {product.status}
-                  </span>
+                  {activeIndex === index ? (
+                    <motion.span
+                      layoutId="hero-product-indicator"
+                      className="absolute inset-x-4 bottom-2 h-px rounded-full bg-white/58 shadow-[0_0_18px_rgba(255,255,255,0.18)]"
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                    />
+                  ) : null}
                 </button>
               ))}
             </div>
@@ -362,7 +360,7 @@ export default function Home() {
               <ReportPreview
                 product="Basalt Golf"
                 title="Course Intelligence Report"
-                status="Illustrative sample"
+                note="Sample report"
                 variant="golf"
                 items={[
                   "Executive summary",
@@ -412,7 +410,7 @@ export default function Home() {
               <ReportPreview
                 product="Basalt Sports Grounds"
                 title="Grounds Evidence Pack"
-                status="Early access"
+                note="Sample report"
                 variant="sports"
                 items={[
                   "Pitch dimensions and orientation",
@@ -439,9 +437,6 @@ export default function Home() {
                 <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
                   Bring land, woodland, water, access, buildings and infrastructure into one clear visual record for better long-term management.
                 </p>
-                <p className="mt-5 inline-flex rounded-full border border-white/12 bg-white/7 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em] text-white/58">
-                  Future product
-                </p>
                 <div className="mt-8 flex flex-wrap gap-2">
                   {estateOutputs.slice(0, 6).map((item) => (
                     <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
@@ -453,8 +448,8 @@ export default function Home() {
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
                 <ReportPreview
                   product="Basalt Estates"
-                  title="Estate Intelligence Concept"
-                  status="Future concept"
+                  title="Estate Intelligence Report"
+                  note="Sample report"
                   variant="estates"
                   items={[
                     "Land parcels",
@@ -496,7 +491,7 @@ export default function Home() {
                   >
                     <span>
                       <span className="block text-base font-semibold text-white">{product.eyebrow}</span>
-                      <span className="mt-1 block font-mono text-xs uppercase tracking-[0.18em] text-white/42">{product.status}</span>
+                      <span className="mt-1 block text-sm leading-5 text-white/50">{product.copy}</span>
                     </span>
                     <ArrowRight className="size-4 text-white/42" />
                   </Link>
