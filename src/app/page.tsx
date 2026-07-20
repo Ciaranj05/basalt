@@ -53,34 +53,95 @@ const products = [
   },
 ];
 
-const golfOutputs = [
-  "Course orthomosaic",
-  "Contour and elevation view",
-  "Drainage layer",
-  "Asset and irrigation mapping",
-  "Maintenance observations",
-  "Capital planning map",
-  "Example Golf report",
-];
-
-const sportsOutputs = [
-  "Complete grounds capture",
-  "Pitch, building and boundary mapping",
-  "Terrain and low-point analysis",
-  "Indicative surface-water routes",
-  "Development overlays",
-  "Committee evidence",
-  "Repeat progress records",
-];
-
-const estateOutputs = [
-  "Estate-wide map",
-  "Woodland compartments",
-  "Roads and access",
-  "Water and drainage",
-  "Buildings and infrastructure",
-  "Solar and renewable assets",
-  "Year-on-year change",
+const sectorPanels = [
+  {
+    product: "Basalt Golf",
+    headline:
+      "Spatial intelligence for golf course maintenance, planning and long-term investment.",
+    overview:
+      "Select Golf to see how Basalt translates course survey data into practical insight for greenkeepers, committees and contractors.",
+    scene: "scene-golf",
+    variant: "golf" as const,
+    href: "/golf",
+    cta: "Explore Basalt Golf",
+    problems: [
+      "Drainage",
+      "Bunker remodelling",
+      "Earthworks",
+      "Irrigation planning",
+      "Tree management",
+    ],
+    deliverables: ["Contours", "Volumes", "Drainage", "Terrain Models"],
+    reportTitle: "Course Intelligence Report",
+    reportItems: [
+      "Drainage",
+      "Fairway Levels",
+      "Bunker Volumes",
+      "Terrain Models",
+    ],
+  },
+  {
+    product: "Basalt Sports Grounds",
+    headline:
+      "Aerial mapping and terrain insight for clubs planning maintenance, drainage and facility investment.",
+    overview:
+      "Select Sports Grounds to see how Basalt creates clear evidence for volunteer committees, funding applications and contractor conversations.",
+    scene: "scene-sports",
+    variant: "sports" as const,
+    href: "/sports-grounds",
+    cta: "Explore Sports Grounds",
+    problems: [
+      "Waterlogging",
+      "Pitch levels",
+      "Access routes",
+      "Development zones",
+      "Progress records",
+    ],
+    deliverables: [
+      "Pitch Mapping",
+      "Drainage",
+      "Surface Assessment",
+      "Maintenance Planning",
+    ],
+    reportTitle: "Grounds Evidence Pack",
+    reportItems: [
+      "Pitch Levels",
+      "Drainage",
+      "Surface Assessment",
+      "Maintenance Planning",
+    ],
+  },
+  {
+    product: "Basalt Estates",
+    headline:
+      "Landscape intelligence for land, woodland, access, infrastructure and long-term estate management.",
+    overview:
+      "Select Estates to see how Basalt turns complex managed landscapes into clear records for planning, monitoring and asset review.",
+    scene: "scene-estates",
+    variant: "estates" as const,
+    href: "/estates",
+    cta: "Explore Basalt Estates",
+    problems: [
+      "Woodland records",
+      "Boundary review",
+      "Water management",
+      "Access planning",
+      "Change monitoring",
+    ],
+    deliverables: [
+      "Woodland Mapping",
+      "Access Routes",
+      "Boundary Surveys",
+      "Water Management",
+    ],
+    reportTitle: "Estate Intelligence Report",
+    reportItems: [
+      "Woodland Mapping",
+      "Access Routes",
+      "Boundary Surveys",
+      "Water Management",
+    ],
+  },
 ];
 
 const surveySteps = [
@@ -163,16 +224,6 @@ const benefits = [
       "Every survey becomes a secure digital record that can be revisited, measured and compared as the site changes over time.",
     variant: "record",
   },
-];
-
-const reportOutputs = [
-  "Drainage",
-  "Terrain",
-  "Slopes",
-  "Levels",
-  "Volumes",
-  "Surface condition",
-  "Change over time",
 ];
 
 function SceneVisual({ scene, label }: { scene: string; label: string }) {
@@ -261,6 +312,7 @@ export default function Home() {
   const heroRef = useRef<HTMLElement | null>(null);
   const reducedMotion = useReducedMotion();
   const activeProduct = products[activeIndex];
+  const activeSector = sectorPanels[activeIndex];
 
   const shouldAutoRotate = useMemo(
     () => !hasInteracted && !reducedMotion && heroInView && tabVisible,
@@ -340,7 +392,7 @@ export default function Home() {
           </Link>
           <div className="hidden items-center gap-8 text-sm text-white/68 md:flex">
             <a href="#products" className="transition hover:text-white">Products</a>
-            <a href="#platform" className="transition hover:text-white">Platform</a>
+            <a href="#reports" className="transition hover:text-white">Reports</a>
             <a href="#contact" className="transition hover:text-white">About</a>
           </div>
           <a
@@ -396,7 +448,7 @@ export default function Home() {
                   type="button"
                   role="tab"
                   aria-selected={activeIndex === index}
-                  aria-controls={`${product.id}-chapter`}
+                  aria-controls="sector-panel"
                   onClick={() => selectProduct(index)}
                   className={`relative rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
                     activeIndex === index
@@ -421,137 +473,126 @@ export default function Home() {
 
       <section id="products" className="relative bg-[#050807] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
-          <div id="golf" className="product-chapter">
-            <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Golf</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                  The flagship product for course intelligence.
-                </h2>
-                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
-                  Basalt captures the course, builds an accurate map, reveals drainage, contours, assets and observations, then turns the evidence into reports for committees, contractors and stakeholders.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {golfOutputs.slice(0, 6).map((item) => (
-                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
-                <div className="chapter-visual">
-                  <SceneVisual scene="scene-golf" label="Golf course mapped with Basalt intelligence overlays" />
-                </div>
-              </motion.div>
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Choose Your Sector
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                One platform, tailored to your landscape.
+              </h2>
             </div>
-            <div className="mt-6">
-              <ReportPreview
-                product="Basalt Golf"
-                title="Course Intelligence Report"
-                note="Sample report"
-                variant="golf"
-                items={[
-                  "Executive summary",
-                  "Mapped maintenance observations",
-                  "Drainage concerns",
-                  "Capital-planning areas",
-                  "Environmental considerations",
-                  "Before-and-after comparison",
-                ]}
-              />
-            </div>
-          </div>
-
-          <div id="sports-grounds" className="product-chapter pt-20 lg:pt-28">
-            <div className="grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
-              <motion.div className="order-2 lg:order-1" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
-                <div className="chapter-visual">
-                  <SceneVisual scene="scene-sports" label="Multi-pitch sports grounds mapped with Basalt intelligence overlays" />
-                </div>
-              </motion.div>
-              <motion.div className="order-1 lg:order-2" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Sports Grounds</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                  Understand your grounds before you invest.
-                </h2>
-                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
-                  Basalt turns aerial survey data into practical maps, measurements and reports clubs can use for maintenance, drainage, development, funding and contractor discussions.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {["GAA", "Football", "Rugby", "Cricket", "Hockey", "Community Sport", ...sportsOutputs.slice(0, 3)].map((item) => (
-                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/sports-grounds" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]">
-                    Explore Basalt Sports Grounds <ArrowRight className="size-4" />
-                  </Link>
-                  <a href="#contact" className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14">
-                    Discuss your grounds
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-            <div className="mt-6">
-              <ReportPreview
-                product="Basalt Sports Grounds"
-                title="Grounds Evidence Pack"
-                note="Sample report"
-                variant="sports"
-                items={[
-                  "Pitch dimensions and orientation",
-                  "Access and facility mapping",
-                  "Low-point analysis",
-                  "Indicative water-flow routes",
-                  "Proposed development overlay",
-                  "Contractor briefing map",
-                ]}
-              />
-            </div>
-            <p className="mt-4 max-w-4xl text-xs leading-5 text-white/42">
-              Basalt provides aerial surveying, terrain analysis and visual decision-support information. It does not replace civil engineering, drainage design, geotechnical assessment, planning advice or other regulated professional services.
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              Select the sector closest to your site. The technology stays the
+              same; the customer problems, deliverables and report outputs
+              adapt.
             </p>
           </div>
 
-          <div id="estates" className="product-chapter pt-20 lg:pt-28">
-            <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Estates</p>
-                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                  See the full landscape.
-                </h2>
-                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
-                  Bring land, woodland, water, access, buildings and infrastructure into one clear visual record for better long-term management.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {estateOutputs.slice(0, 6).map((item) => (
-                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
-                <ReportPreview
-                  product="Basalt Estates"
-                  title="Estate Intelligence Report"
-                  note="Sample report"
-                  variant="estates"
-                  items={[
-                    "Land parcels",
-                    "Woodland and vegetation zones",
-                    "Access routes",
-                    "Buildings and infrastructure",
-                    "Water and drainage",
-                    "Environmental change areas",
-                  ]}
-                />
-              </motion.div>
-            </div>
+          <div
+            className="mb-5 grid gap-2 rounded-[8px] border border-white/12 bg-white/[0.04] p-2 sm:grid-cols-3"
+            role="tablist"
+            aria-label="Choose sector"
+          >
+            {products.map((product, index) => (
+              <button
+                key={product.id}
+                type="button"
+                role="tab"
+                aria-selected={activeIndex === index}
+                aria-controls="sector-panel"
+                onClick={() => selectProduct(index)}
+                className={`relative rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
+                  activeIndex === index
+                    ? "text-white"
+                    : "text-white/52 hover:bg-white/[0.045] hover:text-white/82"
+                }`}
+              >
+                {product.name}
+                {activeIndex === index ? (
+                  <motion.span
+                    layoutId="sector-product-indicator"
+                    className="absolute inset-x-4 bottom-2 h-px rounded-full bg-white/58 shadow-[0_0_18px_rgba(255,255,255,0.18)]"
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  />
+                ) : null}
+              </button>
+            ))}
           </div>
+
+          <motion.div
+            id="sector-panel"
+            key={activeSector.product}
+            className="grid gap-4 lg:grid-cols-[1.12fr_0.88fr]"
+            initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
+            <div className="chapter-visual">
+              <SceneVisual
+                scene={activeSector.scene}
+                label={`${activeSector.product} mapped with Basalt intelligence overlays`}
+              />
+            </div>
+
+            <div className="grid gap-4">
+              <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-7">
+                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                  {activeSector.product}
+                </p>
+                <h3 className="mt-4 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+                  {activeSector.headline}
+                </h3>
+                <p className="mt-5 text-base leading-7 text-white/62">
+                  {activeSector.overview}
+                </p>
+                <Link
+                  href={activeSector.href}
+                  className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                >
+                  {activeSector.cta} <ArrowRight className="size-4" />
+                </Link>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[8px] border border-white/10 bg-black/16 p-5">
+                  <p className="text-xs uppercase tracking-[0.24em] text-white/42">
+                    Typical challenges solved
+                  </p>
+                  <div className="mt-4 grid gap-2">
+                    {activeSector.problems.map((item) => (
+                      <div key={item} className="flex items-start gap-3 text-sm leading-5 text-white/62">
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-[8px] border border-white/10 bg-black/16 p-5">
+                  <p className="text-xs uppercase tracking-[0.24em] text-white/42">
+                    Key deliverables
+                  </p>
+                  <div className="mt-4 grid gap-2">
+                    {activeSector.deliverables.map((item) => (
+                      <div key={item} className="flex items-start gap-3 text-sm leading-5 text-white/62">
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <ReportPreview
+                product={activeSector.product}
+                title={activeSector.reportTitle}
+                note="Example report"
+                variant={activeSector.variant}
+                items={activeSector.reportItems}
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -743,7 +784,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section id="reports" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
             <div>
@@ -761,8 +802,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="report-insight-shell">
-            <div className="report-map report-golf">
+          <motion.div
+            key={`${activeSector.product}-reports`}
+            className="report-insight-shell"
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+          >
+            <div className={`report-map report-${activeSector.variant}`}>
               <span className="report-grid" />
               <span className="report-route report-route-one" />
               <span className="report-route report-route-two" />
@@ -772,7 +819,7 @@ export default function Home() {
               <span className="report-marker report-marker-two" />
             </div>
             <div className="grid content-start gap-2">
-              {reportOutputs.map((output) => (
+              {activeSector.reportItems.map((output) => (
                 <div
                   key={output}
                   className="flex items-start gap-3 rounded-[6px] border border-white/10 bg-white/[0.035] p-3 text-sm leading-5 text-white/66"
@@ -782,45 +829,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="platform" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(184,242,210,0.1),transparent_36%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">The Basalt Platform</p>
-              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                One intelligence engine. Three specialist products.
-              </h2>
-            </div>
-            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              The same survey and analysis process powers every Basalt product,
-              with reporting tailored to the specific needs of golf courses,
-              sports facilities and estates.
-            </p>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {products.map((product) => (
-              <Link
-                key={product.id}
-                href={product.href}
-                className="flex min-h-[190px] items-start justify-between gap-4 rounded-[8px] border border-white/10 bg-white/[0.045] p-6 transition hover:bg-white/[0.06]"
-              >
-                <span>
-                  <span className="block text-base font-semibold text-white">
-                    {product.eyebrow}
-                  </span>
-                  <span className="mt-4 block text-sm leading-6 text-white/50">
-                    {product.copy}
-                  </span>
-                </span>
-                <ArrowRight className="mt-1 size-4 shrink-0 text-white/42" />
-              </Link>
-            ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -862,7 +871,7 @@ export default function Home() {
             <Link href="/golf" className="transition hover:text-white">Golf</Link>
             <Link href="/sports-grounds" className="transition hover:text-white">Sports Grounds</Link>
             <Link href="/estates" className="transition hover:text-white">Estates</Link>
-            <a href="#platform" className="transition hover:text-white">Platform</a>
+            <a href="#reports" className="transition hover:text-white">Reports</a>
           </div>
         </div>
       </footer>
