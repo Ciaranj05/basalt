@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Basalt Golf | Know Every Acre",
+  title: "Basalt | Outdoor Asset Intelligence",
   description:
     "Basalt is the intelligence platform for understanding outdoor assets, launching first with golf.",
 };

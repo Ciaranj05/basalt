@@ -220,6 +220,41 @@ const technologies = [
   "Digital twins",
 ];
 
+const productRoadmap = [
+  {
+    name: "Basalt Golf",
+    status: "Available Today",
+    icon: Flag,
+    copy:
+      "Helping golf clubs make better maintenance, environmental and capital planning decisions.",
+    signals: ["Course condition", "Drainage", "Capital planning"],
+  },
+  {
+    name: "Basalt Solar",
+    status: "Coming Soon",
+    icon: Activity,
+    copy:
+      "Landscape intelligence for utility-scale solar farms, vegetation management, drainage, access routes and asset monitoring.",
+    signals: ["Vegetation", "Access", "Asset monitoring"],
+  },
+  {
+    name: "Basalt Estates",
+    status: "Future",
+    icon: Trees,
+    copy:
+      "Helping estate owners understand landscapes, woodland, infrastructure and long-term environmental change.",
+    signals: ["Woodland", "Infrastructure", "Change"],
+  },
+  {
+    name: "Basalt Utilities",
+    status: "Future",
+    icon: Route,
+    copy:
+      "Supporting utility operators with corridor monitoring, vegetation management, drainage, access and infrastructure intelligence.",
+    signals: ["Corridors", "Vegetation", "Access"],
+  },
+];
+
 export default function Home() {
   const [activeLayer, setActiveLayer] = useState(intelligenceLayers[2]);
 
@@ -252,7 +287,7 @@ export default function Home() {
             <a href="#explore">Explore</a>
             <a href="#decisions">Decisions</a>
             <a href="#platform">Platform</a>
-            <a href="#reports">Reports</a>
+            <a href="#landscapes">Landscapes</a>
           </div>
           <a
             href="#contact"
@@ -878,6 +913,83 @@ export default function Home() {
               Priority scoring, maintenance forecasting and budget planning help
               clubs defend the right projects at the right time.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="landscapes"
+        className="relative px-5 py-24 sm:px-8 lg:px-10"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(184,242,210,0.12),transparent_34%)]" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                The Basalt Platform
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                One Platform. Many Landscapes.
+              </h2>
+            </div>
+            <p className="max-w-2xl text-lg leading-8 text-white/62 lg:justify-self-end">
+              Basalt is designed to understand complex outdoor environments and
+              transform spatial intelligence into practical decisions. Basalt
+              Golf is the first product built on that engine.
+            </p>
+          </div>
+
+          <div className="grid gap-3 lg:grid-cols-4">
+            {productRoadmap.map((product, index) => (
+              <motion.article
+                key={product.name}
+                className={`group relative min-h-[360px] overflow-hidden rounded-[8px] border p-6 transition ${
+                  index === 0
+                    ? "border-[#b8f2d2]/34 bg-[#b8f2d2]/10"
+                    : "border-white/10 bg-white/[0.045] hover:border-white/20"
+                }`}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: index * 0.08 }}
+              >
+                <div className="absolute -right-12 -top-12 size-32 rounded-full bg-white/8 blur-3xl transition group-hover:bg-[#b8f2d2]/12" />
+                <div className="relative flex h-full flex-col">
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="grid size-11 place-items-center rounded-[6px] border border-white/12 bg-black/24">
+                      <product.icon className="size-5 text-[#b8f2d2]" />
+                    </span>
+                    <span
+                      className={`rounded-full px-3 py-1 font-mono text-xs ${
+                        index === 0
+                          ? "bg-white text-[#07110d]"
+                          : "bg-white/8 text-white/56"
+                      }`}
+                    >
+                      {product.status}
+                    </span>
+                  </div>
+                  <h3 className="mt-8 text-2xl font-semibold text-white">
+                    {product.name}
+                  </h3>
+                  <p className="mt-4 text-sm leading-6 text-white/62">
+                    {product.copy}
+                  </p>
+                  <div className="mt-auto pt-8">
+                    <div className="flex flex-wrap gap-2">
+                      {product.signals.map((signal) => (
+                        <span
+                          key={signal}
+                          className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-xs text-white/50"
+                        >
+                          {signal}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
