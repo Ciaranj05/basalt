@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { BasaltLogo, type BasaltProduct } from "@/components/BasaltLogo";
 import {
   Activity,
   ArrowRight,
@@ -13,7 +14,6 @@ import {
   Flag,
   Map,
   Radar,
-  Route,
   ShieldCheck,
   Trees,
   Waves,
@@ -134,30 +134,26 @@ const proofTabs = [
 
 const productRoadmap = [
   {
-    name: "Basalt Golf",
+    product: "Golf" as BasaltProduct,
     status: "Available Today",
-    icon: Flag,
     copy:
       "Maintenance, environmental and capital planning intelligence for golf clubs.",
   },
   {
-    name: "Basalt Solar",
+    product: "Solar" as BasaltProduct,
     status: "Coming Soon",
-    icon: Activity,
     copy:
       "Landscape intelligence for vegetation, drainage, access and asset monitoring.",
   },
   {
-    name: "Basalt Estates",
+    product: "Estates" as BasaltProduct,
     status: "Future",
-    icon: Trees,
     copy:
       "Landscape, woodland, infrastructure and environmental change intelligence.",
   },
   {
-    name: "Basalt Utilities",
+    product: "Utilities" as BasaltProduct,
     status: "Future",
-    icon: Route,
     copy:
       "Corridor, vegetation, drainage, access and infrastructure intelligence.",
   },
@@ -183,13 +179,8 @@ export default function Home() {
         </div>
 
         <nav className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
-          <a className="flex items-center gap-3" href="#">
-            <span className="grid size-9 place-items-center rounded border border-white/22 bg-white/10 backdrop-blur">
-              <Radar className="size-4" />
-            </span>
-            <span className="text-sm font-semibold uppercase tracking-[0.34em] text-white/92">
-              Basalt
-            </span>
+          <a className="flex items-center" href="#" aria-label="Basalt home">
+            <BasaltLogo variant="horizontal" theme="dark" />
           </a>
           <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
             <a href="#discovery">Discovery</a>
@@ -212,12 +203,17 @@ export default function Home() {
             animate="visible"
             transition={{ staggerChildren: 0.12 }}
           >
-            <motion.p
+            <motion.div
               variants={fadeUp}
-              className="mb-5 text-sm font-medium uppercase tracking-[0.3em] text-white/70"
+              className="mb-5"
             >
-              Basalt Golf
-            </motion.p>
+              <BasaltLogo
+                variant="wordmark"
+                product="Golf"
+                theme="grey"
+                className="text-sm"
+              />
+            </motion.div>
             <motion.h1
               variants={fadeUp}
               className="text-5xl font-semibold leading-[0.93] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl"
@@ -435,9 +431,12 @@ export default function Home() {
             <div className="rounded-[6px] border border-white/10 bg-[#08100d]/94">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-6">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-white/42">
-                    Basalt Command
-                  </p>
+                  <BasaltLogo
+                    variant="horizontal"
+                    theme="grey"
+                    size="compact"
+                    className="text-xs"
+                  />
                   <h3 className="mt-1 text-xl font-medium text-white">
                     Outdoor Asset Intelligence
                   </h3>
@@ -614,7 +613,7 @@ export default function Home() {
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {productRoadmap.map((product, index) => (
               <motion.article
-                key={product.name}
+                key={product.product}
                 className={`relative min-h-[260px] overflow-hidden rounded-[8px] border p-6 ${
                   index === 0
                     ? "border-[#b8f2d2]/34 bg-[#b8f2d2]/10"
@@ -626,9 +625,13 @@ export default function Home() {
                 transition={{ delay: index * 0.08 }}
               >
                 <div className="flex items-start justify-between gap-4">
-                  <span className="grid size-11 place-items-center rounded-[6px] border border-white/12 bg-black/24">
-                    <product.icon className="size-5 text-[#b8f2d2]" />
-                  </span>
+                  <BasaltLogo
+                    variant="vertical"
+                    product={product.product}
+                    theme="dark"
+                    size="compact"
+                    className="items-start text-left text-[0.8rem]"
+                  />
                   <span
                     className={`rounded-full px-3 py-1 font-mono text-xs ${
                       index === 0
@@ -639,10 +642,7 @@ export default function Home() {
                     {product.status}
                   </span>
                 </div>
-                <h3 className="mt-8 text-2xl font-semibold text-white">
-                  {product.name}
-                </h3>
-                <p className="mt-4 text-sm leading-6 text-white/62">
+                <p className="mt-8 text-sm leading-6 text-white/62">
                   {product.copy}
                 </p>
               </motion.article>
@@ -658,9 +658,13 @@ export default function Home() {
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[8px] border border-white/12 bg-white/[0.055] p-8 shadow-[0_40px_140px_rgba(0,0,0,0.45)] sm:p-12">
           <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Basalt Golf
-              </p>
+              <BasaltLogo
+                variant="horizontal"
+                product="Golf"
+                theme="grey"
+                size="compact"
+                className="text-sm"
+              />
               <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
                 See your course with a new level of confidence.
               </h2>
@@ -687,6 +691,16 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer className="border-t border-white/8 px-5 py-8 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
+          <BasaltLogo variant="horizontal" theme="grey" size="compact" />
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <span>The Basalt Platform</span>
+            <span>Basalt Golf available today</span>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

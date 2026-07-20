@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Basalt outdoor asset intelligence">
+  <rect width="1200" height="630" fill="#050807"/>
+  <path opacity=".18" d="M0 390c126-72 233-98 356-78 151 25 230 120 390 116 169-4 252-118 454-122v324H0V390Z" fill="#F4F7F2"/>
+  <path opacity=".16" d="M0 444c134-42 246-47 366-18 161 40 255 109 410 98 174-12 254-99 424-98v204H0V444Z" fill="#B8F2D2"/>
+  <g transform="translate(132 199)">
+    <path fill="#FFFFFF" d="M80 0 132 30v61L80 146 28 91V30L80 0Zm0 18.8L45 39v44.5l35 37 35-37V39L80 18.8Z"/>
+    <path fill="#FFFFFF" d="m80 41 28 16v31L80 106 52 88V57l28-16Zm0 13.3-16 9.3v17.9l16 10.4 16-10.4V63.6l-16-9.3Z"/>
+    <path fill="#FFFFFF" d="M71.8 70h16.4v40.3L80 115l-8.2-4.7V70Z"/>
+  </g>
+  <text x="326" y="282" fill="#FFFFFF" font-family="Geist, Arial, sans-serif" font-size="76" font-weight="600" letter-spacing="22">BASALT</text>
+  <text x="332" y="348" fill="#FFFFFF" fill-opacity=".62" font-family="Geist, Arial, sans-serif" font-size="28" font-weight="400" letter-spacing="0">Outdoor Asset Intelligence</text>
+</svg>
