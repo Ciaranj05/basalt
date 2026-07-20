@@ -750,6 +750,236 @@ body {
   background: radial-gradient(circle at 52% 44%, rgba(226, 232, 240, 0.2), transparent 34%);
 }
 
+.technology-section {
+  overflow: hidden;
+}
+
+.technology-contours {
+  background:
+    repeating-radial-gradient(ellipse at 22% 26%, rgba(255, 255, 255, 0.08) 0 1px, transparent 2px 18px),
+    repeating-radial-gradient(ellipse at 78% 72%, rgba(184, 242, 210, 0.075) 0 1px, transparent 2px 22px);
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
+  opacity: 0.42;
+}
+
+.survey-timeline-line,
+.survey-timeline-progress {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  top: 2rem;
+  height: 1px;
+  transform-origin: left center;
+}
+
+.survey-timeline-line {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.survey-timeline-progress {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(184, 242, 210, 0.44), rgba(255, 255, 255, 0.14));
+  box-shadow: 0 0 24px rgba(184, 242, 210, 0.12);
+}
+
+.survey-step {
+  position: relative;
+  min-height: 17rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
+    rgba(0, 0, 0, 0.1);
+  padding: 1.4rem;
+  backdrop-filter: blur(10px);
+}
+
+.survey-glyph-shell {
+  display: grid;
+  width: 3.75rem;
+  height: 3.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.survey-glyph {
+  position: relative;
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.survey-glyph span {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+}
+
+.survey-glyph-1 span:nth-child(1) {
+  inset: 0.1rem;
+  transform: rotate(30deg);
+}
+
+.survey-glyph-1 span:nth-child(2) {
+  left: 0.2rem;
+  right: 0.2rem;
+  top: 0.82rem;
+  height: 1px;
+  border: 0;
+  background: rgba(184, 242, 210, 0.68);
+}
+
+.survey-glyph-1 span:nth-child(3) {
+  left: 0.78rem;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 1px;
+  border: 0;
+  background: rgba(184, 242, 210, 0.68);
+}
+
+.survey-glyph-2 span {
+  border-radius: 999px;
+}
+
+.survey-glyph-2 span:nth-child(1) {
+  inset: 0.03rem;
+}
+
+.survey-glyph-2 span:nth-child(2) {
+  inset: 0.42rem;
+  border-color: rgba(184, 242, 210, 0.6);
+}
+
+.survey-glyph-2 span:nth-child(3) {
+  left: 0.78rem;
+  top: -0.16rem;
+  width: 1px;
+  height: 2rem;
+  border: 0;
+  background: rgba(255, 255, 255, 0.62);
+  transform: rotate(34deg);
+}
+
+.survey-glyph-3 span {
+  left: 0.1rem;
+  right: 0.1rem;
+  height: 1px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.survey-glyph-3 span:nth-child(1) {
+  top: 0.38rem;
+  transform: rotate(-12deg);
+}
+
+.survey-glyph-3 span:nth-child(2) {
+  top: 0.82rem;
+  transform: rotate(6deg);
+}
+
+.survey-glyph-3 span:nth-child(3) {
+  top: 1.23rem;
+  background: rgba(184, 242, 210, 0.62);
+  transform: rotate(-5deg);
+}
+
+.survey-glyph-4 span:nth-child(1) {
+  inset: 0.1rem 0.3rem;
+}
+
+.survey-glyph-4 span:nth-child(2) {
+  left: 0.46rem;
+  top: 0.46rem;
+  width: 0.78rem;
+  height: 0.78rem;
+  border-color: rgba(184, 242, 210, 0.58);
+  transform: rotate(45deg);
+}
+
+.survey-glyph-4 span:nth-child(3) {
+  right: -0.05rem;
+  top: 0.82rem;
+  width: 0.68rem;
+  height: 1px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.technology-card-mark {
+  position: relative;
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.technology-card-mark span {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
+.technology-card-mark span:first-child {
+  inset: 0;
+  transform: rotate(30deg);
+}
+
+.technology-card-mark span:last-child {
+  inset: 0.48rem;
+  border-color: rgba(184, 242, 210, 0.54);
+}
+
+.measurement-chip {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.8rem;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.84rem;
+  line-height: 1.2;
+}
+
+.measurement-icon {
+  position: relative;
+  display: grid;
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 5px;
+}
+
+.measurement-icon span {
+  width: 0.52rem;
+  height: 0.52rem;
+  border: 1px solid rgba(184, 242, 210, 0.62);
+  transform: rotate(35deg);
+}
+
+@media (max-width: 1023px) {
+  .survey-step {
+    min-height: auto;
+  }
+
+  .survey-step::before {
+    position: absolute;
+    left: 3.25rem;
+    top: 5.15rem;
+    bottom: -1rem;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    content: "";
+  }
+
+  .survey-step:last-child::before {
+    display: none;
+  }
+}
+
 .hero-panel {
   width: calc(100vw - 40px);
   max-width: 56rem;

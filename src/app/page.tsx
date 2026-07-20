@@ -96,6 +96,66 @@ const platformCapabilities = [
   "Secure digital records",
 ];
 
+const surveySteps = [
+  {
+    title: "Mission Planning",
+    copy:
+      "Plan the survey using RTK positioning and predefined flight paths to ensure complete coverage.",
+  },
+  {
+    title: "LiDAR Capture",
+    copy:
+      "The drone scans the site using laser pulses, collecting millions of accurate measurements across the terrain.",
+  },
+  {
+    title: "Data Processing",
+    copy:
+      "The LiDAR data is processed into detailed point clouds, terrain models and orthomosaic imagery.",
+  },
+  {
+    title: "Analysis & Reporting",
+    copy:
+      "The processed data is transformed into interactive reports, measurements and digital twins that help customers make informed decisions.",
+  },
+];
+
+const technologyCards = [
+  {
+    title: "LiDAR Mapping",
+    copy:
+      "Uses laser technology rather than photographs alone, allowing highly detailed mapping of terrain and surface features.",
+  },
+  {
+    title: "RTK Positioning",
+    copy:
+      "Professional positioning technology that enables survey-grade accuracy throughout every flight.",
+  },
+  {
+    title: "Digital Twin",
+    copy:
+      "Every survey creates a permanent digital model of the site which can be measured, compared and analysed over time.",
+  },
+  {
+    title: "Actionable Reports",
+    copy:
+      "Deliver practical outputs including contour maps, slope analysis, volume calculations, drainage assessments and high-resolution orthomosaic imagery.",
+  },
+];
+
+const measurementItems = [
+  "Ground Levels",
+  "Slopes",
+  "Volumes",
+  "Surface Areas",
+  "Drainage",
+  "Earthworks",
+  "Vegetation",
+  "Fairways",
+  "Sports Pitches",
+  "Solar Sites",
+  "Estates",
+];
+
 function SceneVisual({ scene, label }: { scene: string; label: string }) {
   return (
     <div className={`landscape-scene ${scene}`} aria-label={label} role="img">
@@ -160,6 +220,16 @@ function ReportPreview({
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function SurveyGlyph({ index }: { index: number }) {
+  return (
+    <div className={`survey-glyph survey-glyph-${index + 1}`} aria-hidden="true">
+      <span />
+      <span />
+      <span />
     </div>
   );
 }
@@ -461,6 +531,154 @@ export default function Home() {
                   ]}
                 />
               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="technology-section relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(184,242,210,0.08),transparent_28%),radial-gradient(circle_at_76%_28%,rgba(124,183,255,0.07),transparent_26%)]" />
+        <div className="technology-contours absolute inset-0" />
+        <div className="relative mx-auto max-w-7xl">
+          <motion.div
+            className="mb-12 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+          >
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Survey Technology
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                The Technology Behind Every Survey
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              We use professional drone-mounted LiDAR technology to create
+              highly accurate digital models of outdoor environments. Every
+              survey captures millions of measured points, providing reliable
+              data for planning, maintenance and long-term asset management.
+            </p>
+          </motion.div>
+
+          <div className="relative mb-8">
+            <div className="survey-timeline-line hidden lg:block" />
+            <motion.div
+              className="survey-timeline-progress hidden lg:block"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+            <div className="grid gap-4 lg:grid-cols-4">
+              {surveySteps.map((step, index) => (
+                <motion.article
+                  key={step.title}
+                  className="survey-step"
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="flex items-start gap-4 lg:block">
+                    <div className="survey-glyph-shell">
+                      <SurveyGlyph index={index} />
+                    </div>
+                    <div className="min-w-0 lg:mt-6">
+                      <p className="font-mono text-xs text-white/36">
+                        Step {index + 1}
+                      </p>
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        {step.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-white/58">
+                        {step.copy}
+                      </p>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-14 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {technologyCards.map((card, index) => (
+              <motion.article
+                key={card.title}
+                className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.45, delay: index * 0.06 }}
+              >
+                <div className="technology-card-mark">
+                  <span />
+                  <span />
+                </div>
+                <h3 className="mt-6 text-xl font-semibold text-white">
+                  {card.title}
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-white/60">
+                  {card.copy}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-[0.84fr_1.16fr]">
+            <div className="rounded-[8px] border border-white/10 bg-black/16 p-6">
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                What Can We Measure?
+              </p>
+              <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {measurementItems.map((item, index) => (
+                  <motion.div
+                    key={item}
+                    className="measurement-chip"
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.35, delay: index * 0.025 }}
+                  >
+                    <span className="measurement-icon" aria-hidden="true">
+                      <span />
+                    </span>
+                    {item}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-8">
+                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                  Why LiDAR?
+                </p>
+                <div className="mt-6 grid gap-5 sm:grid-cols-[0.82fr_1.18fr]">
+                  <p className="text-2xl font-semibold leading-tight text-white">
+                    Standard drone photography captures images.
+                  </p>
+                  <p className="text-base leading-7 text-white/62">
+                    LiDAR captures millions of accurate measurements that can
+                    be analysed, measured and revisited long after the survey
+                    has been completed.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-[8px] border border-[#b8f2d2]/16 bg-[#b8f2d2]/8 p-6 sm:p-8">
+                <h3 className="text-3xl font-semibold tracking-normal text-white">
+                  Survey-Grade Data. Better Decisions.
+                </h3>
+                <p className="mt-4 text-base leading-7 text-white/64">
+                  Whether you&apos;re managing a golf course, sports facility,
+                  estate or solar farm, our LiDAR technology provides the
+                  accurate information needed to plan, monitor and manage
+                  outdoor assets with confidence.
+                </p>
+              </div>
             </div>
           </div>
         </div>
