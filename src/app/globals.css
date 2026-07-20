@@ -80,6 +80,87 @@ body {
   mix-blend-mode: screen;
 }
 
+.process-glyph {
+  position: relative;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.process-glyph span {
+  position: absolute;
+  border: 1px solid currentColor;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.process-glyph-1 span {
+  width: 0.58rem;
+  height: 0.58rem;
+  transform: rotate(30deg);
+}
+
+.process-glyph-1 span:nth-child(1) {
+  left: 0;
+  top: 0.08rem;
+}
+
+.process-glyph-1 span:nth-child(2) {
+  right: 0.05rem;
+  top: 0;
+}
+
+.process-glyph-1 span:nth-child(3) {
+  bottom: 0.05rem;
+  left: 0.38rem;
+}
+
+.process-glyph-2 span {
+  left: 0.08rem;
+  right: 0.08rem;
+  height: 1px;
+  transform-origin: center;
+}
+
+.process-glyph-2 span:nth-child(1) {
+  top: 0.32rem;
+  transform: rotate(-18deg);
+}
+
+.process-glyph-2 span:nth-child(2) {
+  top: 0.66rem;
+  transform: rotate(8deg);
+}
+
+.process-glyph-2 span:nth-child(3) {
+  top: 1rem;
+  transform: rotate(-6deg);
+}
+
+.process-glyph-3 span {
+  border-color: transparent;
+}
+
+.process-glyph-3 span:nth-child(1) {
+  inset: 0.13rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  transform: rotate(30deg);
+}
+
+.process-glyph-3 span:nth-child(2) {
+  left: 0.53rem;
+  top: 0.53rem;
+  width: 0.3rem;
+  height: 0.3rem;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.process-glyph-3 span:nth-child(3) {
+  right: -0.02rem;
+  top: 0.62rem;
+  width: 0.56rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
 .layer-glow {
   position: absolute;
   inset: 0;

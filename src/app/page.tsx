@@ -35,6 +35,27 @@ const revealStages = [
   "Intelligence",
 ];
 
+const processSteps = [
+  {
+    label: "Capture",
+    copy:
+      "Aerial imagery, LiDAR and existing asset data create an accurate landscape view.",
+    marks: ["raw", "survey", "record"],
+  },
+  {
+    label: "Understand",
+    copy:
+      "Terrain, drainage, vegetation, infrastructure and change organise into clear signals.",
+    marks: ["terrain", "water", "canopy"],
+  },
+  {
+    label: "Act",
+    copy:
+      "Basalt turns spatial intelligence into risks, priorities and practical recommendations.",
+    marks: ["risk", "priority", "action"],
+  },
+];
+
 const intelligenceLayers = [
   {
     label: "Drainage",
@@ -99,7 +120,7 @@ const intelligenceLayers = [
 ];
 
 const platformMetrics = [
-  { label: "Course Health", value: "91", unit: "%", trend: "+4.8" },
+  { label: "Asset Health", value: "91", unit: "%", trend: "+4.8" },
   { label: "Priorities", value: "14", unit: "", trend: "5 high" },
   { label: "Environmental Score", value: "86", unit: "/100", trend: "+7.1" },
   { label: "Flood Risk", value: "Low", unit: "", trend: "Stable" },
@@ -111,7 +132,7 @@ const proofTabs = [
     icon: CheckCircle2,
     title: "Better decisions, less noise.",
     copy:
-      "Basalt helps teams understand every acre, reduce avoidable maintenance, plan investment and protect long-term asset health.",
+      "Basalt helps teams reduce avoidable maintenance, plan investment and protect long-term asset health.",
     items: ["Understand change", "Prioritise work", "Defend investment"],
   },
   {
@@ -119,7 +140,7 @@ const proofTabs = [
     icon: FileText,
     title: "Evidence ready for the room.",
     copy:
-      "Clear reports connect daily maintenance pressure with long-term planning, so decisions can move from course team to board.",
+      "Clear reports connect daily pressure with long-term planning, so decisions can move from field teams to board.",
     items: ["Executive summary", "Risk analysis", "Recommendations"],
   },
   {
@@ -127,8 +148,8 @@ const proofTabs = [
     icon: Radar,
     title: "Built for spatial intelligence.",
     copy:
-      "The Basalt Platform combines imagery, terrain, weather, asset records and modelling into one calm evidence layer.",
-    items: ["LiDAR", "Satellite imagery", "Digital twins"],
+      "One intelligence engine supports the first golf product and future outdoor asset markets.",
+    items: ["Shared engine", "Evidence graph", "Market products"],
   },
 ];
 
@@ -184,6 +205,7 @@ export default function Home() {
           </a>
           <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
             <a href="#discovery">Discovery</a>
+            <a href="#how">How it works</a>
             <a href="#explore">Explore</a>
             <a href="#platform">Platform</a>
             <a href="#landscapes">Landscapes</a>
@@ -251,7 +273,7 @@ export default function Home() {
       </section>
 
       <section id="discovery" className="relative border-y border-white/8 bg-[#050807]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-18 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10 lg:py-24">
           <motion.div
             className="flex flex-col justify-center"
             initial="hidden"
@@ -266,12 +288,12 @@ export default function Home() {
               See What the Eye Can&apos;t.
             </h2>
             <p className="mt-6 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
-              A familiar landscape becomes terrain, water, canopy and change.
+              A familiar landscape becomes visible structure.
             </p>
           </motion.div>
 
           <motion.div
-            className="relative min-h-[440px] overflow-hidden rounded-[8px] border border-white/12 bg-black shadow-[0_44px_150px_rgba(0,0,0,0.52)] sm:min-h-[620px]"
+            className="relative min-h-[400px] overflow-hidden rounded-[8px] border border-white/12 bg-black shadow-[0_44px_150px_rgba(0,0,0,0.52)] sm:min-h-[560px]"
             initial={{ opacity: 0, y: 34 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -312,7 +334,73 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="explore" className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+      <section
+        id="how"
+        className="relative border-b border-white/8 bg-[#060907] px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-18"
+      >
+        <div className="mx-auto max-w-7xl">
+          <motion.div
+            className="grid gap-6 lg:grid-cols-[0.36fr_0.64fr] lg:items-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+          >
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                How Basalt Works
+              </p>
+              <h2 className="mt-4 max-w-xl text-balance text-3xl font-semibold tracking-normal text-white sm:text-5xl">
+                From landscape data to confident decisions.
+              </h2>
+            </div>
+
+            <div className="relative">
+              <div className="absolute left-5 top-8 hidden h-px w-[calc(100%-2.5rem)] bg-white/12 lg:block" />
+              <motion.div
+                className="absolute left-5 top-8 hidden h-px bg-white/70 lg:block"
+                initial={{ width: 0 }}
+                whileInView={{ width: "calc(100% - 2.5rem)" }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.1, ease: "easeOut" }}
+              />
+              <div className="grid gap-4 lg:grid-cols-3 lg:gap-6">
+                {processSteps.map((step, index) => (
+                  <motion.article
+                    key={step.label}
+                    className="relative grid grid-cols-[2.5rem_1fr] gap-3 border-l border-white/10 pl-5 lg:block lg:border-l-0 lg:pl-0"
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ delay: index * 0.12, duration: 0.45 }}
+                  >
+                    <div className="relative z-10 grid size-10 place-items-center rounded-[6px] border border-white/14 bg-[#060907]">
+                      <div className={`process-glyph process-glyph-${index + 1}`}>
+                        {step.marks.map((mark) => (
+                          <span key={mark} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="min-w-0 lg:mt-6">
+                      <p className="font-mono text-xs text-white/38">
+                        0{index + 1}
+                      </p>
+                      <h3 className="mt-2 text-xl font-semibold text-white">
+                        {step.label}
+                      </h3>
+                      <p className="mt-2 max-w-sm text-sm leading-6 text-white/58 lg:mt-3">
+                        {step.copy}
+                      </p>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="explore" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
@@ -324,7 +412,7 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-md text-base leading-7 text-white/58">
-              A product moment, not a product manual.
+              Select a layer and see the evidence change.
             </p>
           </div>
 
@@ -402,7 +490,7 @@ export default function Home() {
 
       <section
         id="platform"
-        className="relative border-y border-white/8 bg-[#050807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
+        className="relative border-y border-white/8 bg-[#050807] px-5 py-18 sm:px-8 lg:px-10 lg:py-24"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(65,118,89,0.24),transparent_32%),radial-gradient(circle_at_86%_16%,rgba(120,139,189,0.13),transparent_28%)]" />
         <div className="relative mx-auto max-w-7xl">
@@ -534,7 +622,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+      <section className="mx-auto max-w-7xl px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
