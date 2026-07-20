@@ -57,14 +57,15 @@ const sectorPanels = [
   {
     product: "Basalt Golf",
     sectionHeading: "Helping Golf Courses Make Better Decisions",
-    headline:
-      "Spatial intelligence for golf course maintenance, planning and long-term investment.",
+    headline: "Understand Your Course. Plan With Confidence.",
     overview:
-      "Basalt translates course survey data into practical insight for greenkeepers, committees and contractors.",
+      "Basalt gives golf clubs a detailed digital understanding of their course, helping managers plan drainage, measure projects, manage assets and make more informed long-term investment decisions.",
     scene: "scene-golf",
     variant: "golf" as const,
-    href: "/golf",
-    cta: "Explore Basalt Golf",
+    href: "#contact",
+    cta: "Discuss Your Course",
+    secondaryHref: "#golf-example-reports",
+    secondaryCta: "View Example Reports",
     problems: [
       "Drainage",
       "Bunker remodelling",
@@ -92,6 +93,8 @@ const sectorPanels = [
     variant: "sports" as const,
     href: "/sports-grounds",
     cta: "Explore Sports Grounds",
+    secondaryHref: "#contact",
+    secondaryCta: "Discuss Your Facility",
     problems: [
       "Waterlogging",
       "Pitch levels",
@@ -124,6 +127,8 @@ const sectorPanels = [
     variant: "estates" as const,
     href: "/estates",
     cta: "Explore Basalt Estates",
+    secondaryHref: "#contact",
+    secondaryCta: "Discuss Your Estate",
     problems: [
       "Woodland records",
       "Boundary review",
@@ -144,6 +149,144 @@ const sectorPanels = [
       "Boundary Surveys",
       "Water Management",
     ],
+  },
+];
+
+const golfQuestions = [
+  {
+    question: "Why is this fairway always wet?",
+    copy:
+      "Map low points, slopes and surface-water flow to understand where drainage improvements may have the greatest impact.",
+  },
+  {
+    question: "Where should new drainage be installed?",
+    copy:
+      "Use terrain and flow analysis to support drainage design before excavation begins.",
+  },
+  {
+    question: "How much material will this project require?",
+    copy:
+      "Calculate areas and volumes for bunker renovation, tee construction, reshaping and earthworks.",
+  },
+  {
+    question: "Are the proposed levels and works correct?",
+    copy:
+      "Compare existing, proposed and completed surfaces to support project planning and contractor verification.",
+  },
+  {
+    question: "Where should we invest first?",
+    copy:
+      "Bring course conditions, maintenance priorities and proposed projects together to support capital planning and committee decisions.",
+  },
+  {
+    question: "How has the course changed over time?",
+    copy:
+      "Compare surveys to monitor construction, erosion, vegetation, drainage works and course development.",
+  },
+];
+
+const golfValueThemes = [
+  {
+    title: "Drainage and Water Management",
+    copy:
+      "Understand ground levels, low points, flow routes, catchments and areas vulnerable to standing water.",
+    labels: [
+      "Fairway drainage",
+      "Bunker flooding",
+      "Surface-water flow",
+      "Low-point mapping",
+    ],
+  },
+  {
+    title: "Course Projects and Earthworks",
+    copy:
+      "Plan and measure bunker renovations, tee construction, fairway reshaping and other capital works with greater confidence.",
+    labels: [
+      "Cut-and-fill analysis",
+      "Material volumes",
+      "Existing versus proposed levels",
+      "Contractor verification",
+    ],
+  },
+  {
+    title: "Course Assets and Infrastructure",
+    copy:
+      "Create a structured digital record of the physical assets that support the operation of the course.",
+    labels: [
+      "Drains and culverts",
+      "Irrigation assets",
+      "Paths and bridges",
+      "Buildings and course furniture",
+    ],
+  },
+  {
+    title: "Long-Term Course Management",
+    copy:
+      "Build a permanent record that supports maintenance planning, environmental management and future investment.",
+    labels: [
+      "Tree and canopy monitoring",
+      "Habitat and watercourse mapping",
+      "Change tracking",
+      "Capital planning",
+    ],
+  },
+];
+
+const golfReportOutputs = [
+  {
+    name: "High-resolution course map",
+    copy: "Creates a clear visual baseline of the course and surrounding assets.",
+  },
+  {
+    name: "Terrain and contour model",
+    copy: "Shows levels and landform so course teams can understand the ground.",
+  },
+  {
+    name: "Slope analysis",
+    copy: "Highlights gradients that influence maintenance, playability and works.",
+  },
+  {
+    name: "Surface-water flow map",
+    copy: "Shows how water is likely to move across the terrain and where it may collect.",
+  },
+  {
+    name: "Drainage assessment",
+    copy: "Supports drainage planning by linking wet areas with terrain information.",
+  },
+  {
+    name: "Cut-and-fill calculation",
+    copy: "Estimates the material that may need to be removed, added or redistributed.",
+  },
+  {
+    name: "Volume measurement",
+    copy: "Measures project quantities for bunkers, tees, reshaping and earthworks.",
+  },
+  {
+    name: "Digital asset register",
+    copy: "Creates a structured record of key course infrastructure and its location.",
+  },
+  {
+    name: "Change-over-time comparison",
+    copy: "Shows how selected areas have changed between surveys.",
+  },
+];
+
+const golfBenefits = [
+  {
+    title: "Plan With Confidence",
+    copy: "Understand the course before committing to work.",
+  },
+  {
+    title: "Reduce Uncertainty",
+    copy: "Replace assumptions with measurable site information.",
+  },
+  {
+    title: "Support Investment Decisions",
+    copy: "Give committees and stakeholders clear visual evidence.",
+  },
+  {
+    title: "Create a Permanent Record",
+    copy: "Retain a digital reference that can be revisited and compared over time.",
   },
 ];
 
@@ -311,6 +454,7 @@ export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [hasSelectedSector, setHasSelectedSector] = useState(false);
+  const [activeGolfOutput, setActiveGolfOutput] = useState(golfReportOutputs[0]);
   const [heroInView, setHeroInView] = useState(true);
   const [tabVisible, setTabVisible] = useState(true);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -544,12 +688,20 @@ export default function Home() {
                 <p className="mt-5 text-base leading-7 text-white/62">
                   {activeSector.overview}
                 </p>
-                <Link
-                  href={activeSector.href}
-                  className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-                >
-                  {activeSector.cta} <ArrowRight className="size-4" />
-                </Link>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href={activeSector.href}
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                  >
+                    {activeSector.cta} <ArrowRight className="size-4" />
+                  </Link>
+                  <a
+                    href={activeSector.secondaryHref}
+                    className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14"
+                  >
+                    {activeSector.secondaryCta}
+                  </a>
+                </div>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
@@ -591,6 +743,177 @@ export default function Home() {
               />
             </div>
           </motion.div>
+
+          {activeSector.variant === "golf" ? (
+            <motion.div
+              className="mt-18 space-y-18 lg:mt-24 lg:space-y-24"
+              initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
+              <section>
+                <div className="mb-10 max-w-3xl">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    Questions We Help Golf Clubs Answer
+                  </p>
+                  <p className="mt-5 text-base leading-7 text-white/62">
+                    The value of a Basalt survey is not simply the data
+                    captured. It is the practical questions that data helps your
+                    club answer.
+                  </p>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {golfQuestions.map((item, index) => (
+                    <motion.article
+                      key={item.question}
+                      className="golf-question-card"
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.45, delay: index * 0.04 }}
+                    >
+                      <div className="golf-card-visual">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                      <h3 className="mt-5 text-xl font-semibold text-white">
+                        {item.question}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-white/60">
+                        {item.copy}
+                      </p>
+                    </motion.article>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <div className="mb-10 max-w-3xl">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    A Complete View of Your Golf Course
+                  </p>
+                </div>
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {golfValueThemes.map((theme, index) => (
+                    <motion.article
+                      key={theme.title}
+                      className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6"
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.45, delay: index * 0.05 }}
+                    >
+                      <h3 className="text-2xl font-semibold text-white">
+                        {theme.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-6 text-white/60">
+                        {theme.copy}
+                      </p>
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {theme.labels.map((label) => (
+                          <span
+                            key={label}
+                            className="rounded-full border border-white/10 bg-black/16 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-white/50"
+                          >
+                            {label}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+              </section>
+
+              <section id="golf-example-reports">
+                <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                      What Your Club Can Receive
+                    </p>
+                    <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
+                      Outputs tailored to the decision.
+                    </h2>
+                  </div>
+                  <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+                    Outputs are tailored to the questions your club needs
+                    answered and the decisions being made.
+                  </p>
+                </div>
+
+                <div className="golf-output-shell">
+                  <motion.div
+                    key={activeGolfOutput.name}
+                    className="report-map report-golf"
+                    initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35 }}
+                  >
+                    <span className="report-grid" />
+                    <span className="report-route report-route-one" />
+                    <span className="report-route report-route-two" />
+                    <span className="report-zone report-zone-one" />
+                    <span className="report-zone report-zone-two" />
+                    <span className="report-marker report-marker-one" />
+                    <span className="report-marker report-marker-two" />
+                    <div className="absolute inset-x-4 bottom-4 rounded-[6px] border border-white/12 bg-black/46 p-4 backdrop-blur-xl">
+                      <p className="text-xs uppercase tracking-[0.24em] text-white/42">
+                        Example output
+                      </p>
+                      <h3 className="mt-2 text-2xl font-semibold text-white">
+                        {activeGolfOutput.name}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-white/64">
+                        {activeGolfOutput.copy}
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  <div className="grid content-start gap-2">
+                    {golfReportOutputs.map((output) => (
+                      <button
+                        key={output.name}
+                        type="button"
+                        onClick={() => setActiveGolfOutput(output)}
+                        className={`rounded-[6px] border p-3 text-left text-sm transition ${
+                          activeGolfOutput.name === output.name
+                            ? "border-white/24 bg-white/10 text-white"
+                            : "border-white/10 bg-white/[0.035] text-white/58 hover:bg-white/[0.06] hover:text-white"
+                        }`}
+                      >
+                        {output.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+                  <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                    Better Information for Better Course Decisions
+                  </p>
+                  <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    {golfBenefits.map((benefit) => (
+                      <div key={benefit.title}>
+                        <h3 className="text-lg font-semibold text-white">
+                          {benefit.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-6 text-white/58">
+                          {benefit.copy}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            </motion.div>
+          ) : null}
+
+          <p className="mt-14 text-sm leading-6 text-white/42 lg:mt-18">
+            The questions change by sector. The technology behind every Basalt
+            survey remains the same.
+          </p>
         </div>
       </section>
 
