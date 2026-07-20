@@ -1,998 +1,559 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { BasaltLogo, type BasaltProduct } from "@/components/BasaltLogo";
-import {
-  Activity,
-  ArrowRight,
-  Building2,
-  CheckCircle2,
-  ChevronRight,
-  Droplets,
-  FileText,
-  Flag,
-  Map,
-  Radar,
-  ShieldCheck,
-  Trees,
-  Waves,
-} from "lucide-react";
-
-const heroImage = "/images/basalt-golf-coastal-course.png";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, CheckCircle2, Layers3 } from "lucide-react";
+import { BasaltLogo } from "@/components/BasaltLogo";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 26 },
   visible: { opacity: 1, y: 0 },
 };
 
-const revealStages = [
-  "Landscape",
-  "Terrain",
-  "Water",
-  "Canopy",
-  "Change",
-  "Intelligence",
-];
-
-const processSteps = [
+const products = [
   {
-    label: "Capture",
+    id: "golf",
+    name: "Golf",
+    eyebrow: "Basalt Golf",
+    headline: "Understand every acre.",
     copy:
-      "Aerial imagery, LiDAR and existing asset data create an accurate landscape view.",
-    marks: ["raw", "survey", "record"],
+      "Spatial intelligence for golf course maintenance, environmental planning and long-term capital decisions.",
+    status: "Available now",
+    primary: "Explore Basalt Golf",
+    secondary: "Discuss your course",
+    href: "/golf",
+    anchor: "#golf",
+    scene: "scene-golf",
   },
   {
-    label: "Understand",
+    id: "sports",
+    name: "Sports Grounds",
+    eyebrow: "Basalt Sports Grounds",
+    headline: "Understand your grounds before you invest.",
     copy:
-      "Terrain, drainage, vegetation, infrastructure and change organise into clear signals.",
-    marks: ["terrain", "water", "canopy"],
+      "Accurate aerial mapping, terrain insight and practical reporting for GAA, football, rugby, cricket, hockey and community sports facilities.",
+    status: "Early access",
+    primary: "Explore Sports Grounds",
+    secondary: "Discuss your grounds",
+    href: "/sports-grounds",
+    anchor: "#sports-grounds",
+    scene: "scene-sports",
   },
   {
-    label: "Act",
+    id: "estates",
+    name: "Estates",
+    eyebrow: "Basalt Estates",
+    headline: "See the full landscape.",
     copy:
-      "Basalt turns spatial intelligence into risks, priorities and practical recommendations.",
-    marks: ["risk", "priority", "action"],
-  },
-];
-
-const intelligenceLayers = [
-  {
-    label: "Drainage",
-    icon: Droplets,
-    title: "Drainage Priority",
-    area: "Area 7",
-    status: "High",
-    copy: "Water is collecting in a low corridor after heavy rain.",
-    action: "Increase drainage capacity before winter.",
-    tone: "cyan",
-  },
-  {
-    label: "Water",
-    icon: Waves,
-    title: "Surface Water Risk",
-    area: "Coastal Pond 3",
-    status: "Low",
-    copy: "Buffer growth is reducing runoff exposure around the water edge.",
-    action: "Keep monitoring through the autumn rainfall cycle.",
-    tone: "blue",
-  },
-  {
-    label: "Trees",
-    icon: Trees,
-    title: "Canopy Change",
-    area: "North Boundary",
-    status: "Rising",
-    copy: "Canopy spread is reducing light and airflow near sensitive turf.",
-    action: "Model selective works before committee review.",
-    tone: "emerald",
-  },
-  {
-    label: "Fairways",
-    icon: Activity,
-    title: "Maintenance Pressure",
-    area: "Fairway 7",
-    status: "High",
-    copy: "Recovery is slowing where terrain and traffic overlap.",
-    action: "Prioritise works before the next wet period.",
-    tone: "amber",
-  },
-  {
-    label: "Greens",
-    icon: Flag,
-    title: "Condition Signal",
-    area: "Green 12",
-    status: "Medium",
-    copy: "Firmness has moved beyond the preferred range at the approach.",
-    action: "Adjust aeration timing for the next high-play window.",
-    tone: "emerald",
-  },
-  {
-    label: "Buildings",
-    icon: Building2,
-    title: "Asset Register",
-    area: "Clubhouse Zone",
-    status: "Tracked",
-    copy: "Hardstanding, access and service areas are aligned to the register.",
-    action: "Use as the baseline for future expansion planning.",
-    tone: "slate",
+      "Landscape intelligence for land, woodland, access, drainage, infrastructure, environmental assets and long-term estate management.",
+    status: "Future product",
+    primary: "Explore Basalt Estates",
+    secondary: "Discuss your estate",
+    href: "/estates",
+    anchor: "#estates",
+    scene: "scene-estates",
   },
 ];
 
-const platformMetrics = [
-  { label: "Asset Health", value: "91", unit: "%", trend: "+4.8" },
-  { label: "Priorities", value: "14", unit: "", trend: "5 high" },
-  { label: "Environmental Score", value: "86", unit: "/100", trend: "+7.1" },
-  { label: "Flood Risk", value: "Low", unit: "", trend: "Stable" },
+const golfOutputs = [
+  "Course orthomosaic",
+  "Contour and elevation view",
+  "Drainage layer",
+  "Asset and irrigation mapping",
+  "Maintenance observations",
+  "Capital planning map",
+  "Example Golf report",
 ];
 
-const proofTabs = [
-  {
-    label: "Outcomes",
-    icon: CheckCircle2,
-    title: "Better decisions, less noise.",
-    copy:
-      "Basalt helps teams reduce avoidable maintenance, plan investment and protect long-term asset health.",
-    items: ["Understand change", "Prioritise work", "Defend investment"],
-  },
-  {
-    label: "Reports",
-    icon: FileText,
-    title: "Evidence ready for the room.",
-    copy:
-      "Clear reports connect daily pressure with long-term planning, so decisions can move from field teams to board.",
-    items: ["Executive summary", "Risk analysis", "Recommendations"],
-  },
-  {
-    label: "Engine",
-    icon: Radar,
-    title: "Built for spatial intelligence.",
-    copy:
-      "One intelligence engine supports the first golf product and future outdoor asset markets.",
-    items: ["Shared engine", "Evidence graph", "Market products"],
-  },
+const sportsOutputs = [
+  "Complete grounds capture",
+  "Pitch, building and boundary mapping",
+  "Terrain and low-point analysis",
+  "Indicative surface-water routes",
+  "Development overlays",
+  "Committee evidence",
+  "Repeat progress records",
 ];
 
-const productRoadmap = [
-  {
-    product: "Golf" as BasaltProduct,
-    status: "Available Today",
-    copy:
-      "Maintenance, environmental and capital planning intelligence for golf clubs.",
-  },
-  {
-    product: "Solar" as BasaltProduct,
-    status: "Coming Soon",
-    copy:
-      "Landscape intelligence for vegetation, drainage, access and asset monitoring.",
-  },
-  {
-    product: "Estates" as BasaltProduct,
-    status: "Future",
-    copy:
-      "Landscape, woodland, infrastructure and environmental change intelligence.",
-  },
-  {
-    product: "Utilities" as BasaltProduct,
-    status: "Future",
-    copy:
-      "Corridor, vegetation, drainage, access and infrastructure intelligence.",
-  },
+const estateOutputs = [
+  "Estate-wide map",
+  "Woodland compartments",
+  "Roads and access",
+  "Water and drainage",
+  "Buildings and infrastructure",
+  "Solar and renewable assets",
+  "Year-on-year change",
 ];
 
-const sportsGroundLayers = [
-  {
-    label: "Aerial",
-    title: "Full grounds view",
-    copy:
-      "A clear visual record of pitches, boundaries, buildings, access routes and surrounding land.",
-    className: "grounds-aerial",
-  },
-  {
-    label: "Terrain",
-    title: "Levels and low points",
-    copy:
-      "Contours and elevation help clubs see where further drainage investigation may be needed.",
-    className: "grounds-terrain",
-  },
-  {
-    label: "Drainage",
-    title: "Indicative water movement",
-    copy:
-      "Surface-flow routes and risk areas create better evidence before major works are discussed.",
-    className: "grounds-drainage",
-  },
-  {
-    label: "Development",
-    title: "Committee-ready evidence",
-    copy:
-      "Annotated maps and measurements support funding, contractor briefings and facility planning.",
-    className: "grounds-development",
-  },
+const platformCapabilities = [
+  "Aerial capture",
+  "Photogrammetry",
+  "Terrain models",
+  "LiDAR where applicable",
+  "Mapping layers",
+  "Measurements",
+  "Observations",
+  "Reporting",
+  "Change tracking",
+  "Secure digital records",
 ];
 
-const sportsGroundOutcomes = [
-  {
-    title: "Pitch and Grounds Mapping",
-    copy:
-      "High-resolution mapping of pitches, boundaries, buildings, access routes and surrounding land.",
-  },
-  {
-    title: "Drainage and Terrain Insight",
-    copy:
-      "Contours, elevation, low points and indicative water-flow routes for better investigation planning.",
-  },
-  {
-    title: "Development and Funding Evidence",
-    copy:
-      "Accurate visuals, measurements and annotated plans for committees, funders and contractors.",
-  },
-  {
-    title: "Progress and Condition Records",
-    copy:
-      "Repeat surveys that document construction, maintenance improvements and change over time.",
-  },
-];
+function SceneVisual({ scene, label }: { scene: string; label: string }) {
+  return (
+    <div className={`landscape-scene ${scene}`} aria-label={label} role="img">
+      <span className="terrain-grid" />
+      <span className="contour contour-one" />
+      <span className="contour contour-two" />
+      <span className="route-line route-one" />
+      <span className="route-line route-two" />
+      <span className="asset-pin pin-one" />
+      <span className="asset-pin pin-two" />
+      <span className="zone zone-one" />
+      <span className="zone zone-two" />
+    </div>
+  );
+}
 
-const sportsLabels = [
-  "GAA",
-  "Football",
-  "Rugby",
-  "Cricket",
-  "Hockey",
-  "Community Sport",
-  "Multi-Sport Facilities",
-];
+function ReportPreview({
+  product,
+  title,
+  status,
+  items,
+  variant,
+}: {
+  product: string;
+  title: string;
+  status: string;
+  items: string[];
+  variant: "golf" | "sports" | "estates";
+}) {
+  return (
+    <div className="report-shell">
+      <div className="flex items-start justify-between gap-5 border-b border-white/10 pb-5">
+        <div>
+          <p className="text-xs uppercase tracking-[0.28em] text-white/42">
+            {product}
+          </p>
+          <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
+        </div>
+        <span className="rounded-full bg-white px-3 py-1 font-mono text-xs text-[#07110d]">
+          {status}
+        </span>
+      </div>
+      <div className="grid gap-4 pt-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className={`report-map report-${variant}`}>
+          <span className="report-grid" />
+          <span className="report-route report-route-one" />
+          <span className="report-route report-route-two" />
+          <span className="report-zone report-zone-one" />
+          <span className="report-zone report-zone-two" />
+          <span className="report-marker report-marker-one" />
+          <span className="report-marker report-marker-two" />
+        </div>
+        <div className="grid content-start gap-2">
+          {items.slice(0, 6).map((item) => (
+            <div
+              key={item}
+              className="flex items-start gap-3 rounded-[6px] border border-white/10 bg-white/[0.035] p-3 text-sm leading-5 text-white/66"
+            >
+              <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
-  const [activeLayer, setActiveLayer] = useState(intelligenceLayers[0]);
-  const [activeProof, setActiveProof] = useState(proofTabs[0]);
-  const [activeGroundLayer, setActiveGroundLayer] = useState(sportsGroundLayers[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [heroInView, setHeroInView] = useState(true);
+  const [tabVisible, setTabVisible] = useState(true);
+  const heroRef = useRef<HTMLElement | null>(null);
+  const reducedMotion = useReducedMotion();
+  const activeProduct = products[activeIndex];
+
+  const shouldAutoRotate = useMemo(
+    () => !hasInteracted && !reducedMotion && heroInView && tabVisible,
+    [hasInteracted, heroInView, reducedMotion, tabVisible],
+  );
+
+  useEffect(() => {
+    const onVisibility = () => setTabVisible(document.visibilityState === "visible");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  useEffect(() => {
+    const node = heroRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting),
+      { threshold: 0.42 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldAutoRotate) return;
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % products.length);
+    }, 13000);
+
+    return () => window.clearInterval(interval);
+  }, [shouldAutoRotate]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 8) setHasInteracted(true);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const selectProduct = (index: number) => {
+    setHasInteracted(true);
+    setActiveIndex(index);
+  };
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#050807] text-white">
-      <section className="relative flex min-h-screen flex-col justify-between">
+      <section
+        ref={heroRef}
+        className="relative flex min-h-screen flex-col overflow-hidden"
+        onMouseEnter={() => setHasInteracted(true)}
+        onFocusCapture={() => setHasInteracted(true)}
+      >
         <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroImage})` }}
-            initial={{ scale: 1.06 }}
-            animate={{ scale: 1.01, x: [0, -18, 0] }}
-            transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_24%,rgba(245,221,170,0.13),transparent_28%),linear-gradient(180deg,rgba(3,7,6,0.16)_0%,rgba(3,7,6,0.34)_38%,rgba(3,7,6,0.84)_84%,#050807_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#050807] to-transparent" />
+          {products.map((product, index) => (
+            <motion.div
+              key={product.id}
+              className="absolute inset-0"
+              aria-hidden={activeIndex !== index}
+              initial={false}
+              animate={{ opacity: activeIndex === index ? 1 : 0 }}
+              transition={{ duration: reducedMotion ? 0 : 1.4, ease: "easeInOut" }}
+            >
+              <SceneVisual scene={product.scene} label={`${product.eyebrow} aerial landscape`} />
+            </motion.div>
+          ))}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_20%,rgba(245,221,170,0.13),transparent_28%),linear-gradient(180deg,rgba(3,7,6,0.12)_0%,rgba(3,7,6,0.34)_42%,rgba(3,7,6,0.86)_86%,#050807_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#050807] to-transparent" />
         </div>
 
         <nav className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
-          <a className="flex items-center" href="#" aria-label="Basalt home">
+          <Link className="flex items-center" href="/" aria-label="Basalt home">
             <BasaltLogo variant="horizontal" theme="dark" />
-          </a>
-          <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
-            <a href="#discovery">Discovery</a>
-            <a href="#how">How it works</a>
-            <a href="#explore">Explore</a>
-            <a href="#platform">Platform</a>
-            <a href="#landscapes">Landscapes</a>
+          </Link>
+          <div className="hidden items-center gap-8 text-sm text-white/68 md:flex">
+            <a href="#products" className="transition hover:text-white">Products</a>
+            <a href="#platform" className="transition hover:text-white">Platform</a>
+            <a href="#contact" className="transition hover:text-white">About</a>
           </div>
           <a
             href="#contact"
-            className="hidden h-10 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 text-sm font-medium text-white shadow-2xl shadow-black/20 backdrop-blur transition hover:bg-white/16 sm:inline-flex"
+            className="hidden h-10 items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 text-sm font-medium text-white shadow-2xl shadow-black/20 backdrop-blur transition hover:bg-white/16 sm:inline-flex"
           >
-            Book a call <ArrowRight className="size-4" />
+            Discuss Your Site <ArrowRight className="size-4" />
           </a>
         </nav>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-end px-5 pb-20 sm:px-8 lg:items-center lg:px-10 lg:pb-0 lg:pt-20">
-          <motion.div
-            className="hero-panel min-w-0"
-            initial={false}
-            animate="visible"
-            transition={{ staggerChildren: 0.12 }}
-          >
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-end px-5 pb-8 sm:px-8 lg:items-center lg:px-10">
+          <div className="w-full">
             <motion.div
-              variants={fadeUp}
-              className="mb-5"
+              key={activeProduct.id}
+              className="max-w-4xl"
+              initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <BasaltLogo
-                variant="wordmark"
-                product="Golf"
-                theme="grey"
-                className="text-sm"
-              />
-            </motion.div>
-            <motion.h1
-              variants={fadeUp}
-              className="text-5xl font-semibold leading-[0.93] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl"
-            >
-              Know Every
-              <br className="sm:hidden" />
-              <span className="hidden sm:inline"> </span>Acre.
-            </motion.h1>
-            <motion.p
-              variants={fadeUp}
-              className="hero-description mt-7 text-pretty text-lg leading-8 text-white/76 sm:text-xl"
-            >
-              The intelligence platform for understanding outdoor assets,
-              launching first with golf.
-            </motion.p>
-            <motion.div
-              variants={fadeUp}
-              className="hero-actions mt-10 flex flex-col gap-3 sm:flex-row"
-            >
-              <a
-                href="#platform"
-                className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8] sm:w-auto"
-              >
-                Explore the Platform <ArrowRight className="size-4" />
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/16 sm:w-auto"
-              >
-                Request an Example Report
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="discovery" className="relative border-y border-white/8 bg-[#050807]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-18 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10 lg:py-24">
-          <motion.div
-            className="flex flex-col justify-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeUp}
-          >
-            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              Discovery
-            </p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal text-white sm:text-6xl">
-              See What the Eye Can&apos;t.
-            </h2>
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
-              A familiar landscape becomes visible structure.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="relative min-h-[400px] overflow-hidden rounded-[8px] border border-white/12 bg-black shadow-[0_44px_150px_rgba(0,0,0,0.52)] sm:min-h-[560px]"
-            initial={{ opacity: 0, y: 34 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.85 }}
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-72"
-              style={{ backgroundImage: `url(${heroImage})` }}
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,7,0.02),rgba(5,8,7,0.88)),radial-gradient(circle_at_60%_34%,rgba(184,242,210,0.24),transparent_28%)]" />
-            <div className="course-data absolute inset-0 opacity-85" />
-            <motion.div
-              className="absolute inset-0 bg-[radial-gradient(circle,rgba(184,242,210,0.52)_1px,transparent_1.8px)] bg-[size:24px_24px] opacity-0"
-              whileInView={{ opacity: [0, 0.42, 0.16] }}
-              viewport={{ once: true }}
-              transition={{ duration: 2.8, ease: "easeInOut" }}
-            />
-            <div className="absolute inset-x-5 bottom-6">
-              <div className="flex items-center gap-2 overflow-hidden rounded-full border border-white/12 bg-black/24 p-1.5 backdrop-blur-xl">
-                {revealStages.map((stage, index) => (
-                  <motion.span
-                    key={stage}
-                    className="h-1.5 flex-1 rounded-full bg-white/14"
-                    initial={{ opacity: 0.16 }}
-                    whileInView={{ opacity: [0.16, 1, 0.42] }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.15, duration: 0.7 }}
-                    title={stage}
-                  />
-                ))}
-              </div>
-              <div className="mt-4 flex items-center justify-between text-xs uppercase tracking-[0.24em] text-white/42">
-                <span>Landscape</span>
-                <span>Intelligence</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section
-        id="how"
-        className="relative border-b border-white/8 bg-[#060907] px-5 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-18"
-      >
-        <div className="mx-auto max-w-7xl">
-          <motion.div
-            className="grid gap-6 lg:grid-cols-[0.36fr_0.64fr] lg:items-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeUp}
-          >
-            <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                How Basalt Works
+                {activeProduct.eyebrow}
               </p>
-              <h2 className="mt-4 max-w-xl text-balance text-3xl font-semibold tracking-normal text-white sm:text-5xl">
-                From landscape data to confident decisions.
-              </h2>
-            </div>
-
-            <div className="relative">
-              <div className="absolute left-5 top-8 hidden h-px w-[calc(100%-2.5rem)] bg-white/12 lg:block" />
-              <motion.div
-                className="absolute left-5 top-8 hidden h-px bg-white/70 lg:block"
-                initial={{ width: 0 }}
-                whileInView={{ width: "calc(100% - 2.5rem)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, ease: "easeOut" }}
-              />
-              <div className="grid gap-4 lg:grid-cols-3 lg:gap-6">
-                {processSteps.map((step, index) => (
-                  <motion.article
-                    key={step.label}
-                    className="relative grid grid-cols-[2.5rem_1fr] gap-3 border-l border-white/10 pl-5 lg:block lg:border-l-0 lg:pl-0"
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ delay: index * 0.12, duration: 0.45 }}
-                  >
-                    <div className="relative z-10 grid size-10 place-items-center rounded-[6px] border border-white/14 bg-[#060907]">
-                      <div className={`process-glyph process-glyph-${index + 1}`}>
-                        {step.marks.map((mark) => (
-                          <span key={mark} />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="min-w-0 lg:mt-6">
-                      <p className="font-mono text-xs text-white/38">
-                        0{index + 1}
-                      </p>
-                      <h3 className="mt-2 text-xl font-semibold text-white">
-                        {step.label}
-                      </h3>
-                      <p className="mt-2 max-w-sm text-sm leading-6 text-white/58 lg:mt-3">
-                        {step.copy}
-                      </p>
-                    </div>
-                  </motion.article>
-                ))}
+              <h1 className="mt-5 text-5xl font-semibold leading-[0.93] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl">
+                {activeProduct.headline}
+              </h1>
+              <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/74 sm:text-xl">
+                {activeProduct.copy}
+              </p>
+              <div className="mt-5 inline-flex rounded-full border border-white/14 bg-white/8 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em] text-white/68 backdrop-blur">
+                {activeProduct.status}
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="explore" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Exploration
-              </p>
-              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
-                Choose a layer. The landscape responds.
-              </h2>
-            </div>
-            <p className="max-w-md text-base leading-7 text-white/58">
-              Select a layer and see the evidence change.
-            </p>
-          </div>
-
-          <div className="grid gap-3 lg:grid-cols-[0.34fr_0.66fr]">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
-              {intelligenceLayers.map((layer) => (
-                <button
-                  key={layer.label}
-                  onClick={() => setActiveLayer(layer)}
-                  className={`flex min-h-12 items-center justify-between rounded-[8px] border px-4 py-3 text-left transition ${
-                    activeLayer.label === layer.label
-                      ? "border-[#b8f2d2]/42 bg-[#b8f2d2]/12 text-white"
-                      : "border-white/10 bg-white/[0.04] text-white/62 hover:border-white/20 hover:text-white"
-                  }`}
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href={activeProduct.href}
+                  className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
                 >
-                  <span className="flex items-center gap-3 text-sm font-medium">
-                    <layer.icon className="size-4" />
-                    {layer.label}
-                  </span>
-                  <ChevronRight className="hidden size-4 opacity-50 sm:block" />
-                </button>
-              ))}
-            </div>
-
-            <div className="relative min-h-[520px] overflow-hidden rounded-[8px] border border-white/12 bg-[#07100d] sm:min-h-[620px]">
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-55"
-                style={{ backgroundImage: `url(${heroImage})` }}
-              />
-              <div className={`layer-glow layer-${activeLayer.tone}`} />
-              <div className="course-lines absolute inset-0" />
-              <motion.div
-                key={activeLayer.label}
-                className="absolute left-[18%] top-[28%] h-28 w-40 rounded-[8px] border border-[#b8f2d2]/34 bg-[#b8f2d2]/14 sm:h-32 sm:w-48"
-                initial={{ opacity: 0, scale: 0.88 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.45 }}
-              />
-              <motion.div
-                key={`${activeLayer.label}-panel`}
-                className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-white/14 bg-black/50 p-5 backdrop-blur-2xl sm:left-auto sm:w-[390px]"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.42 }}
-              >
-                <div className="mb-4 flex items-start justify-between gap-5">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-white/46">
-                      {activeLayer.label}
-                    </p>
-                    <h3 className="mt-2 text-2xl font-semibold text-white">
-                      {activeLayer.title}
-                    </h3>
-                  </div>
-                  <span className="rounded-full bg-white px-3 py-1 font-mono text-xs text-[#07110d]">
-                    {activeLayer.status}
-                  </span>
-                </div>
-                <p className="text-sm leading-6 text-white/62">
-                  {activeLayer.area} · {activeLayer.copy}
-                </p>
-                <div className="mt-5 rounded-[6px] border border-[#b8f2d2]/18 bg-[#b8f2d2]/10 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
-                    Recommended Action
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-white">
-                    {activeLayer.action}
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="platform"
-        className="relative border-y border-white/8 bg-[#050807] px-5 py-18 sm:px-8 lg:px-10 lg:py-24"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(65,118,89,0.24),transparent_32%),radial-gradient(circle_at_86%_16%,rgba(120,139,189,0.13),transparent_28%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <motion.div
-            className="mb-10 max-w-3xl"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeUp}
-          >
-            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              The Basalt Platform
-            </p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal text-white sm:text-6xl">
-              One calm operating layer.
-            </h2>
-          </motion.div>
-
-          <motion.div
-            className="rounded-[8px] border border-white/12 bg-white/[0.055] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
-            initial={{ opacity: 0, y: 34, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-120px" }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="rounded-[6px] border border-white/10 bg-[#08100d]/94">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-6">
-                <div>
-                  <BasaltLogo
-                    variant="horizontal"
-                    theme="grey"
-                    size="compact"
-                    className="text-xs"
-                  />
-                  <h3 className="mt-1 text-xl font-medium text-white">
-                    Outdoor Asset Intelligence
-                  </h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    aria-label="Map layer"
-                    className="grid size-10 place-items-center rounded border border-white/12 bg-white/7 text-white/72"
-                  >
-                    <Map className="size-4" />
-                  </button>
-                  <button
-                    aria-label="Priority radar"
-                    className="grid size-10 place-items-center rounded border border-white/12 bg-white text-[#07110d]"
-                  >
-                    <Radar className="size-4" />
-                  </button>
-                </div>
+                  {activeProduct.primary} <ArrowRight className="size-4" />
+                </Link>
+                <a
+                  href="#contact"
+                  className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/16"
+                >
+                  {activeProduct.secondary}
+                </a>
               </div>
+            </motion.div>
 
-              <div className="grid gap-3 p-3 lg:grid-cols-[1.22fr_0.78fr]">
-                <div className="relative min-h-[440px] overflow-hidden rounded-[6px] border border-white/10 bg-[#0a1510]">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center opacity-46"
-                    style={{ backgroundImage: `url(${heroImage})` }}
-                  />
-                  <div className="asset-map absolute inset-0 opacity-80" />
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:48px_48px]" />
-                  <div className="absolute left-5 top-5 rounded-[6px] border border-white/12 bg-black/38 p-4 backdrop-blur-xl">
-                    <p className="text-xs uppercase tracking-[0.24em] text-white/46">
-                      Active View
-                    </p>
-                    <div className="mt-3 flex items-center gap-3">
-                      <Activity className="size-5 text-[#b8f2d2]" />
-                      <span className="text-sm text-white/82">
-                        Priority scoring and asset register
-                      </span>
-                    </div>
-                  </div>
-                  <div className="absolute inset-x-5 bottom-5 rounded-[6px] border border-white/12 bg-black/38 p-4 backdrop-blur-xl">
-                    <div className="mb-4 flex items-center justify-between text-xs text-white/46">
-                      <span>Historical trend</span>
-                      <span>36 month view</span>
-                    </div>
-                    <div className="flex items-end gap-2">
-                      {[32, 46, 41, 59, 62, 74, 68, 83].map((height, index) => (
-                        <motion.div
-                          key={index}
-                          className="flex-1 rounded-t bg-gradient-to-t from-[#315f42] to-[#b8f2d2]"
-                          initial={{ height: 0 }}
-                          whileInView={{ height }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.7, delay: index * 0.06 }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid gap-3">
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                    {platformMetrics.map((metric) => (
-                      <div
-                        key={metric.label}
-                        className="rounded-[6px] border border-white/10 bg-white/[0.045] p-4"
-                      >
-                        <p className="text-sm text-white/52">{metric.label}</p>
-                        <div className="mt-4 flex items-end justify-between gap-3">
-                          <p className="font-mono text-4xl text-white">
-                            {metric.value}
-                            <span className="text-lg text-white/48">
-                              {metric.unit}
-                            </span>
-                          </p>
-                          <span className="rounded-full bg-[#b8f2d2]/12 px-2 py-1 font-mono text-xs text-[#b8f2d2]">
-                            {metric.trend}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rounded-[6px] border border-[#b8f2d2]/18 bg-[#b8f2d2]/8 p-5">
-                    <div className="flex items-start gap-3">
-                      <ShieldCheck className="mt-1 size-5 text-[#b8f2d2]" />
-                      <p className="text-sm leading-6 text-white/70">
-                        Recommendations stay connected to the map, the evidence
-                        and the investment plan.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              Value
-            </p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
-              Enough proof to keep moving.
-            </h2>
-          </div>
-          <div>
-            <div className="mb-4 grid grid-cols-3 gap-2 rounded-[8px] border border-white/10 bg-white/[0.04] p-1.5">
-              {proofTabs.map((tab) => (
+            <div
+              className="mt-12 grid gap-2 rounded-[8px] border border-white/12 bg-black/24 p-2 backdrop-blur-2xl sm:grid-cols-3 lg:max-w-2xl"
+              role="tablist"
+              aria-label="Basalt products"
+            >
+              {products.map((product, index) => (
                 <button
-                  key={tab.label}
-                  onClick={() => setActiveProof(tab)}
-                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-[6px] text-sm font-medium transition ${
-                    activeProof.label === tab.label
+                  key={product.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === index}
+                  aria-controls={`${product.id}-chapter`}
+                  onClick={() => selectProduct(index)}
+                  className={`rounded-[6px] px-4 py-3 text-left text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-[#b8f2d2] ${
+                    activeIndex === index
                       ? "bg-white text-[#07110d]"
                       : "text-white/58 hover:bg-white/8 hover:text-white"
                   }`}
                 >
-                  <tab.icon className="size-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="block">{product.name}</span>
+                  <span className="mt-1 block font-mono text-[0.68rem] uppercase tracking-[0.18em] opacity-70">
+                    {product.status}
+                  </span>
                 </button>
               ))}
             </div>
-            <motion.div
-              key={activeProof.label}
-              className="min-h-[300px] rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-8"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
-            >
-              <h3 className="text-3xl font-semibold tracking-normal text-white">
-                {activeProof.title}
-              </h3>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
-                {activeProof.copy}
-              </p>
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                {activeProof.items.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-[6px] border border-white/10 bg-black/20 p-4 text-sm text-white/66"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
 
-      <section
-        id="landscapes"
-        className="relative border-y border-white/8 bg-[#080d0b] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(184,242,210,0.12),transparent_34%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Roadmap
-              </p>
-              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                One Platform. Many Landscapes.
-              </h2>
+      <section id="products" className="relative bg-[#050807] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div id="golf" className="product-chapter">
+            <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Golf</p>
+                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                  The flagship product for course intelligence.
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
+                  Basalt captures the course, builds an accurate map, reveals drainage, contours, assets and observations, then turns the evidence into reports for committees, contractors and stakeholders.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  {golfOutputs.slice(0, 6).map((item) => (
+                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
+                <div className="chapter-visual">
+                  <SceneVisual scene="scene-golf" label="Golf course mapped with Basalt intelligence overlays" />
+                </div>
+              </motion.div>
             </div>
-            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Basalt Golf is the first product built on an intelligence engine
-              for complex outdoor environments.
+            <div className="mt-6">
+              <ReportPreview
+                product="Basalt Golf"
+                title="Course Intelligence Report"
+                status="Illustrative sample"
+                variant="golf"
+                items={[
+                  "Executive summary",
+                  "Mapped maintenance observations",
+                  "Drainage concerns",
+                  "Capital-planning areas",
+                  "Environmental considerations",
+                  "Before-and-after comparison",
+                ]}
+              />
+            </div>
+          </div>
+
+          <div id="sports-grounds" className="product-chapter pt-20 lg:pt-28">
+            <div className="grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
+              <motion.div className="order-2 lg:order-1" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
+                <div className="chapter-visual">
+                  <SceneVisual scene="scene-sports" label="Multi-pitch sports grounds mapped with Basalt intelligence overlays" />
+                </div>
+              </motion.div>
+              <motion.div className="order-1 lg:order-2" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Sports Grounds</p>
+                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                  Understand your grounds before you invest.
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
+                  Basalt turns aerial survey data into practical maps, measurements and reports clubs can use for maintenance, drainage, development, funding and contractor discussions.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  {["GAA", "Football", "Rugby", "Cricket", "Hockey", "Community Sport", ...sportsOutputs.slice(0, 3)].map((item) => (
+                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <Link href="/sports-grounds" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]">
+                    Explore Basalt Sports Grounds <ArrowRight className="size-4" />
+                  </Link>
+                  <a href="#contact" className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14">
+                    Discuss your grounds
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+            <div className="mt-6">
+              <ReportPreview
+                product="Basalt Sports Grounds"
+                title="Grounds Evidence Pack"
+                status="Early access"
+                variant="sports"
+                items={[
+                  "Pitch dimensions and orientation",
+                  "Access and facility mapping",
+                  "Low-point analysis",
+                  "Indicative water-flow routes",
+                  "Proposed development overlay",
+                  "Contractor briefing map",
+                ]}
+              />
+            </div>
+            <p className="mt-4 max-w-4xl text-xs leading-5 text-white/42">
+              Basalt provides aerial surveying, terrain analysis and visual decision-support information. It does not replace civil engineering, drainage design, geotechnical assessment, planning advice or other regulated professional services.
             </p>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {productRoadmap.map((product, index) => (
-              <motion.article
-                key={product.product}
-                className={`relative min-h-[260px] overflow-hidden rounded-[8px] border p-6 ${
-                  index === 0
-                    ? "border-[#b8f2d2]/34 bg-[#b8f2d2]/10"
-                    : "border-white/10 bg-white/[0.045]"
-                }`}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ delay: index * 0.08 }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <BasaltLogo
-                    variant="vertical"
-                    product={product.product}
-                    theme="dark"
-                    size="compact"
-                    className="items-start text-left text-[0.8rem]"
-                  />
-                  <span
-                    className={`rounded-full px-3 py-1 font-mono text-xs ${
-                      index === 0
-                        ? "bg-white text-[#07110d]"
-                        : "bg-white/8 text-white/56"
-                    }`}
-                  >
-                    {product.status}
-                  </span>
-                </div>
-                <p className="mt-8 text-sm leading-6 text-white/62">
-                  {product.copy}
+          <div id="estates" className="product-chapter pt-20 lg:pt-28">
+            <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
+                <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">Basalt Estates</p>
+                <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                  See the full landscape.
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-7 text-white/62 sm:text-lg">
+                  Bring land, woodland, water, access, buildings and infrastructure into one clear visual record for better long-term management.
                 </p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="sports-grounds"
-        className="relative overflow-hidden border-b border-white/8 bg-[#050807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(184,242,210,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_38%)]" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-12 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Basalt Sports Grounds
-              </p>
-              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Understand your grounds before you invest.
-              </h2>
-            </div>
-            <div className="max-w-2xl lg:justify-self-end">
-              <p className="text-base leading-7 text-white/62">
-                Basalt Sports Grounds provides clubs with accurate aerial
-                mapping, terrain analysis and clear visual evidence for pitch
-                maintenance, drainage and facility development.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {sportsLabels.map((label) => (
-                  <span
-                    key={label}
-                    className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/54"
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
-            <motion.div
-              className="relative min-h-[520px] overflow-hidden rounded-[8px] border border-white/12 bg-[#0a100d] shadow-[0_40px_140px_rgba(0,0,0,0.42)]"
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7 }}
-            >
-              <div className={`sports-ground-map ${activeGroundLayer.className}`}>
-                <span className="sports-pitch pitch-main" />
-                <span className="sports-pitch pitch-training" />
-                <span className="sports-pitch pitch-community" />
-                <span className="clubhouse" />
-                <span className="walking-route" />
-                <span className="floodlight floodlight-one" />
-                <span className="floodlight floodlight-two" />
-                <span className="grounds-measure measure-one" />
-                <span className="grounds-measure measure-two" />
-                <span className="grounds-water water-one" />
-                <span className="grounds-water water-two" />
-                <span className="development-zone" />
-              </div>
-              <div className="absolute left-5 top-5 rounded-[6px] border border-white/12 bg-black/36 p-4 backdrop-blur-xl">
-                <p className="text-xs uppercase tracking-[0.24em] text-white/46">
-                  Illustrative Grounds View
+                <p className="mt-5 inline-flex rounded-full border border-white/12 bg-white/7 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em] text-white/58">
+                  Future product
                 </p>
-                <p className="mt-2 max-w-xs text-sm leading-6 text-white/66">
-                  Multi-pitch sports facility mapped into practical layers for
-                  planning conversations.
-                </p>
-              </div>
-            </motion.div>
-
-            <div className="grid gap-4">
-              <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-2">
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2">
-                  {sportsGroundLayers.map((layer) => (
-                    <button
-                      key={layer.label}
-                      onClick={() => setActiveGroundLayer(layer)}
-                      className={`rounded-[6px] px-4 py-3 text-left text-sm font-medium transition ${
-                        activeGroundLayer.label === layer.label
-                          ? "bg-white text-[#07110d]"
-                          : "text-white/58 hover:bg-white/8 hover:text-white"
-                      }`}
-                    >
-                      {layer.label}
-                    </button>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  {estateOutputs.slice(0, 6).map((item) => (
+                    <span key={item} className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-white/54">
+                      {item}
+                    </span>
                   ))}
                 </div>
-              </div>
-
-              <motion.div
-                key={activeGroundLayer.label}
-                className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-7"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35 }}
-              >
-                <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">
-                  {activeGroundLayer.label}
-                </p>
-                <h3 className="mt-3 text-3xl font-semibold tracking-normal text-white">
-                  {activeGroundLayer.title}
-                </h3>
-                <p className="mt-4 text-base leading-7 text-white/62">
-                  {activeGroundLayer.copy}
-                </p>
               </motion.div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {sportsGroundOutcomes.map((outcome) => (
-                  <div
-                    key={outcome.title}
-                    className="rounded-[8px] border border-white/10 bg-black/18 p-5"
-                  >
-                    <h4 className="text-base font-semibold text-white">
-                      {outcome.title}
-                    </h4>
-                    <p className="mt-3 text-sm leading-6 text-white/58">
-                      {outcome.copy}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="/sports-grounds"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-                >
-                  Explore Basalt Sports Grounds <ArrowRight className="size-4" />
-                </a>
-                <a
-                  href="#contact"
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14"
-                >
-                  Discuss your grounds
-                </a>
-              </div>
+              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}>
+                <ReportPreview
+                  product="Basalt Estates"
+                  title="Estate Intelligence Concept"
+                  status="Future concept"
+                  variant="estates"
+                  items={[
+                    "Land parcels",
+                    "Woodland and vegetation zones",
+                    "Access routes",
+                    "Buildings and infrastructure",
+                    "Water and drainage",
+                    "Environmental change areas",
+                  ]}
+                />
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
-      <section
-        id="contact"
-        className="relative px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
-      >
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[8px] border border-white/12 bg-white/[0.055] p-8 shadow-[0_40px_140px_rgba(0,0,0,0.45)] sm:p-12">
-          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+      <section id="platform" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(184,242,210,0.1),transparent_36%)]" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <div>
-              <BasaltLogo
-                variant="horizontal"
-                product="Golf"
-                theme="grey"
-                size="compact"
-                className="text-sm"
-              />
-              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                See your course with a new level of confidence.
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">The Basalt Platform</p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                One intelligence engine. Three specialist products.
               </h2>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-              {[
-                "Book a Discovery Call",
-                "Request an Example Report",
-                "Become a Pilot Club",
-              ].map((action, index) => (
-                <a
-                  key={action}
-                  href="#"
-                  className={`inline-flex h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition ${
-                    index === 0
-                      ? "bg-white text-[#07110d] hover:bg-[#dff4e8]"
-                      : "border border-white/14 bg-white/8 text-white hover:bg-white/14"
-                  }`}
-                >
-                  {action} <ArrowRight className="size-4" />
-                </a>
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              Basalt transforms aerial and spatial data into practical maps, observations and reports for complex outdoor environments.
+            </p>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
+            <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6">
+              <div className="grid gap-3">
+                {products.map((product) => (
+                  <Link
+                    key={product.id}
+                    href={product.href}
+                    className="flex items-center justify-between gap-4 rounded-[6px] border border-white/10 bg-black/16 p-4 transition hover:bg-white/[0.06]"
+                  >
+                    <span>
+                      <span className="block text-base font-semibold text-white">{product.eyebrow}</span>
+                      <span className="mt-1 block font-mono text-xs uppercase tracking-[0.18em] text-white/42">{product.status}</span>
+                    </span>
+                    <ArrowRight className="size-4 text-white/42" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {platformCapabilities.map((capability) => (
+                <div key={capability} className="flex items-center gap-3 rounded-[8px] border border-white/10 bg-white/[0.035] p-4 text-sm text-white/64">
+                  <Layers3 className="size-4 text-[#a6d8bd]" />
+                  {capability}
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-white/8 px-5 py-8 sm:px-8 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
+      <section id="contact" className="relative px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[8px] border border-white/12 bg-white/[0.055] p-8 shadow-[0_40px_140px_rgba(0,0,0,0.45)] sm:p-12">
+          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <BasaltLogo variant="horizontal" theme="grey" size="compact" className="text-sm" />
+              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                Bring your landscape into focus.
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
+                Tell us about your course, sports grounds or estate and we will help identify the right Basalt approach.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <label className="sr-only" htmlFor="site-type">Site type</label>
+              <select id="site-type" className="h-12 rounded-full border border-white/14 bg-[#101713] px-5 text-sm font-semibold text-white outline-none focus-visible:ring-2 focus-visible:ring-[#b8f2d2]">
+                <option>Golf</option>
+                <option>Sports Grounds</option>
+                <option>Estates</option>
+                <option>Other</option>
+              </select>
+              <a href="mailto:hello@basalt.co?subject=Discuss%20your%20site" className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]">
+                Discuss your site <ArrowRight className="size-4" />
+              </a>
+              <Link href="/golf" className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14">
+                Explore Basalt Golf
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="px-5 pb-8 sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/8 pt-8 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <span>The Basalt Platform</span>
-            <span>Basalt Golf available today</span>
-            <a href="/sports-grounds" className="transition hover:text-white">
-              Sports Grounds
-            </a>
+            <Link href="/golf" className="transition hover:text-white">Golf</Link>
+            <Link href="/sports-grounds" className="transition hover:text-white">Sports Grounds</Link>
+            <Link href="/estates" className="transition hover:text-white">Estates</Link>
+            <a href="#platform" className="transition hover:text-white">Platform</a>
           </div>
         </div>
       </footer>
