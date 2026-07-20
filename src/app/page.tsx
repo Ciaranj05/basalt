@@ -84,38 +84,35 @@ const estateOutputs = [
 ];
 
 const platformCapabilities = [
-  "Aerial capture",
-  "Photogrammetry",
-  "Terrain models",
-  "LiDAR where applicable",
-  "Mapping layers",
-  "Measurements",
-  "Observations",
-  "Reporting",
-  "Change tracking",
+  "Professional data capture",
+  "Terrain and surface models",
+  "Accurate measurements",
+  "Digital mapping",
+  "Practical reporting",
+  "Change monitoring",
   "Secure digital records",
 ];
 
 const surveySteps = [
   {
-    title: "Mission Planning",
+    title: "Plan",
     copy:
-      "Plan the survey using RTK positioning and predefined flight paths to ensure complete coverage.",
+      "We define the site boundaries, flight paths and positioning requirements to ensure complete and consistent coverage.",
   },
   {
-    title: "LiDAR Capture",
+    title: "Capture",
     copy:
-      "The drone scans the site using laser pulses, collecting millions of accurate measurements across the terrain.",
+      "The site is scanned from the air using professional LiDAR, imaging and positioning technology.",
   },
   {
-    title: "Data Processing",
+    title: "Process",
     copy:
-      "The LiDAR data is processed into detailed point clouds, terrain models and orthomosaic imagery.",
+      "The captured data is converted into point clouds, terrain models, mapping layers and high-resolution imagery.",
   },
   {
-    title: "Analysis & Reporting",
+    title: "Analyse",
     copy:
-      "The processed data is transformed into interactive reports, measurements and digital twins that help customers make informed decisions.",
+      "The processed data is transformed into practical measurements, observations, reports and digital records.",
   },
 ];
 
@@ -123,37 +120,69 @@ const technologyCards = [
   {
     title: "LiDAR Mapping",
     copy:
-      "Uses laser technology rather than photographs alone, allowing highly detailed mapping of terrain and surface features.",
+      "Captures detailed terrain and surface information beyond what aerial photography alone can provide.",
   },
   {
     title: "RTK Positioning",
     copy:
-      "Professional positioning technology that enables survey-grade accuracy throughout every flight.",
+      "Provides reliable positioning throughout the survey and supports accurate spatial measurements.",
   },
   {
-    title: "Digital Twin",
+    title: "Terrain and Surface Models",
     copy:
-      "Every survey creates a permanent digital model of the site which can be measured, compared and analysed over time.",
+      "Turns captured data into detailed representations of levels, slopes, features and site conditions.",
   },
   {
-    title: "Actionable Reports",
+    title: "Digital Records and Reports",
     copy:
-      "Deliver practical outputs including contour maps, slope analysis, volume calculations, drainage assessments and high-resolution orthomosaic imagery.",
+      "Creates practical outputs that can be measured, reviewed and compared over time.",
   },
 ];
 
 const measurementItems = [
-  "Ground Levels",
-  "Slopes",
+  "Ground levels",
+  "Slopes and gradients",
+  "Drainage patterns",
+  "Surface areas",
   "Volumes",
-  "Surface Areas",
-  "Drainage",
   "Earthworks",
   "Vegetation",
-  "Fairways",
-  "Sports Pitches",
-  "Solar Sites",
-  "Estates",
+  "Access routes",
+  "Infrastructure",
+  "Fairways and playing surfaces",
+  "Estate assets",
+  "Solar site conditions",
+];
+
+const benefits = [
+  {
+    title: "Make Better Decisions",
+    copy:
+      "Move beyond visual inspection with accurate site information that supports planning, maintenance and capital investment.",
+    variant: "decision",
+  },
+  {
+    title: "Save Time and Reduce Uncertainty",
+    copy:
+      "Capture and review detailed site information without relying solely on repeated manual inspections and fragmented records.",
+    variant: "time",
+  },
+  {
+    title: "Create a Permanent Digital Record",
+    copy:
+      "Every survey becomes a secure digital record that can be revisited, measured and compared as the site changes over time.",
+    variant: "record",
+  },
+];
+
+const reportOutputs = [
+  "Drainage",
+  "Terrain",
+  "Slopes",
+  "Levels",
+  "Volumes",
+  "Surface condition",
+  "Change over time",
 ];
 
 function SceneVisual({ scene, label }: { scene: string; label: string }) {
@@ -556,10 +585,10 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              We use professional drone-mounted LiDAR technology to create
-              highly accurate digital models of outdoor environments. Every
-              survey captures millions of measured points, providing reliable
-              data for planning, maintenance and long-term asset management.
+              Every Basalt survey combines professional drone technology, LiDAR
+              and RTK positioning to create an accurate digital representation
+              of your site. This data forms the foundation for every map,
+              measurement, report and recommendation.
             </p>
           </motion.div>
 
@@ -630,9 +659,9 @@ export default function Home() {
           <div className="grid gap-4 lg:grid-cols-[0.84fr_1.16fr]">
             <div className="rounded-[8px] border border-white/10 bg-black/16 p-6">
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                What Can We Measure?
+                What the Survey Can Reveal
               </p>
-              <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              <div className="mt-6 grid gap-2 sm:grid-cols-2">
                 {measurementItems.map((item, index) => (
                   <motion.div
                     key={item}
@@ -656,15 +685,26 @@ export default function Home() {
                 <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
                   Why LiDAR?
                 </p>
-                <div className="mt-6 grid gap-5 sm:grid-cols-[0.82fr_1.18fr]">
-                  <p className="text-2xl font-semibold leading-tight text-white">
-                    Standard drone photography captures images.
-                  </p>
-                  <p className="text-base leading-7 text-white/62">
-                    LiDAR captures millions of accurate measurements that can
-                    be analysed, measured and revisited long after the survey
-                    has been completed.
-                  </p>
+                <div className="mt-6 grid gap-5 lg:grid-cols-[0.88fr_1.12fr]">
+                  <div className="lidar-comparison">
+                    <div>
+                      <span>Aerial image</span>
+                    </div>
+                    <div>
+                      <span>Terrain model</span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-semibold leading-tight text-white">
+                      Traditional aerial photography shows what a site looks
+                      like.
+                    </p>
+                    <p className="mt-4 text-base leading-7 text-white/62">
+                      LiDAR provides detailed information about its shape,
+                      levels, slopes and surface features, allowing the site to
+                      be measured and analysed long after the survey is complete.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -684,6 +724,92 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+              What This Means for You
+            </p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+              Clarity for planning, maintenance and investment.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-white/62">
+              The value of the survey is not simply the data collected. It is
+              the clarity it provides when planning, maintaining and investing
+              in your site.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {benefits.map((benefit, index) => (
+              <motion.article
+                key={benefit.title}
+                className="benefit-panel"
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
+                <div className={`benefit-preview benefit-${benefit.variant}`}>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <h3 className="mt-7 text-2xl font-semibold text-white">
+                  {benefit.title}
+                </h3>
+                <p className="mt-4 text-sm leading-6 text-white/60">
+                  {benefit.copy}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Reports and Deliverables
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                From Survey to Practical Insight
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              Basalt turns complex spatial data into clear maps, measurements,
+              observations and reports that can be used by managers, committees,
+              consultants and contractors.
+            </p>
+          </div>
+
+          <div className="report-insight-shell">
+            <div className="report-map report-golf">
+              <span className="report-grid" />
+              <span className="report-route report-route-one" />
+              <span className="report-route report-route-two" />
+              <span className="report-zone report-zone-one" />
+              <span className="report-zone report-zone-two" />
+              <span className="report-marker report-marker-one" />
+              <span className="report-marker report-marker-two" />
+            </div>
+            <div className="grid content-start gap-2">
+              {reportOutputs.map((output) => (
+                <div
+                  key={output}
+                  className="flex items-start gap-3 rounded-[6px] border border-white/10 bg-white/[0.035] p-3 text-sm leading-5 text-white/66"
+                >
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+                  {output}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="platform" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(184,242,210,0.1),transparent_36%)]" />
         <div className="relative mx-auto max-w-7xl">
@@ -695,7 +821,9 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Basalt transforms aerial and spatial data into practical maps, observations and reports for complex outdoor environments.
+              The same survey and analysis process powers every Basalt product,
+              with reporting tailored to the specific needs of golf courses,
+              sports facilities and estates.
             </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
@@ -716,13 +844,21 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {platformCapabilities.map((capability) => (
-                <div key={capability} className="flex items-center gap-3 rounded-[8px] border border-white/10 bg-white/[0.035] p-4 text-sm text-white/64">
-                  <Layers3 className="size-4 text-[#a6d8bd]" />
-                  {capability}
-                </div>
-              ))}
+            <div className="rounded-[8px] border border-white/10 bg-white/[0.035] p-6">
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Every Basalt Survey Can Include
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {platformCapabilities.map((capability) => (
+                  <span
+                    key={capability}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/16 px-3 py-2 text-sm text-white/62"
+                  >
+                    <Layers3 className="size-3.5 text-[#a6d8bd]" />
+                    {capability}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
