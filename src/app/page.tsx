@@ -242,7 +242,7 @@ export default function Home() {
             >
               Know Every
               <br className="sm:hidden" />
-              <span className="hidden sm:inline"> </span>Acre.
+              <span className="hidden sm:inline"> </span>Inch.
             </motion.h1>
             <motion.p
               variants={fadeUp}
