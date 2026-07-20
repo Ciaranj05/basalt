@@ -180,9 +180,74 @@ const productRoadmap = [
   },
 ];
 
+const sportsGroundLayers = [
+  {
+    label: "Aerial",
+    title: "Full grounds view",
+    copy:
+      "A clear visual record of pitches, boundaries, buildings, access routes and surrounding land.",
+    className: "grounds-aerial",
+  },
+  {
+    label: "Terrain",
+    title: "Levels and low points",
+    copy:
+      "Contours and elevation help clubs see where further drainage investigation may be needed.",
+    className: "grounds-terrain",
+  },
+  {
+    label: "Drainage",
+    title: "Indicative water movement",
+    copy:
+      "Surface-flow routes and risk areas create better evidence before major works are discussed.",
+    className: "grounds-drainage",
+  },
+  {
+    label: "Development",
+    title: "Committee-ready evidence",
+    copy:
+      "Annotated maps and measurements support funding, contractor briefings and facility planning.",
+    className: "grounds-development",
+  },
+];
+
+const sportsGroundOutcomes = [
+  {
+    title: "Pitch and Grounds Mapping",
+    copy:
+      "High-resolution mapping of pitches, boundaries, buildings, access routes and surrounding land.",
+  },
+  {
+    title: "Drainage and Terrain Insight",
+    copy:
+      "Contours, elevation, low points and indicative water-flow routes for better investigation planning.",
+  },
+  {
+    title: "Development and Funding Evidence",
+    copy:
+      "Accurate visuals, measurements and annotated plans for committees, funders and contractors.",
+  },
+  {
+    title: "Progress and Condition Records",
+    copy:
+      "Repeat surveys that document construction, maintenance improvements and change over time.",
+  },
+];
+
+const sportsLabels = [
+  "GAA",
+  "Football",
+  "Rugby",
+  "Cricket",
+  "Hockey",
+  "Community Sport",
+  "Multi-Sport Facilities",
+];
+
 export default function Home() {
   const [activeLayer, setActiveLayer] = useState(intelligenceLayers[0]);
   const [activeProof, setActiveProof] = useState(proofTabs[0]);
+  const [activeGroundLayer, setActiveGroundLayer] = useState(sportsGroundLayers[0]);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#050807] text-white">
@@ -740,6 +805,145 @@ export default function Home() {
       </section>
 
       <section
+        id="sports-grounds"
+        className="relative overflow-hidden border-b border-white/8 bg-[#050807] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(184,242,210,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_38%)]" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-12 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Basalt Sports Grounds
+              </p>
+              <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                Understand your grounds before you invest.
+              </h2>
+            </div>
+            <div className="max-w-2xl lg:justify-self-end">
+              <p className="text-base leading-7 text-white/62">
+                Basalt Sports Grounds provides clubs with accurate aerial
+                mapping, terrain analysis and clear visual evidence for pitch
+                maintenance, drainage and facility development.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {sportsLabels.map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/54"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
+            <motion.div
+              className="relative min-h-[520px] overflow-hidden rounded-[8px] border border-white/12 bg-[#0a100d] shadow-[0_40px_140px_rgba(0,0,0,0.42)]"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+            >
+              <div className={`sports-ground-map ${activeGroundLayer.className}`}>
+                <span className="sports-pitch pitch-main" />
+                <span className="sports-pitch pitch-training" />
+                <span className="sports-pitch pitch-community" />
+                <span className="clubhouse" />
+                <span className="walking-route" />
+                <span className="floodlight floodlight-one" />
+                <span className="floodlight floodlight-two" />
+                <span className="grounds-measure measure-one" />
+                <span className="grounds-measure measure-two" />
+                <span className="grounds-water water-one" />
+                <span className="grounds-water water-two" />
+                <span className="development-zone" />
+              </div>
+              <div className="absolute left-5 top-5 rounded-[6px] border border-white/12 bg-black/36 p-4 backdrop-blur-xl">
+                <p className="text-xs uppercase tracking-[0.24em] text-white/46">
+                  Illustrative Grounds View
+                </p>
+                <p className="mt-2 max-w-xs text-sm leading-6 text-white/66">
+                  Multi-pitch sports facility mapped into practical layers for
+                  planning conversations.
+                </p>
+              </div>
+            </motion.div>
+
+            <div className="grid gap-4">
+              <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-2">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2">
+                  {sportsGroundLayers.map((layer) => (
+                    <button
+                      key={layer.label}
+                      onClick={() => setActiveGroundLayer(layer)}
+                      className={`rounded-[6px] px-4 py-3 text-left text-sm font-medium transition ${
+                        activeGroundLayer.label === layer.label
+                          ? "bg-white text-[#07110d]"
+                          : "text-white/58 hover:bg-white/8 hover:text-white"
+                      }`}
+                    >
+                      {layer.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <motion.div
+                key={activeGroundLayer.label}
+                className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-7"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">
+                  {activeGroundLayer.label}
+                </p>
+                <h3 className="mt-3 text-3xl font-semibold tracking-normal text-white">
+                  {activeGroundLayer.title}
+                </h3>
+                <p className="mt-4 text-base leading-7 text-white/62">
+                  {activeGroundLayer.copy}
+                </p>
+              </motion.div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {sportsGroundOutcomes.map((outcome) => (
+                  <div
+                    key={outcome.title}
+                    className="rounded-[8px] border border-white/10 bg-black/18 p-5"
+                  >
+                    <h4 className="text-base font-semibold text-white">
+                      {outcome.title}
+                    </h4>
+                    <p className="mt-3 text-sm leading-6 text-white/58">
+                      {outcome.copy}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/sports-grounds"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                >
+                  Explore Basalt Sports Grounds <ArrowRight className="size-4" />
+                </a>
+                <a
+                  href="#contact"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/8 px-5 text-sm font-semibold text-white transition hover:bg-white/14"
+                >
+                  Discuss your grounds
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
         id="contact"
         className="relative px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
       >
@@ -786,6 +990,9 @@ export default function Home() {
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <span>The Basalt Platform</span>
             <span>Basalt Golf available today</span>
+            <a href="/sports-grounds" className="transition hover:text-white">
+              Sports Grounds
+            </a>
           </div>
         </div>
       </footer>
