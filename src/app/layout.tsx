@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Basalt Golf | Know Every Acre",
   description:
-    "Basalt Golf is the intelligence platform helping golf clubs make smarter maintenance, environmental and capital planning decisions.",
+    "Basalt is the intelligence platform for understanding outdoor assets, launching first with golf.",
 };
 
 export default function RootLayout({

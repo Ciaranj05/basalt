@@ -21,7 +21,6 @@ import {
   Radar,
   Route,
   ShieldCheck,
-  Sparkles,
   Trees,
   Waves,
 } from "lucide-react";
@@ -42,7 +41,7 @@ const layerStages = [
   "Drainage",
   "Tree canopy",
   "Historical change",
-  "Recommendations",
+  "Asset model",
 ];
 
 const intelligenceLayers = [
@@ -146,12 +145,42 @@ const courseMetrics = [
 ];
 
 const outcomeCards = [
-  ["Understand Every Acre", "See course condition, pressure and change with confidence."],
+  ["Understand Every Acre", "See condition, pressure and change with confidence."],
   ["Reduce Maintenance Costs", "Focus team time on the areas that will matter most."],
   ["Improve Drainage Decisions", "Plan works around terrain, water movement and evidence."],
-  ["Plan Capital Investment", "Give committees clear priorities, trade-offs and timing."],
+  ["Plan Capital Investment", "Give decision-makers clear priorities, trade-offs and timing."],
   ["Monitor Environmental Change", "Track canopy, water, habitat and climate resilience."],
-  ["Protect Long-Term Course Health", "Build a record that improves every season."],
+  ["Protect Long-Term Asset Health", "Build a record that improves every season."],
+];
+
+const decisionCards = [
+  {
+    title: "Drainage Priority",
+    area: "Area 7",
+    severity: "High",
+    evidence:
+      "Surface water naturally accumulates after prolonged rainfall and delays recovery on adjacent playing corridors.",
+    action: "Increase drainage capacity before winter.",
+    impact: "Forecast risk reduction: 23%",
+  },
+  {
+    title: "Capital Planning",
+    area: "Bunker Cluster 15",
+    severity: "Medium",
+    evidence:
+      "Sand migration and edge movement are creating repeated maintenance demand across the same asset group.",
+    action: "Move reconstruction into the next capital cycle.",
+    impact: "Avoids recurring seasonal repair cost",
+  },
+  {
+    title: "Environmental Change",
+    area: "North Boundary",
+    severity: "Review",
+    evidence:
+      "Canopy spread is reducing light and airflow around sensitive turf and habitat edges.",
+    action: "Model selective works before committee review.",
+    impact: "Protects long-term course condition",
+  },
 ];
 
 const reportTypes = [
@@ -219,10 +248,11 @@ export default function Home() {
             </span>
           </a>
           <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
-            <a href="#experience">Experience</a>
+            <a href="#discovery">Discovery</a>
+            <a href="#explore">Explore</a>
+            <a href="#decisions">Decisions</a>
             <a href="#platform">Platform</a>
             <a href="#reports">Reports</a>
-            <a href="#vision">Vision</a>
           </div>
           <a
             href="#contact"
@@ -257,8 +287,8 @@ export default function Home() {
               variants={fadeUp}
               className="hero-description mt-7 text-pretty text-lg leading-8 text-white/76 sm:text-xl"
             >
-              The intelligence platform helping golf clubs make smarter
-              maintenance, environmental and capital planning decisions.
+              The intelligence platform for understanding outdoor assets,
+              launching first with golf.
             </motion.p>
             <motion.div
               variants={fadeUp}
@@ -281,7 +311,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="experience" className="relative border-y border-white/8 bg-[#050807]">
+      <section id="discovery" className="relative border-y border-white/8 bg-[#050807]">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-24 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:px-10">
           <motion.div
             initial="hidden"
@@ -297,9 +327,8 @@ export default function Home() {
               See What the Eye Can&apos;t.
             </h2>
             <p className="mt-6 text-lg leading-8 text-white/60">
-              The landscape remains familiar. Basalt reveals the layers beneath
-              it, turning course condition, terrain, water and change into
-              practical decisions.
+              The course remains beautiful and familiar. Basalt reveals the
+              structure beneath it: terrain, water, canopy, history and change.
             </p>
           </motion.div>
 
@@ -323,70 +352,43 @@ export default function Home() {
               transition={{ duration: 2.6, ease: "easeInOut" }}
             />
 
-            <div className="absolute left-5 right-5 top-5 flex flex-wrap gap-2">
-              {layerStages.map((stage, index) => (
-                <motion.span
-                  key={stage}
-                  className="rounded-full border border-white/12 bg-black/32 px-3 py-1 text-xs text-white/66 backdrop-blur-md"
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.07 }}
-                >
-                  {stage}
-                </motion.span>
-              ))}
-            </div>
-
-            <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-white/14 bg-black/42 p-4 backdrop-blur-2xl sm:left-auto sm:w-[360px]">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-white/46">
-                    Terrain Transformation
-                  </p>
-                  <p className="mt-2 text-lg font-medium text-white">
-                    Course intelligence model
-                  </p>
-                </div>
-                <Sparkles className="size-5 text-[#b8f2d2]" />
+            <div className="absolute inset-x-5 bottom-6">
+              <div className="flex items-center gap-2 overflow-hidden rounded-full border border-white/12 bg-black/24 p-1.5 backdrop-blur-xl">
+                {layerStages.map((stage, index) => (
+                  <motion.span
+                    key={stage}
+                    className="h-1.5 flex-1 rounded-full bg-white/14"
+                    initial={{ opacity: 0.18 }}
+                    whileInView={{ opacity: [0.18, 1, 0.42] }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.11, duration: 0.7 }}
+                    title={stage}
+                  />
+                ))}
               </div>
-              <div className="mt-5 space-y-3">
-                {["Drainage", "Contours", "Canopy", "Priority"].map(
-                  (item, index) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <span className="w-20 text-xs text-white/48">{item}</span>
-                      <div className="h-1.5 flex-1 rounded-full bg-white/10">
-                        <motion.div
-                          className="h-full rounded-full bg-gradient-to-r from-[#b8f2d2] to-[#8fb7ff]"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${48 + index * 12}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.9, delay: 0.3 + index * 0.1 }}
-                        />
-                      </div>
-                    </div>
-                  ),
-                )}
+              <div className="mt-4 flex items-center justify-between text-xs uppercase tracking-[0.24em] text-white/42">
+                <span>Landscape</span>
+                <span>Intelligence</span>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="px-5 py-24 sm:px-8 lg:px-10">
+      <section id="explore" className="px-5 py-24 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Interactive Intelligence
+                Exploration
               </p>
               <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
-                Switch layers. See the decision.
+                Explore the asset layer by layer.
               </h2>
             </div>
             <p className="max-w-md text-base leading-7 text-white/58">
-              Each layer reveals a practical insight directly on the course, so
-              the evidence and recommendation stay connected.
+              Select what matters and the map responds. Golf is the first
+              expression of a system designed for complex outdoor assets.
             </p>
           </div>
 
@@ -435,27 +437,97 @@ export default function Home() {
                 <div className="mb-5 flex items-start justify-between gap-5">
                   <div>
                     <p className="text-xs uppercase tracking-[0.28em] text-white/46">
-                      {activeLayer.title}
+                      Active Layer
                     </p>
                     <h3 className="mt-2 text-2xl font-semibold text-white">
-                      {activeLayer.area}
+                      {activeLayer.label}
                     </h3>
                   </div>
                   <span className="rounded-full bg-white px-3 py-1 font-mono text-xs text-[#07110d]">
                     {activeLayer.status}
                   </span>
                 </div>
-                <p className="text-sm leading-6 text-white/68">{activeLayer.copy}</p>
+                <p className="text-sm leading-6 text-white/68">
+                  {activeLayer.title} · {activeLayer.area}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-white/58">
+                  {activeLayer.copy}
+                </p>
                 <div className="mt-5 rounded-[6px] border border-[#b8f2d2]/18 bg-[#b8f2d2]/10 p-4">
                   <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
-                    Recommended Action
+                    Exploration Mode
                   </p>
                   <p className="mt-2 text-sm leading-6 text-white">
-                    {activeLayer.action}
+                    Toggle layers to compare condition, pressure and change
+                    across the same landscape.
                   </p>
                 </div>
               </motion.div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="decisions"
+        className="border-y border-white/8 bg-[#080d0b] px-5 py-24 sm:px-8 lg:px-10"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Decision Intelligence
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
+                From hidden signals to practical recommendations.
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-white/58 lg:justify-self-end">
+              Exploration shows what is happening. Decision intelligence shows
+              what to do next, with evidence clear enough for operational teams
+              and boards.
+            </p>
+          </div>
+
+          <div className="grid gap-3 lg:grid-cols-3">
+            {decisionCards.map((decision, index) => (
+              <motion.article
+                key={decision.title}
+                className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 shadow-2xl shadow-black/20"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: index * 0.08 }}
+              >
+                <div className="mb-8 flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.26em] text-white/42">
+                      {decision.title}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold text-white">
+                      {decision.area}
+                    </h3>
+                  </div>
+                  <span className="rounded-full bg-white px-3 py-1 font-mono text-xs text-[#07110d]">
+                    {decision.severity}
+                  </span>
+                </div>
+                <p className="text-sm leading-6 text-white/62">
+                  {decision.evidence}
+                </p>
+                <div className="mt-6 rounded-[6px] border border-[#b8f2d2]/18 bg-[#b8f2d2]/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
+                    Recommended Action
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white">
+                    {decision.action}
+                  </p>
+                </div>
+                <p className="mt-5 font-mono text-sm text-white/48">
+                  {decision.impact}
+                </p>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
@@ -477,7 +549,7 @@ export default function Home() {
               Platform Dashboard
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal text-white sm:text-6xl">
-              A calm operating layer for course decisions.
+              A complete operating layer for outdoor asset decisions.
             </h2>
           </motion.div>
 
@@ -492,7 +564,7 @@ export default function Home() {
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-6">
                 <div>
                   <p className="text-xs uppercase tracking-[0.28em] text-white/42">
-                    Basalt Golf Command
+                    Basalt Command
                   </p>
                   <h3 className="mt-1 text-xl font-medium text-white">
                     Championship Course Overview
