@@ -61,6 +61,19 @@ const revealLayers = [
   "Priority",
 ];
 
+const ambientLayers = (
+  <>
+    <div
+      className="absolute inset-0 bg-cover bg-center opacity-28"
+      style={{ backgroundImage: `url(${heroImage})` }}
+    />
+    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,7,0.22)_0%,rgba(5,8,7,0.78)_46%,#050807_100%)]" />
+    <div className="course-contours absolute inset-0 opacity-[0.22]" />
+    <div className="spatial-mesh absolute inset-0 opacity-[0.24]" />
+    <div className="morning-mist absolute inset-0 opacity-[0.18]" />
+  </>
+);
+
 const processSteps = [
   {
     label: "Capture",
@@ -178,16 +191,27 @@ export default function Home() {
   const imageScale = useTransform(scrollYProgress, [0, 1], [1.12, 1.24]);
   const imageX = useTransform(scrollYProgress, [0, 0.5, 1], ["0%", "-4%", "-7%"]);
   const imageY = useTransform(scrollYProgress, [0, 0.5, 1], ["0%", "-2%", "-5%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0.08, 0.42, 0.78], [0, 0.42, 0.72]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.16], [1, 0]);
-  const revealOpacity = useTransform(scrollYProgress, [0.16, 0.36, 0.78], [0, 1, 1]);
-  const insightOpacity = useTransform(scrollYProgress, [0.34, 0.56], [0, 1]);
+  const overlayOpacity = useTransform(scrollYProgress, [0.24, 0.52, 0.82], [0, 0.2, 0.54]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.22], [1, 0]);
+  const revealOpacity = useTransform(scrollYProgress, [0.22, 0.48, 0.82], [0, 0.72, 0.92]);
+  const insightOpacity = useTransform(scrollYProgress, [0.44, 0.66], [0, 1]);
+  const meshOpacity = useTransform(scrollYProgress, [0.55, 0.88], [0, 0.56]);
+  const interfaceOpacity = useTransform(scrollYProgress, [0.7, 0.9], [0, 1]);
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#050807] text-white">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[1]">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-[0.24]"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,7,0.34),rgba(5,8,7,0.84))]" />
+        <div className="course-contours absolute inset-0 opacity-[0.16]" />
+        <div className="morning-mist absolute inset-0 opacity-[0.12]" />
+      </div>
       <section
         ref={journeyRef}
-        className="relative min-h-[100svh] bg-[#050807] md:h-[430vh]"
+        className="relative z-10 min-h-[100svh] bg-transparent md:h-[560vh]"
       >
         <div className="relative h-[100svh] overflow-hidden md:sticky md:top-0 md:h-screen">
           <motion.div
@@ -207,6 +231,7 @@ export default function Home() {
             style={{ opacity: overlayOpacity }}
           />
           <motion.div className="course-contours absolute inset-0" style={{ opacity: revealOpacity }} />
+          <motion.div className="spatial-mesh absolute inset-0" style={{ opacity: meshOpacity }} />
 
           <nav className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
             <a className="flex items-center" href="#" aria-label="Basalt home">
@@ -226,6 +251,7 @@ export default function Home() {
           </nav>
 
           <motion.div
+            data-hero-copy
             className="pointer-events-none relative z-10 mx-auto flex h-[calc(100svh-6rem)] max-w-7xl items-end px-5 pb-16 sm:px-8 md:h-[calc(100vh-6rem)] lg:px-10"
             style={{ opacity: heroOpacity }}
           >
@@ -299,14 +325,40 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
+
+          <motion.div
+            className="pointer-events-none absolute bottom-10 right-10 z-10 hidden w-[24rem] rounded-[8px] border border-white/12 bg-black/28 p-4 backdrop-blur-2xl lg:block"
+            style={{ opacity: interfaceOpacity }}
+          >
+            <div className="mb-4 flex items-center justify-between text-xs uppercase tracking-[0.24em] text-white/48">
+              <span>Basalt Golf</span>
+              <span>Live Course Layer</span>
+            </div>
+            <div className="space-y-3">
+              {["Drainage priority", "Shade impact", "Capital area"].map(
+                (item, index) => (
+                  <div
+                    key={item}
+                    className="flex items-center justify-between border-t border-white/10 pt-3 text-sm text-white/72"
+                  >
+                    <span>{item}</span>
+                    <span className="font-mono text-xs text-[#b8f2d2]">
+                      0{index + 1}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
+          </motion.div>
         </div>
       </section>
 
       <section
         id="how"
-        className="relative -mt-px border-y border-white/8 bg-[#050807] px-5 py-14 sm:px-8 lg:px-10 lg:py-18"
+        className="relative z-10 -mt-px overflow-hidden bg-[#050807]/88 px-5 py-14 sm:px-8 md:-mt-[160vh] md:pt-[168vh] lg:px-10 lg:pb-20"
       >
-        <div className="mx-auto max-w-7xl">
+        {ambientLayers}
+        <div className="relative mx-auto max-w-7xl">
           <motion.div
             className="grid gap-7 lg:grid-cols-[0.38fr_0.62fr] lg:items-center"
             initial="hidden"
@@ -342,7 +394,7 @@ export default function Home() {
                     viewport={{ once: true, margin: "-80px" }}
                     transition={{ delay: index * 0.12, duration: 0.45 }}
                   >
-                    <div className="relative z-10 grid size-10 place-items-center rounded-[6px] border border-white/14 bg-[#050807]">
+                    <div className="relative z-10 grid size-10 place-items-center rounded-[6px] border border-white/14 bg-black/18 backdrop-blur-xl">
                       <div className={`process-glyph process-glyph-${index + 1}`}>
                         {step.marks.map((mark) => (
                           <span key={mark} />
@@ -368,8 +420,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="explore" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
+      <section
+        id="explore"
+        className="relative z-10 -mt-16 overflow-hidden px-5 pb-18 pt-28 sm:px-8 lg:-mt-24 lg:px-10 lg:pb-28 lg:pt-40"
+      >
+        {ambientLayers}
+        <div className="relative mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
@@ -380,20 +436,20 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-md text-base leading-7 text-white/58">
-              Choose a layer. The landscape stays in view.
+              Choose a layer and watch the observation stay anchored to the course.
             </p>
           </div>
 
-          <div className="grid gap-3 lg:grid-cols-[0.31fr_0.69fr]">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+          <div className="grid gap-4 lg:grid-cols-[0.25fr_0.75fr]">
+            <div className="grid grid-cols-2 gap-2 self-start sm:grid-cols-3 lg:grid-cols-1">
               {intelligenceLayers.map((layer) => (
                 <button
                   key={layer.label}
                   onClick={() => setActiveLayer(layer)}
-                  className={`flex min-h-12 items-center justify-between rounded-[8px] border px-4 py-3 text-left transition ${
+                  className={`flex min-h-12 items-center justify-between rounded-full border px-4 py-3 text-left backdrop-blur-xl transition ${
                     activeLayer.label === layer.label
-                      ? "border-[#b8f2d2]/42 bg-[#b8f2d2]/12 text-white"
-                      : "border-white/10 bg-white/[0.035] text-white/62 hover:border-white/20 hover:text-white"
+                      ? "border-[#b8f2d2]/38 bg-[#b8f2d2]/12 text-white"
+                      : "border-white/10 bg-black/16 text-white/62 hover:border-white/20 hover:text-white"
                   }`}
                 >
                   <span className="flex items-center gap-3 text-sm font-medium">
@@ -405,23 +461,25 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="relative min-h-[520px] overflow-hidden rounded-[8px] border border-white/12 bg-[#07100d] sm:min-h-[640px]">
+            <div className="relative min-h-[560px] overflow-hidden rounded-[8px] border border-white/10 bg-black/18 shadow-[0_40px_160px_rgba(0,0,0,0.36)] sm:min-h-[680px]">
               <div
-                className="absolute inset-0 bg-cover bg-center opacity-58"
+                className="absolute inset-0 bg-cover bg-center opacity-76"
                 style={{ backgroundImage: `url(${heroImage})` }}
               />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,7,0.1),rgba(5,8,7,0.64))]" />
               <div className={`layer-glow layer-${activeLayer.tone}`} />
               <div className="course-lines absolute inset-0" />
+              <div className="spatial-mesh absolute inset-0 opacity-32" />
               <motion.div
                 key={activeLayer.label}
-                className="absolute left-[18%] top-[28%] h-28 w-40 rounded-[8px] border border-[#b8f2d2]/34 bg-[#b8f2d2]/12 sm:h-32 sm:w-48"
+                className="absolute left-[18%] top-[28%] h-28 w-40 rounded-[8px] border border-[#b8f2d2]/34 bg-[#b8f2d2]/10 sm:h-32 sm:w-48"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.42 }}
               />
               <motion.div
                 key={`${activeLayer.label}-annotation`}
-                className="absolute bottom-5 left-5 right-5 max-w-[25rem] rounded-[8px] border border-white/14 bg-black/42 p-5 backdrop-blur-2xl sm:left-auto"
+                className="absolute bottom-5 left-5 right-5 max-w-[25rem] rounded-[8px] border border-white/14 bg-black/34 p-5 backdrop-blur-2xl sm:left-auto"
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.38 }}
@@ -446,9 +504,10 @@ export default function Home() {
 
       <section
         id="proof"
-        className="relative border-y border-white/8 bg-[#060a08] px-5 py-18 sm:px-8 lg:px-10 lg:py-24"
+        className="relative z-10 -mt-12 overflow-hidden bg-[#060a08]/88 px-5 pb-18 pt-30 sm:px-8 lg:-mt-16 lg:px-10 lg:pb-24 lg:pt-32"
       >
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        {ambientLayers}
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
               Trust
@@ -458,7 +517,7 @@ export default function Home() {
             </h2>
           </div>
           <div>
-            <div className="mb-4 grid grid-cols-3 gap-2 rounded-[8px] border border-white/10 bg-white/[0.035] p-1.5">
+            <div className="mb-4 grid grid-cols-3 gap-2 rounded-full border border-white/10 bg-black/16 p-1.5 backdrop-blur-xl">
               {proofTabs.map((tab) => (
                 <button
                   key={tab.label}
@@ -476,7 +535,7 @@ export default function Home() {
             </div>
             <motion.div
               key={activeProof.label}
-              className="min-h-[280px] rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8"
+              className="min-h-[280px] rounded-[8px] border border-white/10 bg-black/20 p-6 backdrop-blur-xl sm:p-8"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
@@ -502,7 +561,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-14 sm:px-8 lg:px-10">
+      <section className="relative z-10 px-5 py-14 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-8 border-b border-white/8 pb-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <div>
             <BasaltLogo
@@ -533,7 +592,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 pb-12 sm:px-8 lg:px-10">
+      <section className="relative z-10 px-5 pb-12 sm:px-8 lg:px-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 text-sm text-white/48 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-white/72">Built on the Basalt Platform.</p>
