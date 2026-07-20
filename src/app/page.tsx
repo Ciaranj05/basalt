@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Layers3 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 
 const fadeUp = {
@@ -83,16 +83,6 @@ const estateOutputs = [
   "Year-on-year change",
 ];
 
-const platformCapabilities = [
-  "Professional data capture",
-  "Terrain and surface models",
-  "Accurate measurements",
-  "Digital mapping",
-  "Practical reporting",
-  "Change monitoring",
-  "Secure digital records",
-];
-
 const surveySteps = [
   {
     title: "Plan",
@@ -120,22 +110,22 @@ const technologyCards = [
   {
     title: "LiDAR Mapping",
     copy:
-      "Captures detailed terrain and surface information beyond what aerial photography alone can provide.",
+      "Uses laser scanning to capture highly detailed terrain and surface information beyond what aerial photography alone can provide.",
   },
   {
     title: "RTK Positioning",
     copy:
-      "Provides reliable positioning throughout the survey and supports accurate spatial measurements.",
+      "Provides precise positioning throughout the survey to ensure reliable spatial data.",
   },
   {
-    title: "Terrain and Surface Models",
+    title: "Aerial Imaging",
     copy:
-      "Turns captured data into detailed representations of levels, slopes, features and site conditions.",
+      "Captures high-resolution imagery that complements LiDAR data and provides rich visual context.",
   },
   {
-    title: "Digital Records and Reports",
+    title: "Digital Twin",
     copy:
-      "Creates practical outputs that can be measured, reviewed and compared over time.",
+      "Creates a permanent digital representation of your site that can be measured, monitored and compared over time.",
   },
 ];
 
@@ -586,9 +576,8 @@ export default function Home() {
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
               Every Basalt survey combines professional drone technology, LiDAR
-              and RTK positioning to create an accurate digital representation
-              of your site. This data forms the foundation for every map,
-              measurement, report and recommendation.
+              and RTK positioning to create a detailed digital representation
+              of your site.
             </p>
           </motion.div>
 
@@ -700,24 +689,12 @@ export default function Home() {
                       like.
                     </p>
                     <p className="mt-4 text-base leading-7 text-white/62">
-                      LiDAR provides detailed information about its shape,
-                      levels, slopes and surface features, allowing the site to
-                      be measured and analysed long after the survey is complete.
+                      LiDAR reveals its shape, levels and surface features,
+                      providing the information needed to measure, analyse and
+                      monitor change over time.
                     </p>
                   </div>
                 </div>
-              </div>
-
-              <div className="rounded-[8px] border border-[#b8f2d2]/16 bg-[#b8f2d2]/8 p-6 sm:p-8">
-                <h3 className="text-3xl font-semibold tracking-normal text-white">
-                  Survey-Grade Data. Better Decisions.
-                </h3>
-                <p className="mt-4 text-base leading-7 text-white/64">
-                  Whether you&apos;re managing a golf course, sports facility,
-                  estate or solar farm, our LiDAR technology provides the
-                  accurate information needed to plan, monitor and manage
-                  outdoor assets with confidence.
-                </p>
               </div>
             </div>
           </div>
@@ -734,9 +711,8 @@ export default function Home() {
               Clarity for planning, maintenance and investment.
             </h2>
             <p className="mt-6 text-base leading-7 text-white/62">
-              The value of the survey is not simply the data collected. It is
-              the clarity it provides when planning, maintaining and investing
-              in your site.
+              Better information leads to better planning, maintenance and
+              investment decisions.
             </p>
           </div>
 
@@ -826,40 +802,24 @@ export default function Home() {
               sports facilities and estates.
             </p>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-            <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6">
-              <div className="grid gap-3">
-                {products.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={product.href}
-                    className="flex items-center justify-between gap-4 rounded-[6px] border border-white/10 bg-black/16 p-4 transition hover:bg-white/[0.06]"
-                  >
-                    <span>
-                      <span className="block text-base font-semibold text-white">{product.eyebrow}</span>
-                      <span className="mt-1 block text-sm leading-5 text-white/50">{product.copy}</span>
-                    </span>
-                    <ArrowRight className="size-4 text-white/42" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-[8px] border border-white/10 bg-white/[0.035] p-6">
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Every Basalt Survey Can Include
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {platformCapabilities.map((capability) => (
-                  <span
-                    key={capability}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/16 px-3 py-2 text-sm text-white/62"
-                  >
-                    <Layers3 className="size-3.5 text-[#a6d8bd]" />
-                    {capability}
+          <div className="grid gap-4 lg:grid-cols-3">
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                href={product.href}
+                className="flex min-h-[190px] items-start justify-between gap-4 rounded-[8px] border border-white/10 bg-white/[0.045] p-6 transition hover:bg-white/[0.06]"
+              >
+                <span>
+                  <span className="block text-base font-semibold text-white">
+                    {product.eyebrow}
                   </span>
-                ))}
-              </div>
-            </div>
+                  <span className="mt-4 block text-sm leading-6 text-white/50">
+                    {product.copy}
+                  </span>
+                </span>
+                <ArrowRight className="mt-1 size-4 shrink-0 text-white/42" />
+              </Link>
+            ))}
           </div>
         </div>
       </section>
