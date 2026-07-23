@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-export type BasaltProduct = "Golf" | "Solar" | "Estates" | "Utilities";
+export type BasaltProduct = "Golf";
 
 type LogoVariant = "horizontal" | "vertical" | "icon" | "wordmark";
 type LogoTheme = "dark" | "light" | "grey";

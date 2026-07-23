@@ -116,54 +116,6 @@ body {
   background-size: cover;
 }
 
-.scene-estates {
-  background-image: url("/images/basalt-estates-hero.png");
-  background-position: center;
-  background-size: cover;
-}
-
-.scene-estates .zone-one {
-  left: 24%;
-  top: 26%;
-  width: 30%;
-  height: 42%;
-  border-radius: 999px;
-  transform: rotate(-24deg);
-}
-
-.scene-estates .zone-two {
-  right: 23%;
-  bottom: 21%;
-  width: 30%;
-  height: 42%;
-  border-radius: 999px;
-  transform: rotate(12deg);
-}
-
-.scene-estates .route-one {
-  left: 24%;
-  top: 54%;
-  width: 34%;
-  transform: rotate(-18deg);
-}
-
-.scene-estates .route-two {
-  right: 20%;
-  bottom: 35%;
-  width: 33%;
-  transform: rotate(-42deg);
-}
-
-.scene-estates .pin-one {
-  left: 33%;
-  top: 63%;
-}
-
-.scene-estates .pin-two {
-  right: 39%;
-  bottom: 31%;
-}
-
 .scene-golf .zone-one {
   left: 34%;
   top: 35%;
@@ -304,14 +256,6 @@ body {
     radial-gradient(ellipse at 35% 48%, rgba(184, 242, 210, 0.18), transparent 24%),
     radial-gradient(ellipse at 66% 38%, rgba(255, 210, 122, 0.13), transparent 18%),
     url("/images/basalt-golf-coastal-course.png");
-  background-position: center;
-  background-size: cover;
-}
-
-.report-estates {
-  background-image:
-    linear-gradient(180deg, rgba(5, 8, 7, 0.12), rgba(5, 8, 7, 0.48)),
-    url("/images/basalt-estates-hero.png");
   background-position: center;
   background-size: cover;
 }

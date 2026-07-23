@@ -1,8 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  CircleDot,
+  Droplets,
+  FileText,
+  Layers3,
+  Map,
+  Milestone,
+  ScanLine,
+  Trees,
+} from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 
 const fadeUp = {
@@ -10,118 +23,192 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
-const solutions = [
+const problems = [
   {
-    title: "Golf Course Intelligence",
-    copy:
-      "Digital mapping, terrain analysis, turf health insight and management reporting for golf clubs.",
-    cta: "Explore Golf Solutions",
-    href: "/golf",
-    scene: "scene-golf",
-    labels: ["Course baseline", "Turf health", "Drainage planning"],
+    icon: Droplets,
+    quote: "I know there's a drainage problem but can't prove where.",
   },
   {
-    title: "Farms & Estates",
-    copy:
-      "Accurate land mapping, vegetation analysis and practical intelligence for agricultural and estate management.",
-    cta: "Explore Land Solutions",
-    href: "/farms-estates",
-    scene: "scene-estates",
-    labels: ["Field mapping", "Vegetation insight", "Asset records"],
+    icon: Milestone,
+    quote: "We're planning a bunker renovation.",
+  },
+  {
+    icon: FileText,
+    quote: "The committee wants evidence before approving investment.",
+  },
+  {
+    icon: Map,
+    quote: "We have no accurate digital record of the course.",
+  },
+  {
+    icon: CircleDot,
+    quote: "Our knowledge exists only in the greenkeeper's head.",
   },
 ];
 
-const capabilities = [
-  "High-resolution aerial mapping",
-  "Digital terrain and surface models",
-  "LiDAR surveying where appropriate",
-  "RTK and GNSS survey control",
-  "Multispectral imagery",
-  "Vegetation and turf health analysis",
-  "Drainage and water-flow analysis",
-  "Asset and infrastructure mapping",
-  "Historical comparison",
-  "Annual monitoring",
-  "Professional management reports",
+const solutions = [
+  {
+    icon: Map,
+    title: "Course Baseline",
+    copy: "A complete digital record of the golf course.",
+    items: [
+      "Orthomosaic",
+      "Terrain model",
+      "Contours",
+      "Asset mapping",
+      "Infrastructure",
+      "Measurements",
+    ],
+  },
+  {
+    icon: Droplets,
+    title: "Drainage Intelligence",
+    copy: "Evidence for wet areas, low points and drainage planning.",
+    items: [
+      "Low area identification",
+      "Surface water flow",
+      "Potential ponding",
+      "Drainage planning support",
+    ],
+  },
+  {
+    icon: BarChart3,
+    title: "Turf Performance",
+    copy:
+      "Multispectral insight that highlights areas requiring further inspection and comparison over time.",
+    items: [
+      "Turf vigour mapping",
+      "Stress-area indicators",
+      "Targeted inspection zones",
+      "Repeat comparison",
+    ],
+  },
+  {
+    icon: Layers3,
+    title: "Course Redevelopment",
+    copy: "Measured support for course projects before work begins.",
+    items: [
+      "Bunker redesign",
+      "New tees",
+      "Green extensions",
+      "Earthworks",
+      "Irrigation planning",
+    ],
+  },
+  {
+    icon: Trees,
+    title: "Tree & Woodland Management",
+    copy: "Structured records for trees, canopy, woodland and planning.",
+    items: [
+      "Tree inventory",
+      "Canopy change",
+      "Woodland monitoring",
+      "Planning support",
+    ],
+  },
+  {
+    icon: FileText,
+    title: "Annual Course Monitoring",
+    copy: "The flagship recurring product for long-term course intelligence.",
+    items: [
+      "Annual comparison",
+      "Historical change",
+      "Committee reporting",
+      "Capital planning",
+    ],
+  },
 ];
 
 const processSteps = [
   {
-    title: "Understand",
-    copy:
-      "We discuss the site, current challenges and decisions the client needs to make.",
-  },
-  {
     title: "Survey",
-    copy:
-      "We select the appropriate combination of aerial imagery, RTK, LiDAR, multispectral and ground data.",
+    copy: "Capture accurate course data.",
   },
   {
     title: "Analyse",
-    copy:
-      "We process the data into accurate mapping, terrain models, health indicators and management information.",
+    copy: "Convert imagery into practical course intelligence.",
   },
   {
     title: "Report",
-    copy:
-      "We deliver clear digital outputs and reports designed for practical use, planning and future comparison.",
+    copy: "Deliver committee-ready reports.",
+  },
+  {
+    title: "Monitor",
+    copy: "Track change year after year.",
   },
 ];
 
-const deliverables = [
+const reportCards = [
   {
-    title: "Turf vigour map",
-    decision: "Supports targeted greenkeeping inspections and treatment planning.",
-    variant: "golf",
-    legend: "Relative turf vigour",
+    title: "Orthomosaic",
+    copy: "A high-resolution visual record of the entire course.",
+    layer: "Course image",
   },
   {
-    title: "Crop vegetation map",
-    decision: "Highlights field variation for more focused scouting and management.",
-    variant: "estates",
-    legend: "Relative vegetation vigour",
+    title: "Contour plan",
+    copy: "Levels and contours that make the course easier to understand.",
+    layer: "Contours",
   },
   {
-    title: "Drainage flow map",
-    decision: "Shows likely water movement and low points before drainage work begins.",
-    variant: "estates",
-    legend: "Surface-water flow",
+    title: "Slope analysis",
+    copy: "Gradients that influence playability, maintenance and project design.",
+    layer: "Slope",
   },
   {
-    title: "Digital terrain model",
-    decision: "Provides levels and landform information for planning and measurement.",
-    variant: "golf",
-    legend: "Terrain and contours",
+    title: "Drainage map",
+    copy: "Likely flow routes, low points and areas that need closer review.",
+    layer: "Water flow",
   },
   {
-    title: "Tree and canopy inventory",
-    decision: "Helps plan shade, access, maintenance and long-term landscape change.",
-    variant: "estates",
-    legend: "Canopy coverage",
+    title: "Turf health",
+    copy: "Relative vegetation variation that supports targeted inspection.",
+    layer: "Turf vigour",
   },
   {
-    title: "Field asset map",
-    decision: "Creates a structured record of gates, tracks, troughs and infrastructure.",
-    variant: "estates",
-    legend: "Mapped assets",
-  },
-  {
-    title: "Course baseline report",
-    decision: "Gives committees and course teams a clear reference for future decisions.",
-    variant: "golf",
-    legend: "Baseline layers",
-  },
-  {
-    title: "Annual change report",
-    decision: "Compares repeat surveys to show condition, growth and project progress.",
-    variant: "estates",
-    legend: "Change over time",
+    title: "Management recommendations",
+    copy: "Clear priorities for managers, committees and future planning.",
+    layer: "Actions",
   },
 ];
 
-function SceneVisual({ scene, label }: { scene: string; label: string }) {
+const reasons = [
+  "Justify investment with clear evidence",
+  "Monitor change across the course",
+  "Improve maintenance planning",
+  "Preserve institutional knowledge",
+  "Build a long-term digital course record",
+];
+
+const technology = [
+  {
+    title: "RGB",
+    copy: "High-resolution visual course records.",
+  },
+  {
+    title: "RTK",
+    copy: "Accurate positioning for reliable mapping.",
+  },
+  {
+    title: "Photogrammetry",
+    copy: "Measured surface models from overlapping imagery.",
+  },
+  {
+    title: "LiDAR",
+    copy: "Used where appropriate for detailed ground information.",
+  },
+  {
+    title: "Multispectral",
+    copy: "Relative turf vigour and vegetation variation.",
+  },
+  {
+    title: "GIS",
+    copy: "Organised layers for course records and reporting.",
+  },
+];
+
+function CourseScene({ label }: { label: string }) {
   return (
-    <div className={`landscape-scene ${scene}`} aria-label={label} role="img">
+    <div className="landscape-scene scene-golf" aria-label={label} role="img">
       <span className="terrain-grid" />
       <span className="contour contour-one" />
       <span className="contour contour-two" />
@@ -135,63 +222,34 @@ function SceneVisual({ scene, label }: { scene: string; label: string }) {
   );
 }
 
-function ReportCard({
-  title,
-  decision,
-  variant,
-  legend,
-}: {
-  title: string;
-  decision: string;
-  variant: string;
-  legend: string;
-}) {
-  return (
-    <article className="rounded-[8px] border border-white/10 bg-white/[0.04] p-4">
-      <div className={`report-map report-${variant} min-h-52`}>
-        <span className="report-grid" />
-        <span className="report-route report-route-one" />
-        <span className="report-zone report-zone-one" />
-        <span className="report-marker report-marker-one" />
-        <div className="absolute bottom-3 left-3 rounded-[6px] border border-white/12 bg-black/54 px-3 py-2 backdrop-blur-xl">
-          <p className="text-[0.65rem] uppercase tracking-[0.18em] text-white/48">
-            {legend}
-          </p>
-        </div>
-      </div>
-      <h3 className="mt-5 text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-white/58">{decision}</p>
-    </article>
-  );
-}
-
 export default function Home() {
+  const [activeReport, setActiveReport] = useState(reportCards[0]);
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#050807] text-white">
       <section className="relative flex min-h-screen flex-col overflow-hidden">
         <div className="absolute inset-0">
-          <SceneVisual
-            scene="scene-estates"
-            label="Aerial landscape with Basalt intelligence overlays"
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_20%,rgba(245,221,170,0.13),transparent_28%),linear-gradient(180deg,rgba(3,7,6,0.16)_0%,rgba(3,7,6,0.42)_42%,rgba(3,7,6,0.9)_86%,#050807_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#050807] to-transparent" />
+          <CourseScene label="Championship golf course aerial with subtle Basalt course intelligence overlays" />
+          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-[#050807]" />
         </div>
 
         <nav className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
-          <Link className="flex items-center" href="/" aria-label="Basalt home">
+          <Link href="/" aria-label="Basalt home">
             <BasaltLogo variant="horizontal" theme="dark" />
           </Link>
-          <div className="hidden items-center gap-8 text-sm text-white/68 md:flex">
+          <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
-            <Link href="/our-process" className="transition hover:text-white">Process</Link>
+            <a href="#reports" className="transition hover:text-white">Reports</a>
+            <a href="#technology" className="transition hover:text-white">Technology</a>
             <Link href="/about" className="transition hover:text-white">About</Link>
+            <Link href="/contact" className="transition hover:text-white">Contact</Link>
           </div>
           <Link
             href="/contact"
-            className="hidden h-10 items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 text-sm font-medium text-white shadow-2xl shadow-black/20 backdrop-blur transition hover:bg-white/16 sm:inline-flex"
+            className="hidden h-10 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 text-sm font-medium text-white backdrop-blur transition hover:bg-white/16 sm:inline-flex"
           >
-            Request a Proposal <ArrowRight className="size-4" />
+            Book a Discovery Call <ArrowRight className="size-4" />
           </Link>
         </nav>
 
@@ -200,189 +258,141 @@ export default function Home() {
             className="max-w-4xl"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
           >
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              Premium Land Intelligence
+              Golf Course Intelligence
             </p>
             <h1 className="mt-5 text-5xl font-semibold leading-[0.94] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl">
-              Understand your land. Plan with confidence.
+              Understand Your Course. Plan With Confidence.
             </h1>
-            <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/74 sm:text-xl">
-              We help golf clubs, farms and estates make better decisions
-              through accurate surveying, digital mapping, terrain analysis and
-              intelligent reporting.
+            <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/76 sm:text-xl">
+              Helping golf clubs make better decisions through accurate course
+              intelligence, mapping and long-term monitoring.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#solutions"
-                className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-              >
-                Explore Our Solutions <ArrowRight className="size-4" />
-              </a>
               <Link
                 href="/contact"
+                className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+              >
+                Book a Discovery Call <ArrowRight className="size-4" />
+              </Link>
+              <a
+                href="#reports"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/16"
               >
-                Request a Proposal
-              </Link>
+                View Sample Report
+              </a>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section id="solutions" className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <motion.div
-            className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end"
+            className="mb-10 max-w-3xl"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             variants={fadeUp}
           >
+            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+              The Problems We Solve
+            </p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+              Course decisions need evidence.
+            </h2>
+          </motion.div>
+
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+            {problems.map((problem, index) => {
+              const Icon = problem.icon;
+              return (
+                <motion.article
+                  key={problem.quote}
+                  className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: index * 0.04 }}
+                >
+                  <Icon className="size-5 text-[#a6d8bd]" />
+                  <p className="mt-5 text-lg font-medium leading-7 text-white">
+                    {problem.quote}
+                  </p>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="solutions" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
                 Solutions
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Two sectors. One land intelligence standard.
+                Intelligence for every major course decision.
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Basalt is not a generic drone service. We select the right
-              survey tools, analyse the outputs and turn them into practical
-              reports for the decisions each site needs to make.
+              Basalt gives course teams, managers and committees the record
+              they need before committing to drainage, renovation, maintenance
+              or capital works.
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid gap-4 lg:grid-cols-2">
-            {solutions.map((solution, index) => (
-              <motion.article
-                key={solution.title}
-                className="overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.04]"
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-              >
-                <div className="chapter-visual min-h-[360px] border-0 shadow-none">
-                  <SceneVisual
-                    scene={solution.scene}
-                    label={`${solution.title} aerial mapping preview`}
-                  />
-                </div>
-                <div className="p-6 sm:p-8">
-                  <h3 className="text-3xl font-semibold tracking-normal text-white">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {solutions.map((solution, index) => {
+              const Icon = solution.icon;
+              return (
+                <motion.article
+                  key={solution.title}
+                  className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: index * 0.04 }}
+                >
+                  <Icon className="size-5 text-[#a6d8bd]" />
+                  <h3 className="mt-6 text-2xl font-semibold text-white">
                     {solution.title}
                   </h3>
-                  <p className="mt-4 text-base leading-7 text-white/62">
+                  <p className="mt-4 text-sm leading-6 text-white/60">
                     {solution.copy}
                   </p>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {solution.labels.map((label) => (
-                      <span
-                        key={label}
-                        className="rounded-full border border-white/10 bg-black/16 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-white/50"
-                      >
-                        {label}
-                      </span>
+                  <div className="mt-5 grid gap-2">
+                    {solution.items.map((item) => (
+                      <div key={item} className="flex items-start gap-3 text-sm leading-5 text-white/62">
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+                        {item}
+                      </div>
                     ))}
                   </div>
-                  <Link
-                    href={solution.href}
-                    className="mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-                  >
-                    {solution.cta} <ArrowRight className="size-4" />
-                  </Link>
-                </div>
-              </motion.article>
-            ))}
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section className="technology-section relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="technology-contours absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Shared Capabilities
-              </p>
-              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                The intelligence behind better land management
-              </h2>
-            </div>
-            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              The appropriate technology is selected based on the site,
-              objectives and required level of accuracy. Not every project
-              needs every sensor or analysis layer.
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((capability, index) => (
-              <motion.div
-                key={capability}
-                className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/[0.04] p-4 text-sm leading-6 text-white/66"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.35, delay: index * 0.025 }}
-              >
-                <CheckCircle2 className="mt-1 size-4 shrink-0 text-[#a6d8bd]" />
-                {capability}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              Example Deliverables
+              How It Works
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              Clear outputs for practical decisions.
+              From course survey to annual evidence.
             </h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {deliverables.map((deliverable) => (
-              <ReportCard key={deliverable.title} {...deliverable} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
-            <div>
-              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Our Process
-              </p>
-              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                From site challenge to management report.
-              </h2>
-            </div>
-            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Every site is different. Proposals are tailored to the area being
-              surveyed, the level of accuracy required, the sensors used and the
-              analysis and reporting needed.
-            </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-4">
             {processSteps.map((step, index) => (
-              <motion.article
-                key={step.title}
-                className="survey-step"
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-              >
+              <article key={step.title} className="survey-step">
                 <p className="font-mono text-xs text-white/36">0{index + 1}</p>
                 <h3 className="mt-4 text-xl font-semibold text-white">
                   {step.title}
@@ -390,31 +400,161 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-6 text-white/58">
                   {step.copy}
                 </p>
-              </motion.article>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[8px] border border-white/12 bg-white/[0.055] p-8 shadow-[0_40px_140px_rgba(0,0,0,0.45)] sm:p-12">
+      <section id="reports" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Sample Report
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                Committee-ready course intelligence.
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              Sample report cards show the kind of evidence Basalt can provide
+              for maintenance planning, investment discussions and annual
+              course records.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <motion.div
+              key={activeReport.title}
+              className="report-map report-golf min-h-[520px]"
+              initial={{ opacity: 0.88 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25 }}
+            >
+              <span className="report-grid" />
+              <span className="report-route report-route-one" />
+              <span className="report-route report-route-two" />
+              <span className="report-zone report-zone-one" />
+              <span className="report-zone report-zone-two" />
+              <span className="report-marker report-marker-one" />
+              <span className="report-marker report-marker-two" />
+              <div className="absolute inset-x-4 bottom-4 rounded-[6px] border border-white/12 bg-black/64 p-5 backdrop-blur-xl">
+                <p className="text-xs uppercase tracking-[0.24em] text-white/42">
+                  {activeReport.layer}
+                </p>
+                <h3 className="mt-2 text-3xl font-semibold text-white">
+                  {activeReport.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-6 text-white/64">
+                  {activeReport.copy}
+                </p>
+              </div>
+            </motion.div>
+
+            <div className="grid content-start gap-2">
+              {reportCards.map((card) => (
+                <button
+                  key={card.title}
+                  type="button"
+                  onClick={() => setActiveReport(card)}
+                  className={`rounded-[8px] border p-4 text-left transition ${
+                    activeReport.title === card.title
+                      ? "border-white/24 bg-white/10 text-white"
+                      : "border-white/10 bg-white/[0.035] text-white/58 hover:bg-white/[0.06] hover:text-white"
+                  }`}
+                >
+                  <span className="text-base font-semibold">{card.title}</span>
+                  <span className="mt-2 block text-sm leading-6 opacity-70">
+                    {card.copy}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div>
+            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+              Why Basalt
+            </p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+              Better decisions, not more data.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-white/62">
+              Golf clubs speak to Basalt before major works because course
+              decisions need a reliable record, clear evidence and a report
+              that can be understood beyond the maintenance team.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {reasons.map((reason) => (
+              <div
+                key={reason}
+                className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-white/66"
+              >
+                <CheckCircle2 className="mt-1 size-4 shrink-0 text-[#a6d8bd]" />
+                {reason}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="technology" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 max-w-3xl">
+            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+              Technology
+            </p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+              The tools behind course intelligence.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-white/62">
+              Technology is selected for the course, the decision and the level
+              of accuracy required.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {technology.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5"
+              >
+                <ScanLine className="size-5 text-[#a6d8bd]" />
+                <h3 className="mt-5 text-xl font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-white/58">
+                  {item.copy}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[8px] border border-white/12 bg-white/[0.055] p-8 shadow-[0_40px_120px_rgba(0,0,0,0.38)] sm:p-12">
           <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <BasaltLogo variant="horizontal" theme="grey" size="compact" className="text-sm" />
               <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Request a tailored proposal.
+                Planning a course investment?
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
-                Tell us about your course, farm or estate and the decisions you
-                need to make. We will recommend the right survey and reporting
-                approach.
+                Speak to Basalt before committing to drainage, bunker work,
+                irrigation changes or long-term course improvements.
               </p>
             </div>
             <Link
               href="/contact"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
             >
-              Request a Proposal <ArrowRight className="size-4" />
+              Book a Discovery Call <ArrowRight className="size-4" />
             </Link>
           </div>
         </div>
@@ -424,9 +564,10 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/8 pt-8 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link href="/golf" className="transition hover:text-white">Golf Course Intelligence</Link>
-            <Link href="/farms-estates" className="transition hover:text-white">Farms & Estates</Link>
-            <Link href="/our-process" className="transition hover:text-white">Our Process</Link>
+            <a href="#solutions" className="transition hover:text-white">Solutions</a>
+            <a href="#reports" className="transition hover:text-white">Reports</a>
+            <a href="#technology" className="transition hover:text-white">Technology</a>
+            <Link href="/about" className="transition hover:text-white">About</Link>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>
           </div>
         </div>

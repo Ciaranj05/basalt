@@ -80,7 +80,7 @@ const solutions = [
       "Cut-and-fill analysis",
       "Irrigation planning support",
       "Drainage planning support",
-      "Utilities and infrastructure mapping",
+      "Irrigation and course infrastructure mapping",
       "Estate and boundary mapping",
       "Capital project planning support",
       "Committee and board-level reports",
@@ -172,8 +172,9 @@ export default function GolfPage() {
           <BasaltLogo variant="horizontal" product="Golf" theme="dark" />
         </Link>
         <div className="hidden items-center gap-7 text-sm text-white/62 md:flex">
-          <Link href="/farms-estates" className="transition hover:text-white">Farms & Estates</Link>
-          <Link href="/our-process" className="transition hover:text-white">Process</Link>
+          <Link href="/#solutions" className="transition hover:text-white">Solutions</Link>
+          <Link href="/#reports" className="transition hover:text-white">Reports</Link>
+          <Link href="/#technology" className="transition hover:text-white">Technology</Link>
           <Link href="/about" className="transition hover:text-white">About</Link>
         </div>
         <Link
