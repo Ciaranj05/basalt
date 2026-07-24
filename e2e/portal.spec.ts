@@ -98,6 +98,7 @@ test.describe("portal navigation and content", () => {
     await page.getByRole("link", { name: "Open latest report" }).click();
     await expect(page).toHaveURL(/\/reports\/2026-course-baseline$/);
     await expect(page.getByRole("heading", { name: "2026 Course Baseline & Monitoring Report" })).toBeVisible();
+    await expect(page.getByText("Demonstration report — illustrative data")).toBeVisible();
     await expect(page.getByRole("heading", { name: /Overall course condition/i })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Issues by urgency" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Evidence-led course findings" })).toBeVisible();

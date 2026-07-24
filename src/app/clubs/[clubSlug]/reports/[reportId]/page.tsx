@@ -427,11 +427,14 @@ export default async function ReportReaderPage({
                   <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-normal text-white sm:text-6xl">
                     {report.title}
                   </h1>
+                  <p className="mt-3 inline-flex rounded-full border border-white/12 bg-black/28 px-3 py-1 text-xs uppercase tracking-[0.16em] text-white/52">
+                    Demonstration report — illustrative data
+                  </p>
                   <p className="mt-4 max-w-2xl text-base leading-7 text-white/68">
-                    A committee-ready interpretation of survey evidence, mapped findings and recommended course-improvement priorities for {club.name}.
+                    A committee-ready example of how Basalt presents survey evidence, mapped findings and recommended course-improvement priorities.
                   </p>
                   <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                    <MetricCard label="Survey date" value={report.surveyDate || "Pending"} detail="Captured for this reporting cycle." />
+                    <MetricCard label="Survey date" value={report.surveyDate || "Pending"} detail="Illustrative reporting-cycle date." />
                     <MetricCard label="Survey type" value={titleCase(report.reportType)} detail={`Version ${report.version} report record.`} />
                     <MetricCard label="Survey grade" value="RTK / LiDAR-ready" detail="Professional spatial workflow and evidence model." />
                   </div>
@@ -454,7 +457,7 @@ export default async function ReportReaderPage({
                       <span className="pb-2 text-sm text-white/48">/ 100</span>
                     </div>
                     <p className="mt-3 text-sm leading-6 text-white/58">
-                      Score reflects current finding severity, open recommendations and asset coverage in this report.
+                      Demonstration score derived from finding severity, open recommendations and asset coverage in this example report.
                     </p>
                   </div>
                 </div>
@@ -483,7 +486,7 @@ export default async function ReportReaderPage({
                   </div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <MetricCard label="Area surveyed" value={`${courseAreas.length} assets`} detail="Course areas in the asset record." />
-                    <MetricCard label="Flight duration" value="Mission logged" detail="Operational metadata retained with survey." />
+                    <MetricCard label="Flight duration" value="Mission logged" detail="Example operational metadata retained with survey." />
                     <MetricCard label="Images captured" value="Aerial set" detail="Imagery supports map interpretation." />
                     <MetricCard label="Accuracy achieved" value="Survey-grade" detail="RTK-supported spatial reference." />
                   </div>
@@ -563,7 +566,7 @@ export default async function ReportReaderPage({
                   <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white">Course asset record</h2>
                 </div>
                 <p className="max-w-lg text-sm leading-6 text-white/54">
-                  Every surveyed area becomes a referenceable asset for future maintenance, monitoring and capital planning.
+                  Every reported area becomes a referenceable asset for future maintenance, monitoring and capital planning.
                 </p>
               </div>
               <div className="mt-6 grid gap-3 md:grid-cols-2">
@@ -595,6 +598,9 @@ export default async function ReportReaderPage({
             <section id="methodology" className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5 sm:p-6">
               <p className="text-xs uppercase tracking-[0.24em] text-[#a6d8bd]">Methodology</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white">How this survey was interpreted</h2>
+              <p className="mt-3 max-w-4xl text-sm leading-6 text-white/56">
+                This report uses fictional demonstration data to show the intended Basalt reporting experience. Scores, cost bands, effort estimates, ownership and timelines are illustrative and would be replaced by verified survey and customer data in a live report.
+              </p>
               <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 {[
                   ["Drone survey", "Aerial survey captures the course from consistent planned flight paths.", <Camera key="camera" className="size-4 text-[#a6d8bd]" />],
@@ -621,7 +627,7 @@ export default async function ReportReaderPage({
                   <p className="text-xs uppercase tracking-[0.24em] text-[#a6d8bd]">Appendix</p>
                   <h2 className="mt-3 text-3xl font-semibold tracking-normal text-white">Data references and survey notes</h2>
                   <p className="mt-3 text-sm leading-6 text-white/56">
-                    Supporting maps, imagery, media records and survey notes will expand here as the report library grows.
+                    Supporting maps, imagery, media records and survey notes will appear here for live customer reports.
                   </p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
