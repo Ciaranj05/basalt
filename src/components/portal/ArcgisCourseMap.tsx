@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertTriangle, Layers3, MapPinned, Maximize2 } from "lucide-react";
+import Link from "next/link";
+import { AlertTriangle, ArrowRight, CheckCircle2, Layers3, MapPinned, Maximize2, Target } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { filterCustomerVisibleAttributes, type ArcgisMapConfig } from "@/lib/portal/arcgis-shared";
 
@@ -19,6 +20,12 @@ type HitResult = {
   };
 };
 
+type IntelligenceItem = {
+  id: string;
+  title: string;
+  meta: string;
+};
+
 type ArcgisView = {
   destroy: () => void;
   hitTest: (event: unknown) => Promise<{ results: unknown[] }>;
@@ -32,9 +39,17 @@ type ArcgisView = {
 export function ArcgisCourseMap({
   config,
   courseName,
+  reportHref,
+  findings = [],
+  recommendations = [],
+  areaCount = 0,
 }: {
   config: ArcgisMapConfig;
   courseName: string;
+  reportHref?: string;
+  findings?: IntelligenceItem[];
+  recommendations?: IntelligenceItem[];
+  areaCount?: number;
 }) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -128,8 +143,9 @@ export function ArcgisCourseMap({
     <section className="overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.04]">
       <div className="flex flex-col gap-4 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-[#a6d8bd]">Approved ArcGIS Web Map</p>
-          <h2 className="mt-2 text-xl font-semibold text-white">{courseName}</h2>
+          <p className="text-xs uppercase tracking-[0.24em] text-[#a6d8bd]">Basalt Golf Intelligence</p>
+          <h2 className="mt-2 text-xl font-semibold text-white">{config.title || courseName}</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/54">{config.description}</p>
         </div>
         <div className="flex flex-wrap gap-2 text-xs text-white/48">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/18 px-3 py-1">
@@ -138,13 +154,13 @@ export function ArcgisCourseMap({
           </span>
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/18 px-3 py-1">
             <Layers3 className="size-3.5 text-[#a6d8bd]" />
-            Basalt view
+            {areaCount ? `${areaCount} course areas` : "Basalt view"}
           </span>
         </div>
       </div>
 
-      <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="relative min-h-[62vh] min-w-0 bg-[#07110d]" data-testid="arcgis-map-shell">
+      <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_390px]">
+        <div className="relative min-h-[58vh] min-w-0 bg-[#07110d] sm:min-h-[62vh]" data-testid="arcgis-map-shell">
           <div ref={mapContainerRef} className="absolute inset-0" aria-label="Interactive course map" />
           {status === "loading" ? (
             <div className="absolute inset-0 grid place-items-center bg-[#07110d]">
@@ -152,7 +168,7 @@ export function ArcgisCourseMap({
                 <div className="mx-auto size-10 animate-pulse rounded-full border border-[#a6d8bd]/28 bg-[#a6d8bd]/10" />
                 <p className="mt-4 text-sm font-semibold text-white">Preparing course map</p>
                 <p className="mt-2 text-xs leading-5 text-white/48">
-                  Loading the approved customer map inside Basalt.
+                  Loading mapped survey evidence for this course.
                 </p>
               </div>
             </div>
@@ -170,21 +186,21 @@ export function ArcgisCourseMap({
           ) : null}
         </div>
 
-        <aside className="border-t border-white/10 p-5 xl:border-l xl:border-t-0">
+        <aside className="grid content-start gap-5 border-t border-white/10 p-5 xl:border-l xl:border-t-0">
           <div className="flex items-center gap-2 text-sm font-semibold text-white">
             <Maximize2 className="size-4 text-[#a6d8bd]" />
             Feature detail
           </div>
 
           {selectedFeature ? (
-            <div className="mt-5">
+            <div>
               <p className="text-xs uppercase tracking-[0.2em] text-white/38">{selectedFeature.layerTitle}</p>
               <h3 className="mt-3 text-2xl font-semibold tracking-normal text-white">{selectedFeature.title}</h3>
               <div className="mt-5 grid gap-3">
                 {Object.entries(selectedFeature.attributes).map(([key, value]) => (
                   <div key={key} className="rounded-[6px] border border-white/10 bg-black/18 p-3">
                     <p className="text-xs uppercase tracking-[0.16em] text-white/38">
-                      {key.replaceAll("_", " ")}
+                      {formatAttributeLabel(key)}
                     </p>
                     <p className="mt-2 text-sm leading-6 text-white/68">{String(value)}</p>
                   </div>
@@ -197,12 +213,61 @@ export function ArcgisCourseMap({
               ) : null}
             </div>
           ) : (
-            <p className="mt-5 text-sm leading-6 text-white/54">
-              Select a mapped feature to view customer-ready details from the approved ArcGIS Web Map.
+            <p className="text-sm leading-6 text-white/54">
+              Select a mapped feature to view customer-ready survey evidence and related recommendations.
             </p>
           )}
+
+          <div className="rounded-[8px] border border-white/10 bg-black/18 p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-white">
+              <Target className="size-4 text-[#a6d8bd]" />
+              Report intelligence
+            </div>
+            <p className="mt-3 text-sm leading-6 text-white/54">
+              {config.reportTitle ?? "Published survey report"} provides the approved findings and recommended actions behind this map.
+            </p>
+            {reportHref ? (
+              <Link
+                href={reportHref}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#a6d8bd] transition hover:text-[#dff4e8]"
+              >
+                Open linked report <ArrowRight className="size-4" />
+              </Link>
+            ) : null}
+          </div>
+
+          <div className="grid gap-3">
+            {findings.slice(0, 3).map((finding) => (
+              <div key={finding.id} className="rounded-[6px] border border-white/10 bg-black/18 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/38">{finding.meta}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-white">{finding.title}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-[8px] border border-[#a6d8bd]/18 bg-[#a6d8bd]/8 p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-white">
+              <CheckCircle2 className="size-4 text-[#a6d8bd]" />
+              Recommended actions
+            </div>
+            <div className="mt-3 grid gap-2">
+              {recommendations.slice(0, 2).map((recommendation) => (
+                <div key={recommendation.id}>
+                  <p className="text-sm font-semibold leading-6 text-white">{recommendation.title}</p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-white/42">{recommendation.meta}</p>
+                </div>
+              ))}
+              {!recommendations.length ? (
+                <p className="text-sm leading-6 text-white/54">No open recommendations are linked to this published map yet.</p>
+              ) : null}
+            </div>
+          </div>
         </aside>
       </div>
     </section>
   );
+}
+
+function formatAttributeLabel(key: string) {
+  return key.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

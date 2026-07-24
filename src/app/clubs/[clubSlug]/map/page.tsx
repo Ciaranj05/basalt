@@ -5,7 +5,8 @@ import { ArcgisCourseMap } from "@/components/portal/ArcgisCourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
 import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
-import { getCourses, getReportsForClub } from "@/lib/portal/data";
+import { getCourseAreas, getCourses, getFindingsForReport, getRecommendationsForReport, getReportsForClub } from "@/lib/portal/data";
+import type { Finding } from "@/lib/portal/types";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,18 @@ function emptyStateCopy(reason: string | null) {
     title: "Your interactive course map is currently being prepared.",
     body: "You can still access your published reports while Basalt prepares the approved customer map.",
   };
+}
+
+const severityOrder: Record<Finding["severity"], number> = {
+  critical: 5,
+  high: 4,
+  moderate: 3,
+  low: 2,
+  information: 1,
+};
+
+function titleCase(value: string) {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 export default async function ClubMapPage({
@@ -56,6 +69,17 @@ export default async function ClubMapPage({
     (report) => report.status === "published" && (!selectedCourse || report.courseId === selectedCourse.id),
   ) ?? null;
 
+  const [courseAreas, findings, recommendations] = latestPublishedReport
+    ? await Promise.all([
+        getCourseAreas(supabase, club.id),
+        getFindingsForReport(supabase, club.id, latestPublishedReport.id),
+        getRecommendationsForReport(supabase, club.id, latestPublishedReport.id),
+      ])
+    : [[], [], []];
+
+  const sortedFindings = [...findings].sort((a, b) => severityOrder[b.severity] - severityOrder[a.severity]);
+  const openRecommendations = recommendations.filter((recommendation) => recommendation.status !== "completed");
+
   const { config, reason } = await getApprovedArcgisMapConfig({
     supabase,
     clubId: club.id,
@@ -67,16 +91,16 @@ export default async function ClubMapPage({
   const emptyState = emptyStateCopy(reason);
 
   return (
-    <PortalShell club={club} active="Course Map">
+    <PortalShell club={club} active="Map" showMapNavigation={Boolean(config)}>
       <section className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Course Map</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Interactive Map</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
-              Interactive course intelligence.
+              Explore your course intelligence.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
-              The approved customer map for published survey layers, findings and course context.
+              View mapped survey evidence, findings and recommendations across the course.
             </p>
           </div>
           <Link
@@ -110,7 +134,22 @@ export default async function ClubMapPage({
 
         <div className="mt-8">
           {config && selectedCourse ? (
-            <ArcgisCourseMap config={config} courseName={selectedCourse.name} />
+            <ArcgisCourseMap
+              config={config}
+              courseName={selectedCourse.name}
+              reportHref={latestPublishedReport ? `/clubs/${club.slug}/reports/${latestPublishedReport.slug}` : undefined}
+              areaCount={courseAreas.length}
+              findings={sortedFindings.slice(0, 3).map((finding) => ({
+                id: finding.id,
+                title: finding.title,
+                meta: `${titleCase(finding.severity)} finding`,
+              }))}
+              recommendations={openRecommendations.slice(0, 2).map((recommendation) => ({
+                id: recommendation.id,
+                title: recommendation.title,
+                meta: `${titleCase(recommendation.priority)} · ${recommendation.recommendedTimeframe}`,
+              }))}
+            />
           ) : (
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
               <div className="flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start">
@@ -143,21 +182,23 @@ export default async function ClubMapPage({
           )}
         </div>
 
-        <section className="mt-5 grid gap-4 lg:grid-cols-3">
-          {[
-            ["Basalt authentication", "Customer access is controlled by the existing Supabase portal session."],
-            ["Club authorization", "The requested club and course are resolved server-side before map configuration loads."],
-            ["Published map only", "Only the approved customer Web Map reference is passed into the browser."],
-          ].map(([title, copy]) => (
-            <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                <Layers3 className="size-4 text-[#a6d8bd]" />
-                {title}
+        {config ? (
+          <section className="mt-5 grid gap-4 lg:grid-cols-3">
+            {[
+              ["Latest survey", latestPublishedReport ? `${latestPublishedReport.title} · ${latestPublishedReport.surveyDate}` : "Published survey context will appear here once available."],
+              ["Mapped findings", `${sortedFindings.length} findings connected to this course view.`],
+              ["Open recommendations", `${openRecommendations.length} recommended actions available for review.`],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
+                <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <Layers3 className="size-4 text-[#a6d8bd]" />
+                  {title}
+                </div>
+                <p className="mt-3 text-sm leading-6 text-white/52">{copy}</p>
               </div>
-              <p className="mt-3 text-sm leading-6 text-white/52">{copy}</p>
-            </div>
-          ))}
-        </section>
+            ))}
+          </section>
+        ) : null}
       </section>
     </PortalShell>
   );

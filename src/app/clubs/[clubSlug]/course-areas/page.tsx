@@ -2,10 +2,12 @@ import Link from "next/link";
 import { ArrowRight, Camera, CheckCircle2, MapPinned, ShieldCheck } from "lucide-react";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
+import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
 import {
   getCourseAreas,
   getFindingsForReport,
   getLatestPublishedReport,
+  getPrimaryCourse,
   getRecommendationsForReport,
   getReportMedia,
 } from "@/lib/portal/data";
@@ -39,10 +41,18 @@ export default async function CourseAreasPage({
 }) {
   const { clubSlug } = await params;
   const { supabase, club } = await requireClubMembership(clubSlug);
-  const [courseAreas, latestReport] = await Promise.all([
+  const [courseAreas, latestReport, course] = await Promise.all([
     getCourseAreas(supabase, club.id),
     getLatestPublishedReport(supabase, club.id),
+    getPrimaryCourse(supabase, club.id),
   ]);
+  const { config: approvedMapConfig } = await getApprovedArcgisMapConfig({
+    supabase,
+    clubId: club.id,
+    clubSlug,
+    course,
+    latestReport,
+  });
 
   const [findings, recommendations, media] = latestReport
     ? await Promise.all([
@@ -53,7 +63,7 @@ export default async function CourseAreasPage({
     : [[], [], []];
 
   return (
-    <PortalShell club={club} active="Course Areas">
+    <PortalShell club={club} active="Course Areas" showMapNavigation={Boolean(approvedMapConfig)}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -65,8 +75,18 @@ export default async function CourseAreasPage({
               A maintained record of course areas, condition signals and linked report evidence.
             </p>
           </div>
-          <div className="rounded-[8px] border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/56">
-            Latest survey: {latestReport?.surveyDate || "Pending"}
+          <div className="flex flex-wrap gap-3">
+            <div className="rounded-[8px] border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/56">
+              Latest survey: {latestReport?.surveyDate || "Pending"}
+            </div>
+            {approvedMapConfig ? (
+              <Link
+                href={`/clubs/${club.slug}/map`}
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                View mapped areas <MapPinned className="size-4" />
+              </Link>
+            ) : null}
           </div>
         </div>
 

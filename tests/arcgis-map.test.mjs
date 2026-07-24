@@ -7,6 +7,11 @@ const arcgisSharedSource = fs.readFileSync("src/lib/portal/arcgis-shared.ts", "u
 const arcgisComponentSource = fs.readFileSync("src/components/portal/ArcgisCourseMap.tsx", "utf8");
 const mapPageSource = fs.readFileSync("src/app/clubs/[clubSlug]/map/page.tsx", "utf8");
 const portalShellSource = fs.readFileSync("src/components/portal/PortalShell.tsx", "utf8");
+const overviewPageSource = fs.readFileSync("src/app/clubs/[clubSlug]/page.tsx", "utf8");
+const reportsPageSource = fs.readFileSync("src/app/clubs/[clubSlug]/reports/page.tsx", "utf8");
+const reportDetailSource = fs.readFileSync("src/app/clubs/[clubSlug]/reports/[reportId]/page.tsx", "utf8");
+const courseAreasSource = fs.readFileSync("src/app/clubs/[clubSlug]/course-areas/page.tsx", "utf8");
+const courseAreaDetailSource = fs.readFileSync("src/app/clubs/[clubSlug]/course-areas/[areaId]/page.tsx", "utf8");
 
 test("Course Map route reuses existing authenticated club membership checks", () => {
   assert.match(mapPageSource, /requireClubMembership\(clubSlug\)/);
@@ -15,9 +20,19 @@ test("Course Map route reuses existing authenticated club membership checks", ()
   assert.match(mapPageSource, /getApprovedArcgisMapConfig/);
 });
 
-test("Course Map remains out of primary customer navigation", () => {
+test("Map navigation is conditional and does not expose the old Course Map label", () => {
   assert.doesNotMatch(portalShellSource, /label: "Course Map"/);
-  assert.doesNotMatch(portalShellSource, /\/map`/);
+  assert.match(portalShellSource, /label: "Map"/);
+  assert.match(portalShellSource, /requiresMap: true/);
+  assert.match(portalShellSource, /showMapNavigation/);
+  assert.match(portalShellSource, /\/map`/);
+});
+
+test("primary navigation order is Overview, Map, Course Areas, Reports", () => {
+  assert.match(
+    portalShellSource,
+    /label: "Overview"[\s\S]*label: "Map"[\s\S]*label: "Course Areas"[\s\S]*label: "Reports"/,
+  );
 });
 
 test("ArcGIS configuration is resolved from approved published context only", () => {
@@ -62,10 +77,43 @@ test("customer feature detail uses an allowlist and excludes raw ArcGIS system f
   }
 
   assert.match(arcgisComponentSource, /filterCustomerVisibleAttributes\(result\.graphic\.attributes\)/);
+  assert.match(arcgisSharedSource, /key\.toLowerCase\(\)/);
 });
 
 test("ArcGIS map failure renders a safe customer-facing state", () => {
   assert.match(arcgisComponentSource, /We couldn&apos;t load the course map at the moment\./);
   assert.doesNotMatch(arcgisComponentSource, /Web Map item ID|service URL|ArcGIS credentials|API failure code/);
   assert.match(mapPageSource, /Your interactive course map is currently being prepared\./);
+  assert.doesNotMatch(mapPageSource, /Basalt authentication|Club authorization|Published map only|resolved server-side|approved customer Web Map reference/);
+});
+
+test("Stage 2 presents ArcGIS as part of the Basalt Golf Intelligence journey", () => {
+  assert.match(mapPageSource, /Explore your course intelligence\./);
+  assert.match(mapPageSource, /active="Map"/);
+  assert.match(arcgisComponentSource, /Basalt Golf Intelligence/);
+  assert.match(arcgisComponentSource, /Report intelligence/);
+  assert.match(arcgisComponentSource, /Recommended actions/);
+  assert.match(arcgisComponentSource, /Open linked report/);
+});
+
+test("mapped evidence entry points are conditional and outside primary navigation", () => {
+  for (const source of [
+    overviewPageSource,
+    reportDetailSource,
+    courseAreasSource,
+    courseAreaDetailSource,
+  ]) {
+    assert.match(source, /getApprovedArcgisMapConfig/);
+    assert.match(source, /approvedMapConfig/);
+  }
+  assert.match(reportsPageSource, /getApprovedArcgisMapConfig/);
+  assert.match(reportsPageSource, /hasApprovedMap/);
+
+  assert.match(overviewPageSource, /Interactive Course Map/);
+  assert.match(overviewPageSource, /Open Map/);
+  assert.match(reportsPageSource, /View map/);
+  assert.match(reportDetailSource, /View mapped evidence/);
+  assert.match(courseAreasSource, /View mapped areas/);
+  assert.match(courseAreaDetailSource, /View on map/);
+  assert.doesNotMatch(portalShellSource, /label: "Course Map"/);
 });

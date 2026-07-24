@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   AlertTriangle,
   ArrowLeft,
+  ArrowRight,
   Banknote,
   CalendarDays,
   Camera,
@@ -21,8 +22,10 @@ import {
 import { PrintReportButton } from "@/components/portal/PortalControls";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
+import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
 import {
   getCourseAreas,
+  getCourses,
   getFindingsForReport,
   getMapLayers,
   getRecommendationsForReport,
@@ -149,7 +152,7 @@ function EvidencePanel({
   );
 }
 
-function ReportVisual({ layerNames }: { layerNames: string[] }) {
+function ReportVisual({ layerNames, mapHref }: { layerNames: string[]; mapHref?: string }) {
   const layers = layerNames.length
     ? layerNames
     : ["Orthomosaic", "Contours", "Slope", "Drainage", "Vegetation", "Surface model"];
@@ -189,8 +192,16 @@ function ReportVisual({ layerNames }: { layerNames: string[] }) {
             ))}
           </div>
           <p className="mt-5 text-sm leading-6 text-white/50">
-            GIS and LiDAR layers can slot into this report surface without changing the customer journey.
+            Published GIS layers sit behind this report so customers can move from summary decisions into spatial evidence.
           </p>
+          {mapHref ? (
+            <Link
+              href={mapHref}
+              className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+            >
+              View mapped evidence <ArrowRight className="size-4" />
+            </Link>
+          ) : null}
         </aside>
       </div>
     </section>
@@ -342,12 +353,21 @@ export default async function ReportReaderPage({
 
   if (!report) notFound();
 
-  const [courseAreas, mapLayers, findings, recommendations] = await Promise.all([
+  const [courseAreas, courses, mapLayers, findings, recommendations] = await Promise.all([
     getCourseAreas(supabase, club.id),
+    getCourses(supabase, club.id),
     getMapLayers(supabase, club.id, report.courseId, report.id),
     getFindingsForReport(supabase, club.id, report.id),
     getRecommendationsForReport(supabase, club.id, report.id),
   ]);
+  const reportCourse = courses.find((course) => course.id === report.courseId) ?? null;
+  const { config: approvedMapConfig } = await getApprovedArcgisMapConfig({
+    supabase,
+    clubId: club.id,
+    clubSlug,
+    course: reportCourse,
+    latestReport: report,
+  });
 
   const sortedFindings = [...findings].sort((a, b) => severityRank[b.severity] - severityRank[a.severity]);
   const topFindings = sortedFindings.slice(0, 5);
@@ -370,7 +390,7 @@ export default async function ReportReaderPage({
   ];
 
   return (
-    <PortalShell club={club} active="Reports">
+    <PortalShell club={club} active="Reports" showMapNavigation={Boolean(approvedMapConfig)}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Link href={`/clubs/${club.slug}/reports`} className="inline-flex items-center gap-2 text-sm text-white/52 transition hover:text-white">
           <ArrowLeft className="size-4" />
@@ -437,6 +457,14 @@ export default async function ReportReaderPage({
                     <MetricCard label="Survey type" value={titleCase(report.reportType)} detail={`Version ${report.version} report record.`} />
                     <MetricCard label="Survey grade" value="RTK / LiDAR-ready" detail="Professional spatial workflow and evidence model." />
                   </div>
+                  {approvedMapConfig ? (
+                    <Link
+                      href={`/clubs/${club.slug}/map`}
+                      className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                    >
+                      View mapped evidence <MapPinned className="size-4" />
+                    </Link>
+                  ) : null}
                 </div>
               </div>
             </section>
@@ -519,7 +547,10 @@ export default async function ReportReaderPage({
               </div>
             </section>
 
-            <ReportVisual layerNames={mapLayers.map((layer) => layer.name)} />
+            <ReportVisual
+              layerNames={mapLayers.map((layer) => layer.name)}
+              mapHref={approvedMapConfig ? `/clubs/${club.slug}/map` : undefined}
+            />
 
             {report.sections.filter((section) => section.title !== "Overview").length ? (
               <section id="section-flow" className="grid gap-4">

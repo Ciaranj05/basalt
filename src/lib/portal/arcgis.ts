@@ -65,6 +65,7 @@ export function resolveEnvironmentArcgisConfig({
     title: "Approved ArcGIS course map",
     description: "Interactive course intelligence map prepared for customer review.",
     reportId: latestReport.id,
+    reportTitle: latestReport.title,
     surveyDate: latestReport.surveyDate,
   };
 }
@@ -115,6 +116,7 @@ export async function getApprovedArcgisMapConfig({
         title: row.name,
         description: row.description ?? "Interactive course intelligence map prepared for customer review.",
         reportId: latestReport.id,
+        reportTitle: latestReport.title,
         surveyDate: latestReport.surveyDate,
       } satisfies ArcgisMapConfig,
       reason: null,
