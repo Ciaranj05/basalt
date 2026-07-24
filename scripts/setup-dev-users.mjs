@@ -143,23 +143,33 @@ async function upsertUser(config) {
 
   if (config.globalRole) {
     throwIfError(
-      await supabase.from("global_roles").upsert({
-        user_id: user.id,
-        role: config.globalRole,
-      }),
+      await supabase
+        .from("global_roles")
+        .upsert(
+          {
+            user_id: user.id,
+            role: config.globalRole,
+          },
+          { onConflict: "user_id,role" },
+        ),
       `Global role upsert failed for ${config.email}`,
     );
   }
 
   for (const membership of config.memberships ?? []) {
     throwIfError(
-      await supabase.from("club_memberships").upsert({
-        club_id: membership.clubId,
-        user_id: user.id,
-        role: membership.role,
-        status: membership.status,
-        joined_at: membership.status === "active" ? new Date().toISOString() : null,
-      }),
+      await supabase
+        .from("club_memberships")
+        .upsert(
+          {
+            club_id: membership.clubId,
+            user_id: user.id,
+            role: membership.role,
+            status: membership.status,
+            joined_at: membership.status === "active" ? new Date().toISOString() : null,
+          },
+          { onConflict: "club_id,user_id" },
+        ),
       `Membership upsert failed for ${config.email}`,
     );
   }
