@@ -12,6 +12,7 @@
     "supabase:setup-dev-users": "node scripts/setup-dev-users.mjs"
   },
   "dependencies": {
+    "@arcgis/core": "^5.1.14",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.8",
     "framer-motion": "^12.42.2",

@@ -124,6 +124,25 @@ test.describe("portal navigation and content", () => {
     await expect(page.getByText("Current condition summary")).toBeVisible();
   });
 
+  test("direct Course Map route is authenticated and stays out of primary navigation", async ({ page }) => {
+    await expect(page.getByRole("link", { name: "Course Map" })).toHaveCount(0);
+
+    await page.goto("/clubs/north-coast-golf-club/map");
+    await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/map$/);
+    await expect(page.getByRole("heading", { name: "Interactive course intelligence." })).toBeVisible();
+    await expect(
+      page.getByText(/Your interactive course map is currently being prepared|Approved ArcGIS Web Map/i),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Course Map" })).toHaveCount(0);
+  });
+
+  test("cross-club Course Map access is blocked", async ({ page }) => {
+    await page.goto("/clubs/harbour-dunes-golf-club/map");
+
+    await expect(page.getByText("404")).toBeVisible();
+    await expect(page.getByText("Harbour Dunes Golf Club")).toHaveCount(0);
+  });
+
   test("primary navigation contains only real customer routes", async ({ page }) => {
     const before = page.url();
 
