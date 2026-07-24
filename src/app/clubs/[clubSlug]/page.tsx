@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Download, MapPinned } from "lucide-react";
 import { CourseMap } from "@/components/portal/CourseMap";
+import { ComingSoonButton } from "@/components/portal/PortalControls";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
 import {
@@ -67,12 +68,9 @@ export default async function ClubOverviewPage({
                 Open latest report <ArrowRight className="size-4" />
               </Link>
             ) : null}
-            <button
-              type="button"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70"
-            >
+            <ComingSoonButton className="inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold">
               Download PDF <Download className="size-4" />
-            </button>
+            </ComingSoonButton>
           </div>
         </div>
 

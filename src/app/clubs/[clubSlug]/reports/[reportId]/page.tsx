@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Download, Printer } from "lucide-react";
 import { CourseMap } from "@/components/portal/CourseMap";
+import { ComingSoonButton, PrintReportButton } from "@/components/portal/PortalControls";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
 import {
@@ -37,7 +38,7 @@ export default async function ReportReaderPage({
     getRecommendationsForReport(supabase, club.id, report.id),
   ]);
 
-  const visibleNav = ["Overview", ...report.sections.map((section) => section.title), "Recommendations", "Downloads"];
+  const visibleNav = ["Overview", ...report.sections.map((section) => section.title), "Recommendations"];
 
   return (
     <PortalShell club={club} active="Reports">
@@ -57,12 +58,12 @@ export default async function ReportReaderPage({
             </h1>
           </div>
           <div className="flex flex-wrap gap-3 lg:justify-end">
-            <button className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70">
+            <PrintReportButton className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70">
               Print view <Printer className="size-4" />
-            </button>
-            <button className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d]">
+            </PrintReportButton>
+            <ComingSoonButton tone="primary" className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold">
               Download PDF <Download className="size-4" />
-            </button>
+            </ComingSoonButton>
           </div>
         </div>
 
@@ -137,12 +138,12 @@ export default async function ReportReaderPage({
             </section>
 
             <div className="flex items-center justify-between gap-3">
-              <button className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70">
+              <ComingSoonButton className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold">
                 Previous section
-              </button>
-              <button className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d]">
+              </ComingSoonButton>
+              <ComingSoonButton tone="primary" className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold">
                 Next section <ArrowRight className="size-4" />
-              </button>
+              </ComingSoonButton>
             </div>
           </div>
         </div>

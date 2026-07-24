@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, type FormEvent } from "react";
+import { useActionState, useEffect, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import {
   acceptInviteAction,
@@ -38,9 +38,17 @@ const inputClass =
 export function LoginForm({ nextPath }: { nextPath: string }) {
   const [state, setState] = useState<ActionState>(initialState);
   const [pending, setPending] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setHydrated(true), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!hydrated) return;
+
     setPending(true);
     setState(initialState);
 
@@ -70,19 +78,19 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form method="post" onSubmit={handleSubmit}>
       <input type="hidden" name="next" value={nextPath} />
       <label className="block text-sm font-medium text-white" htmlFor="email">
         Email address
       </label>
-      <input id="email" name="email" type="email" autoComplete="email" required className={inputClass} />
+      <input id="email" name="email" type="email" autoComplete="email" required disabled={!hydrated || pending} className={inputClass} />
       <label className="mt-5 block text-sm font-medium text-white" htmlFor="password">
         Password
       </label>
-      <input id="password" name="password" type="password" autoComplete="current-password" required className={inputClass} />
+      <input id="password" name="password" type="password" autoComplete="current-password" required disabled={!hydrated || pending} className={inputClass} />
       <button
         type="submit"
-        disabled={pending}
+        disabled={!hydrated || pending}
         className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8] disabled:opacity-60"
       >
         {pending ? "Signing in" : "Sign in"} <ArrowRight className="size-4" />
@@ -189,10 +197,15 @@ export function InviteUserForm({ clubs }: { clubs: Array<{ id: string; name: str
   );
 }
 
-export function LogoutButton() {
+export function LogoutButton({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   return (
     <form action={logoutAction}>
-      <button type="submit" className="hidden h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/64 transition hover:text-white sm:flex">
+      <button
+        type="submit"
+        className={`h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/64 transition hover:text-white ${
+          variant === "desktop" ? "hidden sm:flex" : "flex w-full justify-center"
+        }`}
+      >
         Sign out
       </button>
     </form>

@@ -1,19 +1,46 @@
+"use client";
+
 import Link from "next/link";
-import { Bell, ChevronDown, Menu } from "lucide-react";
+import { Bell, ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import type { Club } from "@/lib/portal/types";
 import { LogoutButton } from "./AuthForms";
 
 const navItems = [
-  "Overview",
-  "Course Map",
-  "Reports",
-  "Course Areas",
-  "Findings",
-  "Recommendations",
-  "Documents",
-  "Team",
-];
+  { label: "Overview", status: "available" },
+  { label: "Course Map", status: "coming-soon" },
+  { label: "Reports", status: "available" },
+  { label: "Course Areas", status: "available" },
+  { label: "Findings", status: "coming-soon" },
+  { label: "Recommendations", status: "coming-soon" },
+  { label: "Documents", status: "coming-soon" },
+  { label: "Team", status: "coming-soon" },
+] as const;
+
+function getNavHref(label: string, clubSlug: string) {
+  if (label === "Overview") return `/clubs/${clubSlug}`;
+  if (label === "Reports") return `/clubs/${clubSlug}/reports`;
+  if (label === "Course Areas") return `/clubs/${clubSlug}/course-areas`;
+  return null;
+}
+
+function ComingSoonNavItem({ label, mobile = false }: { label: string; mobile?: boolean }) {
+  return (
+    <span
+      aria-disabled="true"
+      className={`inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-white/8 bg-white/[0.02] text-white/34 ${
+        mobile ? "justify-between px-4 py-3 text-sm" : "whitespace-nowrap px-3 py-2 text-sm"
+      }`}
+    >
+      <span>{label}</span>
+      <span className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-white/32">
+        Coming soon
+      </span>
+      <span className="sr-only">Unavailable, coming soon.</span>
+    </span>
+  );
+}
 
 export function PortalShell({
   club,
@@ -24,6 +51,52 @@ export function PortalShell({
   active?: string;
   children: React.ReactNode;
 }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const drawer = document.getElementById("portal-mobile-navigation-panel");
+      const focusable = Array.from(
+        drawer?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileOpen]);
+
   return (
     <main className="min-h-screen bg-[#050807] text-white">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050807]/92 backdrop-blur-xl">
@@ -47,16 +120,23 @@ export function PortalShell({
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="hidden size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/64 transition hover:text-white sm:flex"
+              disabled
+              aria-disabled="true"
+              title="Notifications coming soon"
+              className="hidden size-10 cursor-not-allowed items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/30 sm:flex"
               aria-label="Notifications"
             >
               <Bell className="size-4" />
+              <span className="sr-only">Coming soon.</span>
             </button>
             <LogoutButton />
             <button
               type="button"
-              className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 md:hidden"
+              onClick={() => setMobileOpen(true)}
+              className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 transition hover:text-white md:hidden"
               aria-label="Open navigation"
+              aria-expanded={mobileOpen}
+              aria-controls="portal-mobile-navigation"
             >
               <Menu className="mx-auto size-4" />
             </button>
@@ -64,31 +144,76 @@ export function PortalShell({
         </div>
         <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8">
           {navItems.map((item) => {
-            const href =
-              item === "Overview"
-                ? `/clubs/${club.slug}`
-                : item === "Reports"
-                  ? `/clubs/${club.slug}/reports`
-                  : item === "Course Areas"
-                    ? `/clubs/${club.slug}/course-areas`
-                    : "#";
+            const href = getNavHref(item.label, club.slug);
+
+            if (!href) {
+              return <ComingSoonNavItem key={item.label} label={item.label} />;
+            }
 
             return (
               <Link
-                key={item}
+                key={item.label}
                 href={href}
                 className={`whitespace-nowrap rounded-full px-3 py-2 text-sm transition ${
-                  active === item
+                  active === item.label
                     ? "bg-white text-[#07110d]"
                     : "text-white/54 hover:bg-white/[0.06] hover:text-white"
                 }`}
               >
-                {item}
+                {item.label}
               </Link>
             );
           })}
         </nav>
       </header>
+      {mobileOpen ? (
+        <div
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Portal navigation"
+          id="portal-mobile-navigation"
+        >
+          <div id="portal-mobile-navigation-panel" className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-white/10 bg-[#050807] p-4 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <BasaltLogo variant="horizontal" theme="dark" size="compact" />
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 transition hover:text-white"
+                aria-label="Close navigation"
+              >
+                <X className="mx-auto size-4" />
+              </button>
+            </div>
+            <nav className="mt-8 grid gap-2" aria-label="Mobile portal navigation">
+              {navItems.map((item) => {
+                const href = getNavHref(item.label, club.slug);
+                if (!href) return <ComingSoonNavItem key={item.label} label={item.label} mobile />;
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`rounded-full px-4 py-3 text-sm transition ${
+                      active === item.label
+                        ? "bg-white text-[#07110d]"
+                        : "text-white/64 hover:bg-white/[0.06] hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="mt-auto border-t border-white/10 pt-4">
+              <LogoutButton variant="mobile" />
+            </div>
+          </div>
+        </div>
+      ) : null}
       {children}
     </main>
   );
