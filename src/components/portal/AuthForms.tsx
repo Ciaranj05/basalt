@@ -1,16 +1,19 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState, type FormEvent } from "react";
 import { ArrowRight } from "lucide-react";
 import {
   acceptInviteAction,
   inviteClubUserAction,
-  loginAction,
   logoutAction,
   requestPasswordResetAction,
   updatePasswordAction,
   type ActionState,
 } from "@/lib/portal/actions";
+import {
+  navigateAfterLogin,
+  signInAndResolveDestination,
+} from "@/lib/portal/client-login";
 
 const initialState: ActionState = { status: "idle", message: "" };
 
@@ -33,10 +36,41 @@ const inputClass =
   "mt-2 h-12 w-full rounded-[6px] border border-white/12 bg-black/20 px-4 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#b8f2d2]";
 
 export function LoginForm({ nextPath }: { nextPath: string }) {
-  const [state, action, pending] = useActionState(loginAction, initialState);
+  const [state, setState] = useState<ActionState>(initialState);
+  const [pending, setPending] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setPending(true);
+    setState(initialState);
+
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email") ?? "");
+    const password = String(formData.get("password") ?? "");
+    const requestedNext = String(formData.get("next") ?? nextPath);
+
+    try {
+      const result = await signInAndResolveDestination({
+        email,
+        password,
+        nextPath: requestedNext,
+      });
+
+      if (!result.ok) {
+        setState({ status: "error", message: result.message });
+        setPending(false);
+        return;
+      }
+
+      navigateAfterLogin(result.destination);
+    } catch {
+      setState({ status: "error", message: "Unable to sign in with those details." });
+      setPending(false);
+    }
+  }
 
   return (
-    <form action={action}>
+    <form onSubmit={handleSubmit}>
       <input type="hidden" name="next" value={nextPath} />
       <label className="block text-sm font-medium text-white" htmlFor="email">
         Email address
