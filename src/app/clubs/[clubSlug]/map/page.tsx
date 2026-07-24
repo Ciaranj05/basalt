@@ -5,7 +5,8 @@ import { ArcgisCourseMap } from "@/components/portal/ArcgisCourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
 import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
-import { getCourses, getReportsForClub } from "@/lib/portal/data";
+import { getCourseAreas, getCourses, getFindingsForReport, getRecommendationsForReport, getReportsForClub } from "@/lib/portal/data";
+import type { Finding } from "@/lib/portal/types";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,18 @@ function emptyStateCopy(reason: string | null) {
     title: "Your interactive course map is currently being prepared.",
     body: "You can still access your published reports while Basalt prepares the approved customer map.",
   };
+}
+
+const severityOrder: Record<Finding["severity"], number> = {
+  critical: 5,
+  high: 4,
+  moderate: 3,
+  low: 2,
+  information: 1,
+};
+
+function titleCase(value: string) {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 export default async function ClubMapPage({
@@ -56,6 +69,17 @@ export default async function ClubMapPage({
     (report) => report.status === "published" && (!selectedCourse || report.courseId === selectedCourse.id),
   ) ?? null;
 
+  const [courseAreas, findings, recommendations] = latestPublishedReport
+    ? await Promise.all([
+        getCourseAreas(supabase, club.id),
+        getFindingsForReport(supabase, club.id, latestPublishedReport.id),
+        getRecommendationsForReport(supabase, club.id, latestPublishedReport.id),
+      ])
+    : [[], [], []];
+
+  const sortedFindings = [...findings].sort((a, b) => severityOrder[b.severity] - severityOrder[a.severity]);
+  const openRecommendations = recommendations.filter((recommendation) => recommendation.status !== "completed");
+
   const { config, reason } = await getApprovedArcgisMapConfig({
     supabase,
     clubId: club.id,
@@ -73,10 +97,10 @@ export default async function ClubMapPage({
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Course Map</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
-              Interactive course intelligence.
+              Explore the evidence behind the report.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
-              The approved customer map for published survey layers, findings and course context.
+              Move between published survey layers, course areas, findings and recommended actions without leaving the Basalt portal.
             </p>
           </div>
           <Link
@@ -110,7 +134,22 @@ export default async function ClubMapPage({
 
         <div className="mt-8">
           {config && selectedCourse ? (
-            <ArcgisCourseMap config={config} courseName={selectedCourse.name} />
+            <ArcgisCourseMap
+              config={config}
+              courseName={selectedCourse.name}
+              reportHref={latestPublishedReport ? `/clubs/${club.slug}/reports/${latestPublishedReport.slug}` : undefined}
+              areaCount={courseAreas.length}
+              findings={sortedFindings.slice(0, 3).map((finding) => ({
+                id: finding.id,
+                title: finding.title,
+                meta: `${titleCase(finding.severity)} finding`,
+              }))}
+              recommendations={openRecommendations.slice(0, 2).map((recommendation) => ({
+                id: recommendation.id,
+                title: recommendation.title,
+                meta: `${titleCase(recommendation.priority)} · ${recommendation.recommendedTimeframe}`,
+              }))}
+            />
           ) : (
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
               <div className="flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start">
@@ -145,8 +184,8 @@ export default async function ClubMapPage({
 
         <section className="mt-5 grid gap-4 lg:grid-cols-3">
           {[
-            ["Basalt authentication", "Customer access is controlled by the existing Supabase portal session."],
-            ["Club authorization", "The requested club and course are resolved server-side before map configuration loads."],
+            ["Survey context", latestPublishedReport ? `${latestPublishedReport.title} · ${latestPublishedReport.surveyDate}` : "Published survey context will appear here once available."],
+            ["Course intelligence", `${sortedFindings.length} findings and ${openRecommendations.length} open recommendations connected to this view.`],
             ["Published map only", "Only the approved customer Web Map reference is passed into the browser."],
           ].map(([title, copy]) => (
             <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">

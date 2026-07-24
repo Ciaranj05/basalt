@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CourseMap } from "@/components/portal/CourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
+import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
 import {
   getCourseAreaById,
   getCourseAreas,
@@ -37,6 +38,13 @@ export default async function CourseAreaDetailPage({
     latestReport ? getFindingsForReport(supabase, club.id, latestReport.id) : Promise.resolve([]),
     latestReport ? getRecommendationsForReport(supabase, club.id, latestReport.id) : Promise.resolve([]),
   ]);
+  const { config: approvedMapConfig } = await getApprovedArcgisMapConfig({
+    supabase,
+    clubId: club.id,
+    clubSlug,
+    course,
+    latestReport,
+  });
 
   const index = courseAreas.findIndex((item) => item.id === area.id);
   const previous = courseAreas[index - 1];
@@ -74,6 +82,12 @@ export default async function CourseAreaDetailPage({
             {next ? (
               <Link href={`/clubs/${club.slug}/course-areas/${next.id}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d]">
                 {next.name}
+                <ArrowRight className="size-4" />
+              </Link>
+            ) : null}
+            {approvedMapConfig ? (
+              <Link href={`/clubs/${club.slug}/map`} className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white">
+                View on map
                 <ArrowRight className="size-4" />
               </Link>
             ) : null}

@@ -5,6 +5,7 @@ export type ArcgisMapConfig = {
   title: string;
   description: string;
   reportId: string;
+  reportTitle?: string;
   surveyDate: string;
 };
 
@@ -26,9 +27,11 @@ export const customerFeatureAttributeAllowlist = [
 export function filterCustomerVisibleAttributes(attributes: Record<string, unknown> | null | undefined) {
   if (!attributes) return {};
 
+  const allowed = new Set<string>(customerFeatureAttributeAllowlist);
+
   return Object.fromEntries(
-    customerFeatureAttributeAllowlist
-      .filter((key) => Object.prototype.hasOwnProperty.call(attributes, key))
-      .map((key) => [key, attributes[key]]),
+    Object.entries(attributes)
+      .map(([key, value]) => [key.toLowerCase(), value] as const)
+      .filter(([key, value]) => allowed.has(key) && value !== null && value !== undefined && value !== ""),
   );
 }

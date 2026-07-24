@@ -129,7 +129,7 @@ test.describe("portal navigation and content", () => {
 
     await page.goto("/clubs/north-coast-golf-club/map");
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/map$/);
-    await expect(page.getByRole("heading", { name: "Interactive course intelligence." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Explore the evidence behind the report." })).toBeVisible();
     await expect(
       page.getByText(/Your interactive course map is currently being prepared|Approved ArcGIS Web Map/i),
     ).toBeVisible();

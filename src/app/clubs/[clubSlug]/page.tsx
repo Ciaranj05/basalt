@@ -3,6 +3,7 @@ import { ArrowRight, CalendarDays, CheckCircle2, FileText, MapPinned, Target, Tr
 import { CourseMap } from "@/components/portal/CourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
+import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
 import {
   getCourseAreas,
   getFindingsForReport,
@@ -64,6 +65,14 @@ export default async function ClubOverviewPage({
     latestReport ? getRecommendationsForReport(supabase, club.id, latestReport.id) : Promise.resolve([]),
   ]);
 
+  const { config: approvedMapConfig } = await getApprovedArcgisMapConfig({
+    supabase,
+    clubId: club.id,
+    clubSlug,
+    course,
+    latestReport,
+  });
+
   const sortedFindings = [...findings].sort((a, b) => severityOrder[b.severity] - severityOrder[a.severity]);
   const criticalFindings = sortedFindings.filter((finding) => finding.severity === "critical");
   const highRecommendations = recommendations.filter(
@@ -120,12 +129,22 @@ export default async function ClubOverviewPage({
                   <span className="rounded-full border border-white/10 px-3 py-1">{titleCase(latestReport.reportType)}</span>
                   <span className="rounded-full border border-white/10 px-3 py-1">Version {latestReport.version}</span>
                 </div>
-                <Link
-                  href={`/clubs/${club.slug}/reports/${latestReport.slug}`}
-                  className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-                >
-                  Open latest report <ArrowRight className="size-4" />
-                </Link>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    href={`/clubs/${club.slug}/reports/${latestReport.slug}`}
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                  >
+                    Open latest report <ArrowRight className="size-4" />
+                  </Link>
+                  {approvedMapConfig ? (
+                    <Link
+                      href={`/clubs/${club.slug}/map`}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+                    >
+                      View mapped evidence <MapPinned className="size-4" />
+                    </Link>
+                  ) : null}
+                </div>
               </>
             ) : (
               <p className="mt-4 text-sm leading-6 text-white/58">No published report is available yet.</p>

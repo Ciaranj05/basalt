@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, FileText, Gauge, Layers3 } from "lucide-react";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
-import { getFindingsForReport, getRecommendationsForReport, getReportsForClub } from "@/lib/portal/data";
+import { getApprovedArcgisMapConfig } from "@/lib/portal/arcgis";
+import { getCourses, getFindingsForReport, getRecommendationsForReport, getReportsForClub } from "@/lib/portal/data";
 import type { Finding, Report } from "@/lib/portal/types";
 
 export const dynamic = "force-dynamic";
@@ -43,16 +44,19 @@ export default async function ReportsPage({
     clubId: club.id,
     includeInternal: isBasaltStaff,
   });
+  const courses = await getCourses(supabase, club.id);
 
   const reportCards = await Promise.all(
     reports.map(async (report) => {
-      const [findings, recommendations] = await Promise.all([
+      const reportCourse = courses.find((course) => course.id === report.courseId) ?? null;
+      const [findings, recommendations, mapResult] = await Promise.all([
         getFindingsForReport(supabase, club.id, report.id),
         getRecommendationsForReport(supabase, club.id, report.id),
+        getApprovedArcgisMapConfig({ supabase, clubId: club.id, clubSlug, course: reportCourse, latestReport: report }),
       ]);
       const sortedFindings = [...findings].sort((a, b) => severityOrder[b.severity] - severityOrder[a.severity]);
       const openRecommendations = recommendations.filter((recommendation) => recommendation.status !== "completed");
-      return { report, findings: sortedFindings, openRecommendations };
+      return { report, findings: sortedFindings, openRecommendations, hasApprovedMap: Boolean(mapResult.config) };
     }),
   );
 
@@ -75,7 +79,7 @@ export default async function ReportsPage({
         </div>
 
         <div className="mt-8 grid gap-5">
-          {reportCards.map(({ report, findings, openRecommendations }, index) => {
+          {reportCards.map(({ report, findings, openRecommendations, hasApprovedMap }, index) => {
             const priority = priorityLabel(findings);
             return (
               <article
@@ -131,17 +135,27 @@ export default async function ReportsPage({
                       ))}
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-6 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
                       <div className="inline-flex items-center gap-2 text-sm text-white/46">
                         <Gauge className="size-4 text-[#a6d8bd]" />
                         {findings[0]?.title ?? "No priority findings recorded"}
                       </div>
-                      <Link
-                        href={`/clubs/${club.slug}/reports/${report.slug}`}
-                        className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-                      >
-                        Open report <ArrowRight className="size-4" />
-                      </Link>
+                      <div className="flex flex-wrap gap-3">
+                        {hasApprovedMap ? (
+                          <Link
+                            href={`/clubs/${club.slug}/map`}
+                            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+                          >
+                            View map <Layers3 className="size-4" />
+                          </Link>
+                        ) : null}
+                        <Link
+                          href={`/clubs/${club.slug}/reports/${report.slug}`}
+                          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                        >
+                          Open report <ArrowRight className="size-4" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
