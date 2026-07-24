@@ -77,6 +77,12 @@ test.describe("portal navigation and content", () => {
       await expect(page.getByRole("link", { name: label })).toHaveCount(0);
       await expect(page.getByText(label)).toHaveCount(0);
     }
+    const visibleNav = await page.locator("header nav a").evaluateAll((links) =>
+      links.map((link) => link.textContent?.trim()).filter(Boolean),
+    );
+    expect(visibleNav).toEqual(
+      visibleNav.includes("Map") ? ["Overview", "Map", "Course Areas", "Reports"] : ["Overview", "Course Areas", "Reports"],
+    );
 
     await page.getByRole("link", { name: "Reports" }).click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/reports$/);
@@ -129,11 +135,12 @@ test.describe("portal navigation and content", () => {
 
     await page.goto("/clubs/north-coast-golf-club/map");
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/map$/);
-    await expect(page.getByRole("heading", { name: "Explore the evidence behind the report." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Explore your course intelligence." })).toBeVisible();
     await expect(
-      page.getByText(/Your interactive course map is currently being prepared|Approved ArcGIS Web Map/i),
+      page.getByText(/Your interactive course map is currently being prepared|Basalt Golf Intelligence/i),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Course Map" })).toHaveCount(0);
+    await expect(page.getByText(/Basalt authentication|Club authorization|Published map only|resolved server-side/i)).toHaveCount(0);
   });
 
   test("cross-club Course Map access is blocked", async ({ page }) => {

@@ -20,9 +20,19 @@ test("Course Map route reuses existing authenticated club membership checks", ()
   assert.match(mapPageSource, /getApprovedArcgisMapConfig/);
 });
 
-test("Course Map remains out of primary customer navigation", () => {
+test("Map navigation is conditional and does not expose the old Course Map label", () => {
   assert.doesNotMatch(portalShellSource, /label: "Course Map"/);
-  assert.doesNotMatch(portalShellSource, /\/map`/);
+  assert.match(portalShellSource, /label: "Map"/);
+  assert.match(portalShellSource, /requiresMap: true/);
+  assert.match(portalShellSource, /showMapNavigation/);
+  assert.match(portalShellSource, /\/map`/);
+});
+
+test("primary navigation order is Overview, Map, Course Areas, Reports", () => {
+  assert.match(
+    portalShellSource,
+    /label: "Overview"[\s\S]*label: "Map"[\s\S]*label: "Course Areas"[\s\S]*label: "Reports"/,
+  );
 });
 
 test("ArcGIS configuration is resolved from approved published context only", () => {
@@ -74,10 +84,12 @@ test("ArcGIS map failure renders a safe customer-facing state", () => {
   assert.match(arcgisComponentSource, /We couldn&apos;t load the course map at the moment\./);
   assert.doesNotMatch(arcgisComponentSource, /Web Map item ID|service URL|ArcGIS credentials|API failure code/);
   assert.match(mapPageSource, /Your interactive course map is currently being prepared\./);
+  assert.doesNotMatch(mapPageSource, /Basalt authentication|Club authorization|Published map only|resolved server-side|approved customer Web Map reference/);
 });
 
 test("Stage 2 presents ArcGIS as part of the Basalt Golf Intelligence journey", () => {
-  assert.match(mapPageSource, /Explore the evidence behind the report\./);
+  assert.match(mapPageSource, /Explore your course intelligence\./);
+  assert.match(mapPageSource, /active="Map"/);
   assert.match(arcgisComponentSource, /Basalt Golf Intelligence/);
   assert.match(arcgisComponentSource, /Report intelligence/);
   assert.match(arcgisComponentSource, /Recommended actions/);
@@ -97,7 +109,8 @@ test("mapped evidence entry points are conditional and outside primary navigatio
   assert.match(reportsPageSource, /getApprovedArcgisMapConfig/);
   assert.match(reportsPageSource, /hasApprovedMap/);
 
-  assert.match(overviewPageSource, /View mapped evidence/);
+  assert.match(overviewPageSource, /Interactive Course Map/);
+  assert.match(overviewPageSource, /Open Map/);
   assert.match(reportsPageSource, /View map/);
   assert.match(reportDetailSource, /View mapped evidence/);
   assert.match(courseAreasSource, /View mapped areas/);

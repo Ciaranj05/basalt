@@ -89,7 +89,7 @@ export default async function ClubOverviewPage({
   const priorityLevel = highestPriority(findings, recommendations);
 
   return (
-    <PortalShell club={club} active="Overview">
+    <PortalShell club={club} active="Overview" showMapNavigation={Boolean(approvedMapConfig)}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch">
           <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
@@ -136,14 +136,6 @@ export default async function ClubOverviewPage({
                   >
                     Open latest report <ArrowRight className="size-4" />
                   </Link>
-                  {approvedMapConfig ? (
-                    <Link
-                      href={`/clubs/${club.slug}/map`}
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
-                    >
-                      View mapped evidence <MapPinned className="size-4" />
-                    </Link>
-                  ) : null}
                 </div>
               </>
             ) : (
@@ -151,6 +143,33 @@ export default async function ClubOverviewPage({
             )}
           </section>
         </div>
+
+        {approvedMapConfig ? (
+          <Link
+            href={`/clubs/${club.slug}/map`}
+            className="group mt-5 block overflow-hidden rounded-[8px] border border-[#a6d8bd]/20 bg-[#a6d8bd]/8 p-5 transition hover:border-[#a6d8bd]/36 hover:bg-[#a6d8bd]/12 sm:p-6"
+          >
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex max-w-3xl gap-4">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-[8px] border border-[#a6d8bd]/20 bg-[#a6d8bd]/10">
+                  <MapPinned className="size-5 text-[#a6d8bd]" />
+                </span>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#dff4e8]/64">Map available</p>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-normal text-white">
+                    Interactive Course Map
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-white/60">
+                    Explore mapped survey evidence, findings and recommendations across your course.
+                  </p>
+                </div>
+              </div>
+              <span className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition group-hover:bg-[#dff4e8]">
+                Open Map <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
+              </span>
+            </div>
+          </Link>
+        ) : null}
 
         <div className="mt-5 grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
           <CourseMap areas={courseAreas} layers={mapLayers} />

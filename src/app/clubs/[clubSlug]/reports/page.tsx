@@ -60,8 +60,10 @@ export default async function ReportsPage({
     }),
   );
 
+  const hasAnyApprovedMap = reportCards.some((card) => card.hasApprovedMap);
+
   return (
-    <PortalShell club={club} active="Reports">
+    <PortalShell club={club} active="Reports" showMapNavigation={hasAnyApprovedMap}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>

@@ -9,17 +9,20 @@ import { LogoutButton } from "./AuthForms";
 
 const navItems = [
   { label: "Overview", href: (clubSlug: string) => `/clubs/${clubSlug}` },
-  { label: "Reports", href: (clubSlug: string) => `/clubs/${clubSlug}/reports` },
+  { label: "Map", href: (clubSlug: string) => `/clubs/${clubSlug}/map`, requiresMap: true },
   { label: "Course Areas", href: (clubSlug: string) => `/clubs/${clubSlug}/course-areas` },
+  { label: "Reports", href: (clubSlug: string) => `/clubs/${clubSlug}/reports` },
 ] as const;
 
 export function PortalShell({
   club,
   active = "Overview",
+  showMapNavigation = false,
   children,
 }: {
   club: Club;
   active?: string;
+  showMapNavigation?: boolean;
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -103,7 +106,7 @@ export function PortalShell({
           </div>
         </div>
         <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8">
-          {navItems.map((item) => {
+          {navItems.filter((item) => !("requiresMap" in item) || showMapNavigation).map((item) => {
             const href = item.href(club.slug);
 
             return (
@@ -144,7 +147,7 @@ export function PortalShell({
               </button>
             </div>
             <nav className="mt-8 grid gap-2" aria-label="Mobile portal navigation">
-              {navItems.map((item) => {
+              {navItems.filter((item) => !("requiresMap" in item) || showMapNavigation).map((item) => {
                 const href = item.href(club.slug);
 
                 return (

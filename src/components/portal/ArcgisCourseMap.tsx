@@ -168,7 +168,7 @@ export function ArcgisCourseMap({
                 <div className="mx-auto size-10 animate-pulse rounded-full border border-[#a6d8bd]/28 bg-[#a6d8bd]/10" />
                 <p className="mt-4 text-sm font-semibold text-white">Preparing course map</p>
                 <p className="mt-2 text-xs leading-5 text-white/48">
-                  Loading the approved customer map inside Basalt.
+                  Loading mapped survey evidence for this course.
                 </p>
               </div>
             </div>
@@ -214,7 +214,7 @@ export function ArcgisCourseMap({
             </div>
           ) : (
             <p className="text-sm leading-6 text-white/54">
-              Select a mapped feature to view customer-ready details from the approved ArcGIS Web Map.
+              Select a mapped feature to view customer-ready survey evidence and related recommendations.
             </p>
           )}
 

@@ -390,7 +390,7 @@ export default async function ReportReaderPage({
   ];
 
   return (
-    <PortalShell club={club} active="Reports">
+    <PortalShell club={club} active="Reports" showMapNavigation={Boolean(approvedMapConfig)}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Link href={`/clubs/${club.slug}/reports`} className="inline-flex items-center gap-2 text-sm text-white/52 transition hover:text-white">
           <ArrowLeft className="size-4" />

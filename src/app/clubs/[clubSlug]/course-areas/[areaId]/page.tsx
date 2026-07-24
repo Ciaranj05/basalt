@@ -55,7 +55,7 @@ export default async function CourseAreaDetailPage({
   );
 
   return (
-    <PortalShell club={club} active="Course Areas">
+    <PortalShell club={club} active="Course Areas" showMapNavigation={Boolean(approvedMapConfig)}>
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Link href={`/clubs/${club.slug}/course-areas`} className="inline-flex items-center gap-2 text-sm text-white/52 transition hover:text-white">
           <ArrowLeft className="size-4" />

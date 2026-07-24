@@ -91,16 +91,16 @@ export default async function ClubMapPage({
   const emptyState = emptyStateCopy(reason);
 
   return (
-    <PortalShell club={club} active="Course Map">
+    <PortalShell club={club} active="Map" showMapNavigation={Boolean(config)}>
       <section className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Course Map</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Interactive Map</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
-              Explore the evidence behind the report.
+              Explore your course intelligence.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
-              Move between published survey layers, course areas, findings and recommended actions without leaving the Basalt portal.
+              View mapped survey evidence, findings and recommendations across the course.
             </p>
           </div>
           <Link
@@ -182,21 +182,23 @@ export default async function ClubMapPage({
           )}
         </div>
 
-        <section className="mt-5 grid gap-4 lg:grid-cols-3">
-          {[
-            ["Survey context", latestPublishedReport ? `${latestPublishedReport.title} · ${latestPublishedReport.surveyDate}` : "Published survey context will appear here once available."],
-            ["Course intelligence", `${sortedFindings.length} findings and ${openRecommendations.length} open recommendations connected to this view.`],
-            ["Published map only", "Only the approved customer Web Map reference is passed into the browser."],
-          ].map(([title, copy]) => (
-            <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                <Layers3 className="size-4 text-[#a6d8bd]" />
-                {title}
+        {config ? (
+          <section className="mt-5 grid gap-4 lg:grid-cols-3">
+            {[
+              ["Latest survey", latestPublishedReport ? `${latestPublishedReport.title} · ${latestPublishedReport.surveyDate}` : "Published survey context will appear here once available."],
+              ["Mapped findings", `${sortedFindings.length} findings connected to this course view.`],
+              ["Open recommendations", `${openRecommendations.length} recommended actions available for review.`],
+            ].map(([title, copy]) => (
+              <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
+                <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <Layers3 className="size-4 text-[#a6d8bd]" />
+                  {title}
+                </div>
+                <p className="mt-3 text-sm leading-6 text-white/52">{copy}</p>
               </div>
-              <p className="mt-3 text-sm leading-6 text-white/52">{copy}</p>
-            </div>
-          ))}
-        </section>
+            ))}
+          </section>
+        ) : null}
       </section>
     </PortalShell>
   );
