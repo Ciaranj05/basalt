@@ -98,9 +98,16 @@ test.describe("portal navigation and content", () => {
     await page.getByRole("link", { name: "Open latest report" }).click();
     await expect(page).toHaveURL(/\/reports\/2026-course-baseline$/);
     await expect(page.getByRole("heading", { name: "2026 Course Baseline & Monitoring Report" })).toBeVisible();
+    await expect(page.getByText("Demonstration report — illustrative data")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Overall course condition/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Issues by urgency" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Evidence-led course findings" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Recommendations by decision window" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Course asset record" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How this survey was interpreted" })).toBeVisible();
     await expect(page.getByRole("link", { name: /^Downloads$/ })).toHaveCount(0);
 
-    await page.getByRole("button", { name: /print view/i }).click();
+    await page.getByRole("button", { name: /print view/i }).first().click();
     const printed = await page.evaluate(() => document.body.dataset.printCalled === "true");
     expect(printed).toBe(true);
   });
@@ -131,9 +138,9 @@ test.describe("portal navigation and content", () => {
   test("report unavailable controls are disabled", async ({ page }) => {
     await page.getByRole("link", { name: "Open latest report" }).click();
 
-    await expect(page.getByRole("button", { name: /download pdf/i })).toBeDisabled();
-    await expect(page.getByRole("button", { name: /previous section/i })).toBeDisabled();
-    await expect(page.getByRole("button", { name: /next section/i })).toBeDisabled();
+    await expect(page.getByRole("button", { name: /download pdf/i }).first()).toBeDisabled();
+    await expect(page.getByRole("button", { name: /previous section/i })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /next section/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /^Downloads$/ })).toHaveCount(0);
   });
 
