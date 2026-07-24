@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import fs from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 
 const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -35,6 +36,30 @@ function passwordFor(envName) {
   const generated = crypto.randomBytes(14).toString("base64url");
   generatedPasswords.push([envName, generated]);
   return generated;
+}
+
+async function findAuthUserByEmail(email) {
+  let page = 1;
+
+  while (page <= 20) {
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page,
+      perPage: 100,
+    });
+
+    if (error) throw error;
+
+    const user = data.users.find(
+      (candidate) => candidate.email?.toLowerCase() === email.toLowerCase(),
+    );
+
+    if (user) return user;
+    if (data.users.length < 100) return null;
+
+    page += 1;
+  }
+
+  return null;
 }
 
 const users = [
@@ -86,18 +111,24 @@ async function upsertUser(config) {
 
   let user = data.user;
   if (error && error.message.toLowerCase().includes("already")) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("id")
-      .ilike("email", config.email)
-      .maybeSingle();
-    user = profile ? { id: profile.id } : null;
+    user = await findAuthUserByEmail(config.email);
   } else if (error) {
     throw error;
   }
 
   if (!user) {
     throw new Error(`Could not resolve user for ${config.email}`);
+  }
+
+  if (error) {
+    throwIfError(
+      await supabase.auth.admin.updateUserById(user.id, {
+        password: config.password,
+        email_confirm: true,
+        user_metadata: { full_name: config.fullName },
+      }),
+      `Auth user update failed for ${config.email}`,
+    );
   }
 
   throwIfError(
@@ -142,8 +173,15 @@ for (const user of users) {
 }
 
 if (generatedPasswords.length) {
-  console.log("\nGenerated development passwords:");
-  for (const [name, password] of generatedPasswords) {
-    console.log(`${name}=${password}`);
-  }
+  const passwordOutputFile =
+    process.env.BASALT_DEV_PASSWORD_OUTPUT_FILE ??
+    "/private/tmp/basalt-dev-user-passwords.env";
+
+  fs.writeFileSync(
+    passwordOutputFile,
+    `${generatedPasswords.map(([name, password]) => `${name}=${password}`).join("\n")}\n`,
+    { mode: 0o600 },
+  );
+  fs.chmodSync(passwordOutputFile, 0o600);
+  console.log(`Generated development passwords written to ${passwordOutputFile}`);
 }
