@@ -22,6 +22,13 @@ const clubs = {
 
 const generatedPasswords = [];
 
+function throwIfError(result, context) {
+  if (result.error) {
+    throw new Error(`${context}: ${result.error.message}`);
+  }
+  return result;
+}
+
 function passwordFor(envName) {
   const existing = process.env[envName];
   if (existing) return existing;
@@ -93,28 +100,37 @@ async function upsertUser(config) {
     throw new Error(`Could not resolve user for ${config.email}`);
   }
 
-  await supabase.from("profiles").upsert({
-    id: user.id,
-    email: config.email,
-    full_name: config.fullName,
-    updated_at: new Date().toISOString(),
-  });
+  throwIfError(
+    await supabase.from("profiles").upsert({
+      id: user.id,
+      email: config.email,
+      full_name: config.fullName,
+      updated_at: new Date().toISOString(),
+    }),
+    `Profile upsert failed for ${config.email}`,
+  );
 
   if (config.globalRole) {
-    await supabase.from("global_roles").upsert({
-      user_id: user.id,
-      role: config.globalRole,
-    });
+    throwIfError(
+      await supabase.from("global_roles").upsert({
+        user_id: user.id,
+        role: config.globalRole,
+      }),
+      `Global role upsert failed for ${config.email}`,
+    );
   }
 
   for (const membership of config.memberships ?? []) {
-    await supabase.from("club_memberships").upsert({
-      club_id: membership.clubId,
-      user_id: user.id,
-      role: membership.role,
-      status: membership.status,
-      joined_at: membership.status === "active" ? new Date().toISOString() : null,
-    });
+    throwIfError(
+      await supabase.from("club_memberships").upsert({
+        club_id: membership.clubId,
+        user_id: user.id,
+        role: membership.role,
+        status: membership.status,
+        joined_at: membership.status === "active" ? new Date().toISOString() : null,
+      }),
+      `Membership upsert failed for ${config.email}`,
+    );
   }
 
   return user.id;

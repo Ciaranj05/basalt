@@ -22,15 +22,9 @@ function canEditClubRecords({ memberships, globalRoles, clubId }) {
   );
 }
 
-function canInviteToClub({ memberships, globalRoles, clubId, targetClubId }) {
+function canInviteToClub({ globalRoles, clubId, targetClubId }) {
   if (clubId !== targetClubId) return false;
-  if (globalRoles.includes("basalt_super_admin")) return true;
-  return memberships.some(
-    (membership) =>
-      membership.clubId === clubId &&
-      membership.role === "club_admin" &&
-      membership.status === "active",
-  );
+  return globalRoles.some(isBasaltRole);
 }
 
 function canClubUserSeeReport(status) {
@@ -39,6 +33,19 @@ function canClubUserSeeReport(status) {
 
 function canBasaltStaffSeeReport(status) {
   return ["draft", "internal_review", "published", "archived"].includes(status);
+}
+
+function canReadReportLinkedRecord({ memberships, globalRoles, recordClubId, reportClubId, reportStatus }) {
+  if (globalRoles.some(isBasaltRole)) return true;
+  return (
+    recordClubId === reportClubId &&
+    reportStatus === "published" &&
+    memberships.some(
+      (membership) =>
+        membership.clubId === recordClubId &&
+        membership.status === "active",
+    )
+  );
 }
 
 function safeInternalPath(value) {
@@ -83,9 +90,9 @@ test("read-only committee viewer cannot edit reports", () => {
   );
 });
 
-test("club administrator can invite only to their own club", () => {
+test("club administrator cannot manage memberships", () => {
   const memberships = [{ clubId: "club-a", role: "club_admin", status: "active" }];
-  assert.equal(canInviteToClub({ clubId: "club-a", targetClubId: "club-a", memberships, globalRoles: [] }), true);
+  assert.equal(canInviteToClub({ clubId: "club-a", targetClubId: "club-a", memberships, globalRoles: [] }), false);
   assert.equal(canInviteToClub({ clubId: "club-a", targetClubId: "club-b", memberships, globalRoles: [] }), false);
 });
 
@@ -100,7 +107,7 @@ test("basalt analyst can create draft report records", () => {
   );
 });
 
-test("only super admins can invite through the Basalt admin path", () => {
+test("only Basalt roles can manage memberships through the Basalt admin path", () => {
   assert.equal(
     canInviteToClub({
       clubId: "club-a",
@@ -108,7 +115,7 @@ test("only super admins can invite through the Basalt admin path", () => {
       memberships: [],
       globalRoles: ["basalt_analyst"],
     }),
-    false,
+    true,
   );
   assert.equal(
     canInviteToClub({
@@ -133,6 +140,53 @@ test("basalt staff can inspect every report status", () => {
   assert.equal(canBasaltStaffSeeReport("internal_review"), true);
   assert.equal(canBasaltStaffSeeReport("published"), true);
   assert.equal(canBasaltStaffSeeReport("archived"), true);
+});
+
+test("nested report records require matching club and a published report for club users", () => {
+  const memberships = [{ clubId: "club-a", role: "club_user", status: "active" }];
+  assert.equal(
+    canReadReportLinkedRecord({
+      memberships,
+      globalRoles: [],
+      recordClubId: "club-a",
+      reportClubId: "club-a",
+      reportStatus: "published",
+    }),
+    true,
+  );
+  assert.equal(
+    canReadReportLinkedRecord({
+      memberships,
+      globalRoles: [],
+      recordClubId: "club-a",
+      reportClubId: "club-a",
+      reportStatus: "draft",
+    }),
+    false,
+  );
+  assert.equal(
+    canReadReportLinkedRecord({
+      memberships,
+      globalRoles: [],
+      recordClubId: "club-a",
+      reportClubId: "club-b",
+      reportStatus: "published",
+    }),
+    false,
+  );
+});
+
+test("Basalt staff can inspect nested report records across statuses", () => {
+  assert.equal(
+    canReadReportLinkedRecord({
+      memberships: [],
+      globalRoles: ["basalt_analyst"],
+      recordClubId: "club-a",
+      reportClubId: "club-b",
+      reportStatus: "draft",
+    }),
+    true,
+  );
 });
 
 test("callback redirects stay internal", () => {
