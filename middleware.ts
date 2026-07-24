@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/middleware";
 
-const protectedPrefixes = ["/clubs", "/admin"];
-const authRoutes = ["/login", "/reset-password", "/accept-invite"];
+const protectedPrefixes = ["/clubs", "/admin", "/accept-invite", "/update-password"];
+const authRoutes = ["/login", "/reset-password"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
   if (isProtected && !user) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/login";
-    redirectUrl.searchParams.set("next", pathname);
+    redirectUrl.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
     return NextResponse.redirect(redirectUrl);
   }
 
@@ -37,5 +37,6 @@ export const config = {
     "/login",
     "/reset-password",
     "/accept-invite",
+    "/update-password",
   ],
 };

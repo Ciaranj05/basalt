@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { BasaltLogo } from "@/components/BasaltLogo";
-import { PasswordResetForm } from "@/components/portal/AuthForms";
+import { UpdatePasswordForm } from "@/components/portal/AuthForms";
 
-export default function ResetPasswordPage() {
+export default function UpdatePasswordPage() {
   return (
     <main className="min-h-screen bg-[#050807] px-5 py-8 text-white sm:px-8">
       <div className="mx-auto max-w-3xl">
@@ -14,13 +14,12 @@ export default function ResetPasswordPage() {
             Password Reset
           </p>
           <h1 className="mt-4 text-4xl font-semibold tracking-normal text-white">
-            Reset your portal password.
+            Set a new password.
           </h1>
           <p className="mt-4 text-sm leading-6 text-white/62">
-            Enter the email address linked to your Basalt portal account. If the
-            account exists, Supabase Auth will send a secure reset link.
+            Choose a new password for your Basalt portal account.
           </p>
-          <PasswordResetForm />
+          <UpdatePasswordForm />
         </section>
       </div>
     </main>

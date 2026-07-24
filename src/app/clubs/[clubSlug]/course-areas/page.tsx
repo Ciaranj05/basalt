@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { PortalShell } from "@/components/portal/PortalShell";
-import { demoCourseAreas, getDemoClubBySlug } from "@/lib/portal/demo-data";
+import { requireClubMembership } from "@/lib/portal/access";
+import { getCourseAreas } from "@/lib/portal/data";
+
+export const dynamic = "force-dynamic";
 
 export default async function CourseAreasPage({
   params,
@@ -10,8 +12,8 @@ export default async function CourseAreasPage({
   params: Promise<{ clubSlug: string }>;
 }) {
   const { clubSlug } = await params;
-  const club = getDemoClubBySlug(clubSlug);
-  if (!club) notFound();
+  const { supabase, club } = await requireClubMembership(clubSlug);
+  const courseAreas = await getCourseAreas(supabase, club.id);
 
   return (
     <PortalShell club={club} active="Course Areas">
@@ -23,7 +25,7 @@ export default async function CourseAreasPage({
           Course asset record.
         </h1>
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {demoCourseAreas.map((area) => (
+          {courseAreas.map((area) => (
             <Link
               key={area.id}
               href={`/clubs/${club.slug}/course-areas/${area.id}`}

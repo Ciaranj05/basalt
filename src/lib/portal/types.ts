@@ -33,6 +33,10 @@ export type Club = {
   coverImageUrl: string | null;
   packageName: string;
   onboardingStatus: string;
+  membershipRole?: PortalRole;
+  courseName?: string;
+  latestReportTitle?: string | null;
+  latestSurveyDate?: string | null;
 };
 
 export type Course = {
@@ -87,6 +91,17 @@ export type Report = {
   publishedAt: string | null;
   version: number;
   sections: ReportSection[];
+};
+
+export type ReportMedia = {
+  id: string;
+  clubId: string;
+  reportId: string;
+  courseAreaId: string | null;
+  filePath: string;
+  mediaType: string;
+  caption: string | null;
+  capturedAt: string | null;
 };
 
 export type Finding = {

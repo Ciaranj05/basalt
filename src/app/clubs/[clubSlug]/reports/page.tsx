@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArrowRight, FileText } from "lucide-react";
 import { PortalShell } from "@/components/portal/PortalShell";
-import { demoReports, getDemoClubBySlug } from "@/lib/portal/demo-data";
+import { requireClubMembership } from "@/lib/portal/access";
+import { getReportsForClub } from "@/lib/portal/data";
+
+export const dynamic = "force-dynamic";
 
 export default async function ReportsPage({
   params,
@@ -10,8 +12,12 @@ export default async function ReportsPage({
   params: Promise<{ clubSlug: string }>;
 }) {
   const { clubSlug } = await params;
-  const club = getDemoClubBySlug(clubSlug);
-  if (!club) notFound();
+  const { supabase, club, isBasaltStaff } = await requireClubMembership(clubSlug);
+  const reports = await getReportsForClub({
+    supabase,
+    clubId: club.id,
+    includeInternal: isBasaltStaff,
+  });
 
   return (
     <PortalShell club={club} active="Reports">
@@ -23,7 +29,7 @@ export default async function ReportsPage({
           Published course reports.
         </h1>
         <div className="mt-8 grid gap-4">
-          {demoReports.map((report) => (
+          {reports.map((report) => (
             <article key={report.id} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
               <div className="grid gap-5 lg:grid-cols-[auto_1fr_auto] lg:items-center">
                 <div className="flex size-12 items-center justify-center rounded-[8px] border border-white/10 bg-black/20">
@@ -31,7 +37,8 @@ export default async function ReportsPage({
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-[0.22em] text-white/42">
-                    Survey date {report.surveyDate} · Version {report.version}
+                    Survey date {report.surveyDate || "Pending"} · Version {report.version}
+                    {isBasaltStaff ? ` · ${report.status}` : ""}
                   </p>
                   <h2 className="mt-2 text-2xl font-semibold text-white">{report.title}</h2>
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-white/58">{report.summary}</p>
@@ -45,6 +52,11 @@ export default async function ReportsPage({
               </div>
             </article>
           ))}
+          {!reports.length ? (
+            <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5 text-sm text-white/58">
+              No reports are currently visible for this workspace.
+            </div>
+          ) : null}
         </div>
       </section>
     </PortalShell>

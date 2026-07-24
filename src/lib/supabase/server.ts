@@ -5,10 +5,10 @@ import { getSupabaseBrowserConfig, hasSupabaseConfig } from "./config";
 export async function createSupabaseServerClient() {
   if (!hasSupabaseConfig()) return null;
 
-  const { url, anonKey } = getSupabaseBrowserConfig();
+  const { url, publishableKey } = getSupabaseBrowserConfig();
   const cookieStore = await cookies();
 
-  return createServerClient(url, anonKey, {
+  return createServerClient(url, publishableKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();

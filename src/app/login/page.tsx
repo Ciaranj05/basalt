@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
+import { LoginForm } from "@/components/portal/AuthForms";
 
 export default function LoginPage({
   searchParams,
@@ -28,36 +28,8 @@ export default function LoginPage({
               administrators.
             </p>
           </div>
-          <form className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-8">
-            <input type="hidden" name="next" value={nextPath} />
-            <label className="block text-sm font-medium text-white" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="mt-2 h-12 w-full rounded-[6px] border border-white/12 bg-black/20 px-4 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#b8f2d2]"
-            />
-            <label className="mt-5 block text-sm font-medium text-white" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="mt-2 h-12 w-full rounded-[6px] border border-white/12 bg-black/20 px-4 text-white outline-none focus-visible:ring-2 focus-visible:ring-[#b8f2d2]"
-            />
-            <button
-              type="submit"
-              className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
-            >
-              Sign in <ArrowRight className="size-4" />
-            </button>
+          <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-6 sm:p-8">
+            <LoginForm nextPath={nextPath} />
             <div className="mt-5 flex flex-wrap justify-between gap-3 text-sm text-white/56">
               <Link href="/reset-password" className="transition hover:text-white">
                 Reset password
@@ -70,7 +42,7 @@ export default function LoginPage({
               Public registration is disabled. Accounts are created by Basalt
               or an authorised club administrator.
             </p>
-          </form>
+          </div>
         </div>
       </div>
     </main>
