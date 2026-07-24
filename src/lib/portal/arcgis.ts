@@ -36,6 +36,16 @@ function normaliseWebMapItemId(value: string | null | undefined) {
   return itemId;
 }
 
+function customerMapDescription(value: string | null | undefined) {
+  const fallback = "Explore mapped survey evidence, findings and recommendations across the course.";
+  const description = value?.trim();
+  if (!description) return fallback;
+  if (/arcgis|web map|configuration|database|map_layers|replace before live/i.test(description)) {
+    return fallback;
+  }
+  return description;
+}
+
 function configuredClubAllowsMap(clubSlug: string) {
   const allowed = process.env.ARCGIS_POC_CLUB_SLUGS?.split(",")
     .map((value) => value.trim())
@@ -114,7 +124,7 @@ export async function getApprovedArcgisMapConfig({
         webMapItemId,
         source: "map_layers",
         title: row.name,
-        description: row.description ?? "Interactive course intelligence map prepared for customer review.",
+        description: customerMapDescription(row.description),
         reportId: latestReport.id,
         reportTitle: latestReport.title,
         surveyDate: latestReport.surveyDate,

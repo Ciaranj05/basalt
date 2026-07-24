@@ -26,8 +26,8 @@ function emptyStateCopy(reason: string | null) {
   }
 
   return {
-    title: "Your interactive course map is currently being prepared.",
-    body: "You can still access your published reports while Basalt prepares the approved customer map.",
+    title: "Interactive map coming soon",
+    body: "Your course map is being prepared and will appear here once it is ready.",
   };
 }
 
@@ -92,27 +92,32 @@ export default async function ClubMapPage({
 
   return (
     <PortalShell club={club} active="Map" showMapNavigation={Boolean(config)}>
-      <section className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)] lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Interactive Map</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
-              Explore your course intelligence.
+            <p className="text-xs uppercase tracking-[0.24em] text-[#51745f]">Interactive Map</p>
+            <h1 className="mt-3 text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-tight tracking-normal text-[#102019]">
+              Interactive Map
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
-              View mapped survey evidence, findings and recommendations across the course.
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#65736a]">
+              Explore course areas, survey findings and recommendations.
             </p>
+            {latestPublishedReport ? (
+              <p className="mt-2 text-sm text-[#7a877f]">
+                {selectedCourse?.name} · {latestPublishedReport.title} · {latestPublishedReport.surveyDate}
+              </p>
+            ) : null}
           </div>
           <Link
             href={`/clubs/${club.slug}/reports`}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#d9dfd7] bg-white px-5 text-sm font-semibold text-[#22342a] shadow-sm transition hover:border-[#b9c8be]"
           >
             Open reports <ArrowRight className="size-4" />
           </Link>
         </div>
 
         {courses.length > 1 ? (
-          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Course selector">
+          <nav className="mt-5 flex flex-wrap gap-2" aria-label="Course selector">
             {courses.map((course) => {
               const active = selectedCourse?.id === course.id;
               return (
@@ -121,8 +126,8 @@ export default async function ClubMapPage({
                   href={`/clubs/${club.slug}/map?course=${course.id}`}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     active
-                      ? "bg-white text-[#07110d]"
-                      : "border border-white/12 bg-white/[0.04] text-white/62 hover:bg-white/[0.06] hover:text-white"
+                      ? "bg-[#153d2b] text-white shadow-sm"
+                      : "border border-[#d9dfd7] bg-white text-[#65736a] shadow-sm hover:border-[#b9c8be] hover:text-[#14211a]"
                   }`}
                 >
                   {course.name}
@@ -151,27 +156,27 @@ export default async function ClubMapPage({
               }))}
             />
           ) : (
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+            <section className="rounded-[12px] border border-[#d9dfd7] bg-white p-6 shadow-[0_16px_60px_rgba(45,62,53,0.08)] sm:p-8">
               <div className="flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-[8px] border border-[#a6d8bd]/20 bg-[#a6d8bd]/10">
-                  <MapPinned className="size-5 text-[#a6d8bd]" />
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-[8px] border border-[#c7d5ca] bg-[#eef5ef]">
+                  <MapPinned className="size-5 text-[#51745f]" />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-white/38">Map status</p>
-                  <h2 className="mt-3 text-2xl font-semibold tracking-normal text-white">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#7a877f]">Map status</p>
+                  <h2 className="mt-3 text-2xl font-semibold tracking-normal text-[#102019]">
                     {emptyState.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-white/58">{emptyState.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-[#65736a]">{emptyState.body}</p>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
                       href={`/clubs/${club.slug}/reports`}
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#153d2b] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1f563e]"
                     >
                       View published reports <ArrowRight className="size-4" />
                     </Link>
                     <Link
                       href={`/clubs/${club.slug}`}
-                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#d9dfd7] bg-white px-5 text-sm font-semibold text-[#22342a] shadow-sm transition hover:border-[#b9c8be]"
                     >
                       Return to overview
                     </Link>
@@ -189,12 +194,12 @@ export default async function ClubMapPage({
               ["Mapped findings", `${sortedFindings.length} findings connected to this course view.`],
               ["Open recommendations", `${openRecommendations.length} recommended actions available for review.`],
             ].map(([title, copy]) => (
-              <div key={title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <Layers3 className="size-4 text-[#a6d8bd]" />
+              <div key={title} className="rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.06)]">
+                <div className="flex items-center gap-2 text-sm font-semibold text-[#14211a]">
+                  <Layers3 className="size-4 text-[#51745f]" />
                   {title}
                 </div>
-                <p className="mt-3 text-sm leading-6 text-white/52">{copy}</p>
+                <p className="mt-3 text-sm leading-6 text-[#65736a]">{copy}</p>
               </div>
             ))}
           </section>

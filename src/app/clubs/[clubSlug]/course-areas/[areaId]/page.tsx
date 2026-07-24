@@ -56,37 +56,37 @@ export default async function CourseAreaDetailPage({
 
   return (
     <PortalShell club={club} active="Course Areas" showMapNavigation={Boolean(approvedMapConfig)}>
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Link href={`/clubs/${club.slug}/course-areas`} className="inline-flex items-center gap-2 text-sm text-white/52 transition hover:text-white">
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <Link href={`/clubs/${club.slug}/course-areas`} className="inline-flex items-center gap-2 text-sm font-semibold text-[#65736a] transition hover:text-[#14211a]">
           <ArrowLeft className="size-4" />
           Course areas
         </Link>
 
         <div className="mt-5 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">
+            <p className="text-xs uppercase tracking-[0.24em] text-[#51745f]">
               {area.areaType} · {area.referenceNumber}
             </p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
+            <h1 className="mt-3 text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-tight tracking-normal text-[#102019]">
               {area.name}
             </h1>
-            <p className="mt-4 text-sm leading-6 text-white/58">{area.summary}</p>
+            <p className="mt-4 text-sm leading-6 text-[#65736a]">{area.summary}</p>
           </div>
           <div className="flex flex-wrap gap-3 lg:justify-end">
             {previous ? (
-              <Link href={`/clubs/${club.slug}/course-areas/${previous.id}`} className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70">
+              <Link href={`/clubs/${club.slug}/course-areas/${previous.id}`} className="inline-flex h-11 items-center gap-2 rounded-full border border-[#d9dfd7] bg-white px-5 text-sm font-semibold text-[#22342a] shadow-sm">
                 <ArrowLeft className="size-4" />
                 {previous.name}
               </Link>
             ) : null}
             {next ? (
-              <Link href={`/clubs/${club.slug}/course-areas/${next.id}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d]">
+              <Link href={`/clubs/${club.slug}/course-areas/${next.id}`} className="inline-flex h-11 items-center gap-2 rounded-full bg-[#153d2b] px-5 text-sm font-semibold text-white shadow-sm">
                 {next.name}
                 <ArrowRight className="size-4" />
               </Link>
             ) : null}
             {approvedMapConfig ? (
-              <Link href={`/clubs/${club.slug}/map`} className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white">
+              <Link href={`/clubs/${club.slug}/map`} className="inline-flex h-11 items-center gap-2 rounded-full border border-[#d9dfd7] bg-white px-5 text-sm font-semibold text-[#22342a] shadow-sm transition hover:border-[#b9c8be]">
                 View on map
                 <ArrowRight className="size-4" />
               </Link>
@@ -102,60 +102,60 @@ export default async function CourseAreaDetailPage({
             mode="area"
           />
           <div className="grid gap-4">
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <h2 className="text-xl font-semibold text-white">Current condition summary</h2>
-              <p className="mt-3 text-sm leading-6 text-white/58">
+            <section className="rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)]">
+              <h2 className="text-xl font-semibold text-[#102019]">Current condition summary</h2>
+              <p className="mt-3 text-sm leading-6 text-[#65736a]">
                 {area.summary}
               </p>
             </section>
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <h2 className="text-xl font-semibold text-white">Area status</h2>
+            <section className="rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)]">
+              <h2 className="text-xl font-semibold text-[#102019]">Area status</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Latest survey</p>
-                  <p className="mt-2 text-sm font-semibold text-white">{latestReport?.surveyDate || "Pending"}</p>
+                <div className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">Latest survey</p>
+                  <p className="mt-2 text-sm font-semibold text-[#14211a]">{latestReport?.surveyDate || "Pending"}</p>
                 </div>
-                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Open findings</p>
-                  <p className="mt-2 text-sm font-semibold text-white">{findings.length}</p>
+                <div className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">Open findings</p>
+                  <p className="mt-2 text-sm font-semibold text-[#14211a]">{findings.length}</p>
                 </div>
-                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Recommendations</p>
-                  <p className="mt-2 text-sm font-semibold text-white">{recommendations.length}</p>
+                <div className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">Recommendations</p>
+                  <p className="mt-2 text-sm font-semibold text-[#14211a]">{recommendations.length}</p>
                 </div>
               </div>
             </section>
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <h2 className="text-xl font-semibold text-white">Linked findings</h2>
+            <section className="rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)]">
+              <h2 className="text-xl font-semibold text-[#102019]">Linked findings</h2>
               <div className="mt-4 grid gap-3">
                 {findings.length ? (
                   findings.map((finding) => (
-                    <div key={finding.id} className="rounded-[6px] border border-white/10 bg-black/16 p-3">
-                      <p className="text-xs uppercase tracking-[0.18em] text-white/42">
+                    <div key={finding.id} className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                      <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">
                         {finding.severity}
                       </p>
-                      <p className="mt-2 text-sm font-semibold text-white">{finding.title}</p>
+                      <p className="mt-2 text-sm font-semibold text-[#14211a]">{finding.title}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-white/48">No linked findings for this area.</p>
+                  <p className="text-sm text-[#65736a]">No linked findings for this area.</p>
                 )}
               </div>
             </section>
-            <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <h2 className="text-xl font-semibold text-white">Recommended actions</h2>
+            <section className="rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)]">
+              <h2 className="text-xl font-semibold text-[#102019]">Recommended actions</h2>
               <div className="mt-4 grid gap-3">
                 {recommendations.length ? (
                   recommendations.map((recommendation) => (
-                    <div key={recommendation.id} className="rounded-[6px] border border-white/10 bg-black/16 p-3">
-                      <p className="text-xs uppercase tracking-[0.18em] text-white/42">
+                    <div key={recommendation.id} className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                      <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">
                         {recommendation.priority} · {recommendation.recommendedTimeframe}
                       </p>
-                      <p className="mt-2 text-sm font-semibold text-white">{recommendation.title}</p>
+                      <p className="mt-2 text-sm font-semibold text-[#14211a]">{recommendation.title}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-white/48">No recommendations linked to this area.</p>
+                  <p className="text-sm text-[#65736a]">No recommendations linked to this area.</p>
                 )}
               </div>
             </section>

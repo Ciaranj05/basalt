@@ -2,12 +2,13 @@ import Link from "next/link";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import { LoginForm } from "@/components/portal/AuthForms";
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams?: { next?: string };
+  searchParams?: Promise<{ next?: string }>;
 }) {
-  const nextPath = searchParams?.next ?? "/clubs";
+  const resolvedSearchParams = await searchParams;
+  const nextPath = resolvedSearchParams?.next ?? "/clubs";
 
   return (
     <main className="min-h-screen bg-[#050807] px-5 py-8 text-white sm:px-8">

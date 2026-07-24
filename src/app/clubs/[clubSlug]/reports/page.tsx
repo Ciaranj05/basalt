@@ -64,18 +64,18 @@ export default async function ReportsPage({
 
   return (
     <PortalShell club={club} active="Reports" showMapNavigation={hasAnyApprovedMap}>
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Reports</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-[#51745f]">Reports</p>
+            <h1 className="mt-3 text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-tight tracking-normal text-[#102019]">
               Course intelligence library.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#65736a]">
               Published reports, survey history and committee-ready outputs in one place.
             </p>
           </div>
-          <div className="rounded-[8px] border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/56">
+          <div className="rounded-[10px] border border-[#d9dfd7] bg-white px-4 py-3 text-sm text-[#65736a] shadow-sm">
             {reports.length} {reports.length === 1 ? "report" : "reports"} visible
           </div>
         </div>
@@ -86,7 +86,7 @@ export default async function ReportsPage({
             return (
               <article
                 key={report.id}
-                className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.04] transition hover:border-[#a6d8bd]/28 hover:bg-white/[0.055]"
+                className="group overflow-hidden rounded-[12px] border border-[#d9dfd7] bg-white shadow-[0_16px_60px_rgba(45,62,53,0.08)] transition hover:border-[#b9c8be]"
               >
                 <div className="grid gap-0 lg:grid-cols-[360px_1fr]">
                   <div className="report-map report-golf min-h-[260px] rounded-none border-0 lg:min-h-full">
@@ -94,35 +94,35 @@ export default async function ReportsPage({
                     <span className="report-route report-route-one" />
                     <span className="report-zone report-zone-one" />
                     <span className="report-marker report-marker-one" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050807]/92 via-[#050807]/42 to-black/8" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#102019]/78 via-[#102019]/22 to-white/5" />
                     <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
-                      <span className="rounded-full border border-white/12 bg-black/36 px-3 py-1 text-xs uppercase tracking-[0.16em] text-white/62">
+                      <span className="rounded-full border border-white/35 bg-white/82 px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#334238] shadow-sm backdrop-blur-md">
                         Report {index + 1}
                       </span>
-                      <span className="rounded-full border border-[#a6d8bd]/24 bg-[#a6d8bd]/10 px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#dff4e8]">
+                      <span className="rounded-full border border-[#d9dfd7] bg-white/88 px-3 py-1 text-xs uppercase tracking-[0.16em] text-[#1f563e] shadow-sm backdrop-blur-md">
                         {priority}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-5 sm:p-6 lg:p-7">
-                    <div className="flex flex-wrap gap-2 text-xs text-white/46">
-                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1">
+                    <div className="flex flex-wrap gap-2 text-xs text-[#65736a]">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfd7] bg-[#fbfaf5] px-3 py-1">
                         <CalendarDays className="size-3.5" />
                         {report.surveyDate || "Pending"}
                       </span>
-                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfd7] bg-[#fbfaf5] px-3 py-1">
                         <Layers3 className="size-3.5" />
                         {titleCase(report.reportType)}
                       </span>
-                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfd7] bg-[#fbfaf5] px-3 py-1">
                         <FileText className="size-3.5" />
                         {statusLabel(report, isBasaltStaff)}
                       </span>
                     </div>
 
-                    <h2 className="mt-4 text-2xl font-semibold tracking-normal text-white">{report.title}</h2>
-                    <p className="mt-3 max-w-3xl text-sm leading-6 text-white/58">{report.summary}</p>
+                    <h2 className="mt-4 text-2xl font-semibold tracking-normal text-[#102019]">{report.title}</h2>
+                    <p className="mt-3 max-w-3xl text-sm leading-6 text-[#65736a]">{report.summary}</p>
 
                     <div className="mt-6 grid gap-3 sm:grid-cols-3">
                       {[
@@ -130,30 +130,30 @@ export default async function ReportsPage({
                         ["Priority level", priority],
                         ["Open actions", String(openRecommendations.length)],
                       ].map(([label, value]) => (
-                        <div key={label} className="rounded-[8px] border border-white/10 bg-black/18 p-4">
-                          <p className="text-xs uppercase tracking-[0.18em] text-white/38">{label}</p>
-                          <p className="mt-2 text-xl font-semibold text-white">{value}</p>
+                        <div key={label} className="rounded-[10px] border border-[#e1e5df] bg-[#fbfaf5] p-4">
+                          <p className="text-xs uppercase tracking-[0.18em] text-[#7a877f]">{label}</p>
+                          <p className="mt-2 text-xl font-semibold text-[#14211a]">{value}</p>
                         </div>
                       ))}
                     </div>
 
                     <div className="mt-6 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                      <div className="inline-flex items-center gap-2 text-sm text-white/46">
-                        <Gauge className="size-4 text-[#a6d8bd]" />
+                      <div className="inline-flex items-center gap-2 text-sm text-[#65736a]">
+                        <Gauge className="size-4 text-[#51745f]" />
                         {findings[0]?.title ?? "No priority findings recorded"}
                       </div>
                       <div className="flex flex-wrap gap-3">
                         {hasApprovedMap ? (
                           <Link
                             href={`/clubs/${club.slug}/map`}
-                            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+                            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#d9dfd7] bg-white px-5 text-sm font-semibold text-[#22342a] shadow-sm transition hover:border-[#b9c8be]"
                           >
                             View map <Layers3 className="size-4" />
                           </Link>
                         ) : null}
                         <Link
                           href={`/clubs/${club.slug}/reports/${report.slug}`}
-                          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+                          className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#153d2b] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1f563e]"
                         >
                           Open report <ArrowRight className="size-4" />
                         </Link>
@@ -165,7 +165,7 @@ export default async function ReportsPage({
             );
           })}
           {!reportCards.length ? (
-            <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 text-sm text-white/58">
+            <div className="rounded-[12px] border border-[#d9dfd7] bg-white p-6 text-sm text-[#65736a] shadow-sm">
               No reports are currently visible for this workspace.
             </div>
           ) : null}

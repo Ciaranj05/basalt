@@ -64,25 +64,25 @@ export default async function CourseAreasPage({
 
   return (
     <PortalShell club={club} active="Course Areas" showMapNavigation={Boolean(approvedMapConfig)}>
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Course Areas</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
+            <p className="text-xs uppercase tracking-[0.24em] text-[#51745f]">Course Areas</p>
+            <h1 className="mt-3 text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-tight tracking-normal text-[#102019]">
               Course asset register.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#65736a]">
               A maintained record of course areas, condition signals and linked report evidence.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <div className="rounded-[8px] border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/56">
+            <div className="rounded-[10px] border border-[#d9dfd7] bg-white px-4 py-3 text-sm text-[#65736a] shadow-sm">
               Latest survey: {latestReport?.surveyDate || "Pending"}
             </div>
             {approvedMapConfig ? (
               <Link
                 href={`/clubs/${club.slug}/map`}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#153d2b] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1f563e]"
               >
                 View mapped areas <MapPinned className="size-4" />
               </Link>
@@ -105,42 +105,42 @@ export default async function CourseAreasPage({
               <Link
                 key={area.id}
                 href={`/clubs/${club.slug}/course-areas/${area.id}`}
-                className="group rounded-[8px] border border-white/10 bg-white/[0.04] p-5 transition hover:border-[#a6d8bd]/28 hover:bg-white/[0.06]"
+                className="group rounded-[12px] border border-[#d9dfd7] bg-white p-5 shadow-[0_16px_60px_rgba(45,62,53,0.08)] transition hover:border-[#b9c8be]"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.22em] text-white/42">
+                    <p className="text-xs uppercase tracking-[0.22em] text-[#7a877f]">
                       {titleCase(area.areaType)} · {area.referenceNumber}
                     </p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-normal text-white">{area.name}</h2>
+                    <h2 className="mt-3 text-2xl font-semibold tracking-normal text-[#102019]">{area.name}</h2>
                   </div>
-                  <span className="rounded-full border border-[#a6d8bd]/20 bg-[#a6d8bd]/10 px-3 py-1 text-xs font-semibold text-[#dff4e8]">
+                  <span className="rounded-full border border-[#c7d5ca] bg-[#eef5ef] px-3 py-1 text-xs font-semibold text-[#1f563e]">
                     {condition}
                   </span>
                 </div>
 
-                <p className="mt-4 text-sm leading-6 text-white/56">{area.summary}</p>
+                <p className="mt-4 text-sm leading-6 text-[#65736a]">{area.summary}</p>
 
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   {[
-                    [<ShieldCheck key="condition" className="size-4 text-[#a6d8bd]" />, "Condition", condition],
-                    [<MapPinned key="findings" className="size-4 text-[#a6d8bd]" />, "Open findings", String(areaFindings.length)],
-                    [<CheckCircle2 key="recommendations" className="size-4 text-[#a6d8bd]" />, "Recommendations", String(areaRecommendations.length)],
-                    [<Camera key="photos" className="size-4 text-[#a6d8bd]" />, "Photos", String(areaMedia.length)],
+                    [<ShieldCheck key="condition" className="size-4 text-[#51745f]" />, "Condition", condition],
+                    [<MapPinned key="findings" className="size-4 text-[#51745f]" />, "Open findings", String(areaFindings.length)],
+                    [<CheckCircle2 key="recommendations" className="size-4 text-[#51745f]" />, "Recommendations", String(areaRecommendations.length)],
+                    [<Camera key="photos" className="size-4 text-[#51745f]" />, "Photos", String(areaMedia.length)],
                   ].map(([icon, label, value]) => (
-                    <div key={String(label)} className="rounded-[6px] border border-white/10 bg-black/18 p-3">
-                      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-white/38">
+                    <div key={String(label)} className="rounded-[8px] border border-[#e1e5df] bg-[#fbfaf5] p-3">
+                      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#7a877f]">
                         {icon}
                         {label}
                       </div>
-                      <p className="mt-2 text-sm font-semibold text-white">{value}</p>
+                      <p className="mt-2 text-sm font-semibold text-[#14211a]">{value}</p>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/10 pt-4 text-sm">
-                  <span className="text-white/42">Latest survey {latestReport?.surveyDate || "Pending"}</span>
-                  <span className="inline-flex items-center gap-2 font-semibold text-[#a6d8bd]">
+                <div className="mt-5 flex items-center justify-between gap-3 border-t border-[#e1e5df] pt-4 text-sm">
+                  <span className="text-[#65736a]">Latest survey {latestReport?.surveyDate || "Pending"}</span>
+                  <span className="inline-flex items-center gap-2 font-semibold text-[#1f563e]">
                     Open area <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
                   </span>
                 </div>
@@ -148,7 +148,7 @@ export default async function CourseAreasPage({
             );
           })}
           {!courseAreas.length ? (
-            <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 text-sm text-white/58">
+            <div className="rounded-[12px] border border-[#d9dfd7] bg-white p-6 text-sm text-[#65736a] shadow-sm">
               Course areas will appear once the asset register is prepared.
             </div>
           ) : null}

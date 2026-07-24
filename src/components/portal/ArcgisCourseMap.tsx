@@ -140,20 +140,20 @@ export function ArcgisCourseMap({
   }, [config.portalUrl, config.webMapItemId]);
 
   return (
-    <section className="overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.04]">
-      <div className="flex flex-col gap-4 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between">
+    <section className="overflow-hidden rounded-[12px] border border-[#d9dfd7] bg-white shadow-[0_20px_80px_rgba(45,62,53,0.12)]">
+      <div className="flex flex-col gap-4 border-b border-[#e1e5df] p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-[#a6d8bd]">Basalt Golf Intelligence</p>
-          <h2 className="mt-2 text-xl font-semibold text-white">{config.title || courseName}</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/54">{config.description}</p>
+          <p className="text-xs uppercase tracking-[0.24em] text-[#51745f]">Basalt Golf Intelligence</p>
+          <h2 className="mt-2 text-xl font-semibold text-[#102019]">{config.title || courseName}</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[#65736a]">{config.description}</p>
         </div>
-        <div className="flex flex-wrap gap-2 text-xs text-white/48">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/18 px-3 py-1">
-            <MapPinned className="size-3.5 text-[#a6d8bd]" />
+        <div className="flex flex-wrap gap-2 text-xs text-[#65736a]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfd7] bg-[#fbfaf5] px-3 py-1">
+            <MapPinned className="size-3.5 text-[#51745f]" />
             {config.surveyDate || "Published survey"}
           </span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/18 px-3 py-1">
-            <Layers3 className="size-3.5 text-[#a6d8bd]" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfd7] bg-[#fbfaf5] px-3 py-1">
+            <Layers3 className="size-3.5 text-[#51745f]" />
             {areaCount ? `${areaCount} course areas` : "Basalt view"}
           </span>
         </div>
@@ -186,50 +186,50 @@ export function ArcgisCourseMap({
           ) : null}
         </div>
 
-        <aside className="grid content-start gap-5 border-t border-white/10 p-5 xl:border-l xl:border-t-0">
-          <div className="flex items-center gap-2 text-sm font-semibold text-white">
-            <Maximize2 className="size-4 text-[#a6d8bd]" />
+        <aside className="grid content-start gap-5 border-t border-[#e1e5df] bg-[#fbfaf5] p-5 xl:border-l xl:border-t-0">
+          <div className="flex items-center gap-2 text-sm font-semibold text-[#14211a]">
+            <Maximize2 className="size-4 text-[#51745f]" />
             Feature detail
           </div>
 
           {selectedFeature ? (
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-white/38">{selectedFeature.layerTitle}</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-normal text-white">{selectedFeature.title}</h3>
+              <p className="text-xs uppercase tracking-[0.2em] text-[#7a877f]">{selectedFeature.layerTitle}</p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-normal text-[#102019]">{selectedFeature.title}</h3>
               <div className="mt-5 grid gap-3">
                 {Object.entries(selectedFeature.attributes).map(([key, value]) => (
-                  <div key={key} className="rounded-[6px] border border-white/10 bg-black/18 p-3">
-                    <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                  <div key={key} className="rounded-[8px] border border-[#e1e5df] bg-white p-3">
+                    <p className="text-xs uppercase tracking-[0.16em] text-[#7a877f]">
                       {formatAttributeLabel(key)}
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-white/68">{String(value)}</p>
+                    <p className="mt-2 text-sm leading-6 text-[#334238]">{String(value)}</p>
                   </div>
                 ))}
               </div>
               {!Object.keys(selectedFeature.attributes).length ? (
-                <p className="mt-4 text-sm leading-6 text-white/50">
+                <p className="mt-4 text-sm leading-6 text-[#65736a]">
                   The map is available, but no mapped findings have been published for this survey.
                 </p>
               ) : null}
             </div>
           ) : (
-            <p className="text-sm leading-6 text-white/54">
+            <p className="text-sm leading-6 text-[#65736a]">
               Select a mapped feature to view customer-ready survey evidence and related recommendations.
             </p>
           )}
 
-          <div className="rounded-[8px] border border-white/10 bg-black/18 p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-white">
-              <Target className="size-4 text-[#a6d8bd]" />
+          <div className="rounded-[10px] border border-[#d9dfd7] bg-white p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-[#14211a]">
+              <Target className="size-4 text-[#51745f]" />
               Report intelligence
             </div>
-            <p className="mt-3 text-sm leading-6 text-white/54">
+            <p className="mt-3 text-sm leading-6 text-[#65736a]">
               {config.reportTitle ?? "Published survey report"} provides the approved findings and recommended actions behind this map.
             </p>
             {reportHref ? (
               <Link
                 href={reportHref}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#a6d8bd] transition hover:text-[#dff4e8]"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#1f563e] transition hover:text-[#153d2b]"
               >
                 Open linked report <ArrowRight className="size-4" />
               </Link>
@@ -238,27 +238,27 @@ export function ArcgisCourseMap({
 
           <div className="grid gap-3">
             {findings.slice(0, 3).map((finding) => (
-              <div key={finding.id} className="rounded-[6px] border border-white/10 bg-black/18 p-3">
-                <p className="text-xs uppercase tracking-[0.16em] text-white/38">{finding.meta}</p>
-                <p className="mt-2 text-sm font-semibold leading-6 text-white">{finding.title}</p>
+              <div key={finding.id} className="rounded-[8px] border border-[#e1e5df] bg-white p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#7a877f]">{finding.meta}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#14211a]">{finding.title}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-[8px] border border-[#a6d8bd]/18 bg-[#a6d8bd]/8 p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-white">
-              <CheckCircle2 className="size-4 text-[#a6d8bd]" />
+          <div className="rounded-[10px] border border-[#c7d5ca] bg-[#eef5ef] p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-[#14211a]">
+              <CheckCircle2 className="size-4 text-[#51745f]" />
               Recommended actions
             </div>
             <div className="mt-3 grid gap-2">
               {recommendations.slice(0, 2).map((recommendation) => (
                 <div key={recommendation.id}>
-                  <p className="text-sm font-semibold leading-6 text-white">{recommendation.title}</p>
-                  <p className="text-xs uppercase tracking-[0.14em] text-white/42">{recommendation.meta}</p>
+                  <p className="text-sm font-semibold leading-6 text-[#14211a]">{recommendation.title}</p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-[#7a877f]">{recommendation.meta}</p>
                 </div>
               ))}
               {!recommendations.length ? (
-                <p className="text-sm leading-6 text-white/54">No open recommendations are linked to this published map yet.</p>
+                <p className="text-sm leading-6 text-[#65736a]">No open recommendations are linked to this published map yet.</p>
               ) : null}
             </div>
           </div>

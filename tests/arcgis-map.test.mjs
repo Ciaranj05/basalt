@@ -44,6 +44,13 @@ test("ArcGIS configuration is resolved from approved published context only", ()
   assert.match(arcgisResolverSource, /if \(!course \|\| !latestReport\)/);
 });
 
+test("technical map descriptions are sanitised before reaching customer pages", () => {
+  assert.match(arcgisResolverSource, /function customerMapDescription/);
+  assert.match(arcgisResolverSource, /arcgis\|web map\|configuration\|database\|map_layers\|replace before live/i);
+  assert.match(arcgisResolverSource, /Explore mapped survey evidence, findings and recommendations across the course\./);
+  assert.match(arcgisResolverSource, /description: customerMapDescription\(row\.description\)/);
+});
+
 test("ArcGIS Web Map item IDs are validated before reaching the client", () => {
   assert.match(arcgisResolverSource, /const webMapItemPattern = \/\^\[a-f0-9\]\{32\}\$\/i/);
   assert.match(arcgisResolverSource, /normaliseWebMapItemId\(row\?\.tile_url\)/);
@@ -83,12 +90,14 @@ test("customer feature detail uses an allowlist and excludes raw ArcGIS system f
 test("ArcGIS map failure renders a safe customer-facing state", () => {
   assert.match(arcgisComponentSource, /We couldn&apos;t load the course map at the moment\./);
   assert.doesNotMatch(arcgisComponentSource, /Web Map item ID|service URL|ArcGIS credentials|API failure code/);
-  assert.match(mapPageSource, /Your interactive course map is currently being prepared\./);
+  assert.match(mapPageSource, /Interactive map coming soon/);
+  assert.match(mapPageSource, /Your course map is being prepared and will appear here once it is ready\./);
   assert.doesNotMatch(mapPageSource, /Basalt authentication|Club authorization|Published map only|resolved server-side|approved customer Web Map reference/);
 });
 
-test("Stage 2 presents ArcGIS as part of the Basalt Golf Intelligence journey", () => {
-  assert.match(mapPageSource, /Explore your course intelligence\./);
+test("portal refresh keeps ArcGIS as part of the Basalt Golf Intelligence journey", () => {
+  assert.match(mapPageSource, /Interactive Map/);
+  assert.match(mapPageSource, /Explore course areas, survey findings and recommendations\./);
   assert.match(mapPageSource, /active="Map"/);
   assert.match(arcgisComponentSource, /Basalt Golf Intelligence/);
   assert.match(arcgisComponentSource, /Report intelligence/);
@@ -110,10 +119,27 @@ test("mapped evidence entry points are conditional and outside primary navigatio
   assert.match(reportsPageSource, /hasApprovedMap/);
 
   assert.match(overviewPageSource, /Interactive Course Map/);
-  assert.match(overviewPageSource, /Open Map/);
+  assert.match(overviewPageSource, /Open Interactive Map/);
   assert.match(reportsPageSource, /View map/);
   assert.match(reportDetailSource, /View mapped evidence/);
   assert.match(courseAreasSource, /View mapped areas/);
   assert.match(courseAreaDetailSource, /View on map/);
   assert.doesNotMatch(portalShellSource, /label: "Course Map"/);
+});
+
+test("Overview remains the landing page and does not initialise a duplicate ArcGIS map", () => {
+  assert.match(overviewPageSource, /active="Overview"/);
+  assert.match(overviewPageSource, /Open Interactive Map/);
+  assert.match(overviewPageSource, /href=\{`\/clubs\/\$\{club\.slug\}\/map`\}/);
+  assert.doesNotMatch(overviewPageSource, /ArcgisCourseMap/);
+  assert.doesNotMatch(overviewPageSource, /@arcgis\/core/);
+});
+
+test("portal refresh uses a light customer shell and hides technical placeholder language", () => {
+  assert.match(portalShellSource, /bg-\[#f4f1e9\]/);
+  assert.match(portalShellSource, /Overview[\s\S]*Map[\s\S]*Course Areas[\s\S]*Reports/);
+  for (const source of [overviewPageSource, mapPageSource, reportsPageSource, courseAreasSource, courseAreaDetailSource]) {
+    assert.doesNotMatch(source, /tenant|resolver|map_layers|Supabase|ArcGIS item ID|Feature Service|database record/);
+    assert.doesNotMatch(source, /Development placeholder|typed course boundaries|tile URLs|providers/);
+  }
 });

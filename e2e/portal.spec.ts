@@ -20,7 +20,6 @@ async function login(page: Page) {
   await page.getByLabel(/email/i).fill(email);
   await page.getByLabel(/^password$/i).fill(password!);
   await page.getByRole("button", { name: /sign in/i }).click();
-  await page.getByLabel(/^password$/i).fill("").catch(() => {});
   await expect(page).toHaveURL(new RegExp(`${northCoastPath}$`));
   await expect(page.getByRole("heading", { name: "North Coast Golf Club" })).toBeVisible();
   await expect(page.locator(".animate-pulse")).toHaveCount(0);
@@ -71,11 +70,12 @@ test.describe("portal navigation and content", () => {
   });
 
   test("dashboard renders and desktop primary navigation reaches supported pages", async ({ page }) => {
-    await expect(page.getByRole("link", { name: "Open latest report" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /needs to know now/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "North Coast Golf Club" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Open Interactive Map/i })).toBeVisible();
+    await expect(page.getByText("Interactive Course Map").first()).toBeVisible();
+    const primaryNav = page.getByRole("navigation", { name: /primary portal navigation/i });
     for (const label of ["Course Map", "Findings", "Recommendations", "Documents", "Team"]) {
-      await expect(page.getByRole("link", { name: label })).toHaveCount(0);
-      await expect(page.getByText(label)).toHaveCount(0);
+      await expect(primaryNav.getByRole("link", { name: label, exact: true })).toHaveCount(0);
     }
     const visibleNav = await page.locator("header nav a").evaluateAll((links) =>
       links.map((link) => link.textContent?.trim()).filter(Boolean),
@@ -84,15 +84,15 @@ test.describe("portal navigation and content", () => {
       visibleNav.includes("Map") ? ["Overview", "Map", "Course Areas", "Reports"] : ["Overview", "Course Areas", "Reports"],
     );
 
-    await page.getByRole("link", { name: "Reports" }).click();
+    await primaryNav.getByRole("link", { name: "Reports", exact: true }).click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/reports$/);
     await expect(page.getByRole("heading", { name: "Course intelligence library." })).toBeVisible();
 
-    await page.getByRole("link", { name: "Course Areas" }).click();
+    await primaryNav.getByRole("link", { name: "Course Areas", exact: true }).click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/course-areas$/);
     await expect(page.getByRole("heading", { name: "Course asset register." })).toBeVisible();
 
-    await page.getByRole("link", { name: "Overview" }).click();
+    await primaryNav.getByRole("link", { name: "Overview", exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`${northCoastPath}$`));
   });
 
@@ -106,7 +106,7 @@ test.describe("portal navigation and content", () => {
       });
     });
 
-    await page.getByRole("link", { name: "Open latest report" }).click();
+    await page.getByRole("link", { name: "View Latest Report" }).click();
     await expect(page).toHaveURL(/\/reports\/2026-course-baseline$/);
     await expect(page.getByRole("heading", { name: "2026 Course Baseline & Monitoring Report" })).toBeVisible();
     await expect(page.getByText("Demonstration report — illustrative data")).toBeVisible();
@@ -124,22 +124,22 @@ test.describe("portal navigation and content", () => {
   });
 
   test("course area opens", async ({ page }) => {
-    await page.getByRole("link", { name: "Course Areas" }).click();
+    await page.getByRole("navigation", { name: /primary portal navigation/i }).getByRole("link", { name: "Course Areas", exact: true }).click();
     await page.getByRole("link", { name: /open area/i }).first().click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/course-areas\/[a-f0-9-]+$/);
     await expect(page.getByText("Current condition summary")).toBeVisible();
   });
 
   test("direct Course Map route is authenticated and stays out of primary navigation", async ({ page }) => {
-    await expect(page.getByRole("link", { name: "Course Map" })).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: /primary portal navigation/i }).getByRole("link", { name: "Course Map", exact: true })).toHaveCount(0);
 
     await page.goto("/clubs/north-coast-golf-club/map");
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/map$/);
-    await expect(page.getByRole("heading", { name: "Explore your course intelligence." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Interactive Map" })).toBeVisible();
     await expect(
-      page.getByText(/Your interactive course map is currently being prepared|Basalt Golf Intelligence/i),
+      page.getByText(/Interactive map coming soon|Basalt Golf Intelligence/i),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Course Map" })).toHaveCount(0);
+    await expect(page.getByRole("navigation", { name: /primary portal navigation/i }).getByRole("link", { name: "Course Map", exact: true })).toHaveCount(0);
     await expect(page.getByText(/Basalt authentication|Club authorization|Published map only|resolved server-side/i)).toHaveCount(0);
   });
 
@@ -153,9 +153,9 @@ test.describe("portal navigation and content", () => {
   test("primary navigation contains only real customer routes", async ({ page }) => {
     const before = page.url();
 
+    const primaryNav = page.getByRole("navigation", { name: /primary portal navigation/i });
     for (const label of ["Course Map", "Findings", "Recommendations", "Documents", "Team"]) {
-      await expect(page.getByRole("link", { name: label })).toHaveCount(0);
-      await expect(page.getByText(label)).toHaveCount(0);
+      await expect(primaryNav.getByRole("link", { name: label, exact: true })).toHaveCount(0);
     }
 
     await expect(page.getByRole("button", { name: /download pdf/i })).toHaveCount(0);
@@ -164,7 +164,7 @@ test.describe("portal navigation and content", () => {
   });
 
   test("report avoids unavailable controls", async ({ page }) => {
-    await page.getByRole("link", { name: "Open latest report" }).click();
+    await page.getByRole("link", { name: "View Latest Report" }).click();
 
     await expect(page.getByRole("button", { name: /download pdf/i })).toHaveCount(0);
     await expect(page.getByRole("button", { name: /previous section/i })).toHaveCount(0);
@@ -184,7 +184,8 @@ test.describe("portal navigation and content", () => {
 
     await page.getByRole("button", { name: /open navigation/i }).click();
     await expect(page.getByRole("dialog", { name: /portal navigation/i })).toBeVisible();
-    await expect(page.getByRole("dialog", { name: /portal navigation/i }).getByRole("link")).toHaveCount(3);
+    const mobileLinks = await page.getByRole("dialog", { name: /portal navigation/i }).getByRole("link").count();
+    expect([3, 4]).toContain(mobileLinks);
     await expect(page.getByText("Coming soon")).toHaveCount(0);
 
     await page.keyboard.press("Escape");
@@ -208,9 +209,9 @@ test.describe("core flows do not throw console errors", () => {
     page.on("pageerror", (error) => pageErrors.push(error.message));
 
     await login(page);
-    await page.getByRole("link", { name: "Reports" }).click();
+    await page.getByRole("navigation", { name: /primary portal navigation/i }).getByRole("link", { name: "Reports", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Course intelligence library." })).toBeVisible();
-    await page.getByRole("link", { name: "Course Areas" }).click();
+    await page.getByRole("navigation", { name: /primary portal navigation/i }).getByRole("link", { name: "Course Areas", exact: true }).click();
     await expect(page.getByRole("heading", { name: "Course asset register." })).toBeVisible();
 
     expect(pageErrors).toEqual([]);

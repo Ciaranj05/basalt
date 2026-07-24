@@ -12,8 +12,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const metadataBaseUrl =
+  process.env.NEXT_PUBLIC_APP_URL?.trim() ||
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(metadataBaseUrl),
   title: "Basalt | Golf Course Intelligence",
   description:
     "Basalt helps golf clubs make better decisions through accurate course intelligence, mapping and long-term monitoring.",

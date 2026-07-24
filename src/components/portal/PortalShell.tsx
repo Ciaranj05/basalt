@@ -72,31 +72,31 @@ export function PortalShell({
   }, [mobileOpen]);
 
   return (
-    <main className="min-h-screen bg-[#050807] text-white">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050807]/92 backdrop-blur-xl">
+    <main className="min-h-screen bg-[#f4f1e9] text-[#14211a]">
+      <header className="sticky top-0 z-40 border-b border-[#d8ded6] bg-[#fbfaf5]/90 shadow-sm backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-5">
             <Link href="/" aria-label="Basalt home">
-              <BasaltLogo variant="horizontal" theme="dark" size="compact" />
+              <BasaltLogo variant="horizontal" theme="light" size="compact" />
             </Link>
-            <div className="hidden h-8 w-px bg-white/10 md:block" />
+            <div className="hidden h-8 w-px bg-[#d8ded6] md:block" />
             <Link href={`/clubs/${club.slug}`} className="hidden items-center gap-3 md:flex">
-              <span className="flex size-9 items-center justify-center rounded-[6px] border border-white/10 bg-white/[0.06] text-sm font-semibold">
+              <span className="flex size-9 items-center justify-center rounded-[6px] border border-[#d8ded6] bg-white text-sm font-semibold text-[#1e3429] shadow-sm">
                 {club.name.slice(0, 2).toUpperCase()}
               </span>
               <span>
-                <span className="block text-sm font-semibold text-white">{club.name}</span>
-                <span className="block text-xs text-white/42">{club.packageName}</span>
+                <span className="block text-sm font-semibold text-[#14211a]">{club.name}</span>
+                <span className="block text-xs text-[#6b786f]">{club.packageName}</span>
               </span>
-              <ChevronDown className="size-4 text-white/42" />
+              <ChevronDown className="size-4 text-[#8a978f]" />
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <LogoutButton />
+            <LogoutButton variant="portal" />
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 transition hover:text-white md:hidden"
+              className="size-10 rounded-full border border-[#d8ded6] bg-white text-[#526058] shadow-sm transition hover:text-[#14211a] md:hidden"
               aria-label="Open navigation"
               aria-expanded={mobileOpen}
               aria-controls="portal-mobile-navigation"
@@ -105,7 +105,7 @@ export function PortalShell({
             </button>
           </div>
         </div>
-        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8">
+        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8" aria-label="Primary portal navigation">
           {navItems.filter((item) => !("requiresMap" in item) || showMapNavigation).map((item) => {
             const href = item.href(club.slug);
 
@@ -115,8 +115,8 @@ export function PortalShell({
                 href={href}
                 className={`whitespace-nowrap rounded-full px-3 py-2 text-sm transition ${
                   active === item.label
-                    ? "bg-white text-[#07110d]"
-                    : "text-white/54 hover:bg-white/[0.06] hover:text-white"
+                    ? "bg-[#153d2b] text-white shadow-sm"
+                    : "text-[#617067] hover:bg-white hover:text-[#14211a]"
                 }`}
               >
                 {item.label}
@@ -127,20 +127,20 @@ export function PortalShell({
       </header>
       {mobileOpen ? (
         <div
-          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-50 bg-[#14211a]/30 backdrop-blur-sm md:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Portal navigation"
           id="portal-mobile-navigation"
         >
-          <div id="portal-mobile-navigation-panel" className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-white/10 bg-[#050807] p-4 shadow-2xl">
+          <div id="portal-mobile-navigation-panel" className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-[#d8ded6] bg-[#fbfaf5] p-4 shadow-2xl">
             <div className="flex items-center justify-between">
-              <BasaltLogo variant="horizontal" theme="dark" size="compact" />
+              <BasaltLogo variant="horizontal" theme="light" size="compact" />
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={() => setMobileOpen(false)}
-                className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 transition hover:text-white"
+                className="size-10 rounded-full border border-[#d8ded6] bg-white text-[#526058] shadow-sm transition hover:text-[#14211a]"
                 aria-label="Close navigation"
               >
                 <X className="mx-auto size-4" />
@@ -157,8 +157,8 @@ export function PortalShell({
                     onClick={() => setMobileOpen(false)}
                     className={`rounded-full px-4 py-3 text-sm transition ${
                       active === item.label
-                        ? "bg-white text-[#07110d]"
-                        : "text-white/64 hover:bg-white/[0.06] hover:text-white"
+                        ? "bg-[#153d2b] text-white shadow-sm"
+                        : "text-[#526058] hover:bg-white hover:text-[#14211a]"
                     }`}
                   >
                     {item.label}
@@ -166,7 +166,7 @@ export function PortalShell({
                 );
               })}
             </nav>
-            <div className="mt-auto border-t border-white/10 pt-4">
+            <div className="mt-auto border-t border-[#d8ded6] pt-4">
               <LogoutButton variant="mobile" />
             </div>
           </div>

@@ -197,14 +197,21 @@ export function InviteUserForm({ clubs }: { clubs: Array<{ id: string; name: str
   );
 }
 
-export function LogoutButton({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
+export function LogoutButton({ variant = "desktop" }: { variant?: "desktop" | "mobile" | "portal" }) {
+  const className =
+    variant === "portal"
+      ? "hidden h-10 items-center gap-2 rounded-full border border-[#d8ded6] bg-white px-3 text-sm font-semibold text-[#526058] shadow-sm transition hover:border-[#bac8bf] hover:text-[#17211b] sm:flex"
+      : variant === "mobile"
+        ? "flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#d8ded6] bg-white px-3 text-sm font-semibold text-[#526058] shadow-sm transition hover:border-[#bac8bf] hover:text-[#17211b]"
+      : `h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/64 transition hover:text-white ${
+          variant === "desktop" ? "hidden sm:flex" : "flex w-full justify-center"
+        }`;
+
   return (
     <form action={logoutAction}>
       <button
         type="submit"
-        className={`h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/64 transition hover:text-white ${
-          variant === "desktop" ? "hidden sm:flex" : "flex w-full justify-center"
-        }`}
+        className={className}
       >
         Sign out
       </button>
