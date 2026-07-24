@@ -43,6 +43,9 @@ Neither server-only key is imported by Client Components.
 
 ## Supabase Setup
 
+Production database migrations are deployed from `main` through the Supabase
+GitHub integration.
+
 Apply the portal foundation migration and fictional seed data:
 
 ```bash
