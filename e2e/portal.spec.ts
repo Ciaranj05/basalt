@@ -13,6 +13,29 @@ async function expectNoCredentialQuery(page: Page) {
   expect(url.searchParams.has("password")).toBe(false);
 }
 
+async function expectNoHorizontalOverflow(page: Page) {
+  const dimensions = await page.evaluate(() => ({
+    scrollWidth: document.documentElement.scrollWidth,
+    clientWidth: document.documentElement.clientWidth,
+  }));
+  expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+}
+
+async function expectContained(page: Page, childTestId: string, parentTestId: string) {
+  const isContained = await page.evaluate(
+    ({ childTestId, parentTestId }) => {
+      const child = document.querySelector(`[data-testid="${childTestId}"]`);
+      const parent = document.querySelector(`[data-testid="${parentTestId}"]`);
+      if (!child || !parent) return false;
+      const childBox = child.getBoundingClientRect();
+      const parentBox = parent.getBoundingClientRect();
+      return childBox.left >= parentBox.left - 1 && childBox.right <= parentBox.right + 1;
+    },
+    { childTestId, parentTestId },
+  );
+  expect(isContained).toBe(true);
+}
+
 async function login(page: Page) {
   await primeDeploymentAccess(page);
   await page.goto("/login");
@@ -73,6 +96,10 @@ test.describe("portal navigation and content", () => {
   test("dashboard renders and desktop primary navigation reaches supported pages", async ({ page }) => {
     await expect(page.getByRole("link", { name: "Open latest report" })).toBeVisible();
     await expect(page.getByRole("heading", { name: /needs to know now/i })).toBeVisible();
+    await expect(page.getByTestId("overview-last-survey-value")).toHaveText("2026-05-14");
+    await expectNoHorizontalOverflow(page);
+    await expectContained(page, "overview-heading", "overview-briefing-panel");
+    await expectContained(page, "overview-metrics-grid", "overview-briefing-panel");
     for (const label of ["Course Map", "Findings", "Recommendations", "Documents", "Team"]) {
       await expect(page.getByRole("link", { name: label })).toHaveCount(0);
       await expect(page.getByText(label)).toHaveCount(0);

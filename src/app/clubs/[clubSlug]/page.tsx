@@ -81,32 +81,40 @@ export default async function ClubOverviewPage({
 
   return (
     <PortalShell club={club} active="Overview">
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch">
-          <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
+      <section className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-5 xl:grid-cols-[minmax(0,3fr)_minmax(360px,2fr)] xl:items-stretch">
+          <section data-testid="overview-briefing-panel" className="min-w-0 rounded-[8px] border border-white/10 bg-white/[0.04] p-5 sm:p-7">
             <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">Today</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
+            <h1
+              data-testid="overview-heading"
+              className="mt-3 max-w-4xl text-[clamp(2.25rem,3vw,3.25rem)] font-semibold leading-[1.06] tracking-normal text-white"
+            >
               What {club.name} needs to know now.
             </h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-white/60">
               A concise view of the latest course intelligence, priority work and survey record.
             </p>
-            <div className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div data-testid="overview-metrics-grid" className="mt-7 grid min-w-0 gap-3 sm:grid-cols-2 min-[1180px]:grid-cols-4">
               {[
                 ["Priority level", priorityLevel],
                 ["Critical findings", String(criticalFindings.length)],
                 ["Open recommendations", String(openRecommendations.length)],
                 ["Last survey", latestReport?.surveyDate || "Pending"],
               ].map(([label, value]) => (
-                <div key={label} className="rounded-[8px] border border-white/10 bg-black/18 p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/38">{label}</p>
-                  <p className="mt-3 text-2xl font-semibold text-white">{value}</p>
+                <div key={label} data-testid={`overview-metric-${label.toLowerCase().replaceAll(" ", "-")}`} className="min-w-0 rounded-[8px] border border-white/10 bg-black/18 p-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/38">{label}</p>
+                  <p
+                    data-testid={label === "Last survey" ? "overview-last-survey-value" : undefined}
+                    className={`mt-3 text-[clamp(1.35rem,1.6vw,1.5rem)] font-semibold leading-tight text-white ${label === "Last survey" ? "whitespace-nowrap" : ""}`}
+                  >
+                    {value}
+                  </p>
                 </div>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[8px] border border-[#a6d8bd]/18 bg-[#a6d8bd]/8 p-5 sm:p-7">
+          <section className="min-w-0 rounded-[8px] border border-[#a6d8bd]/18 bg-[#a6d8bd]/8 p-5 sm:p-7">
             <div className="flex items-center gap-2 text-sm font-semibold text-white">
               <FileText className="size-4 text-[#a6d8bd]" />
               Latest report
@@ -114,11 +122,11 @@ export default async function ClubOverviewPage({
             {latestReport ? (
               <>
                 <h2 className="mt-4 text-2xl font-semibold tracking-normal text-white">{latestReport.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-white/60">{latestReport.summary}</p>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/60">{latestReport.summary}</p>
                 <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/48">
-                  <span className="rounded-full border border-white/10 px-3 py-1">{latestReport.surveyDate}</span>
+                  <span className="whitespace-nowrap rounded-full border border-white/10 px-3 py-1">{latestReport.surveyDate}</span>
                   <span className="rounded-full border border-white/10 px-3 py-1">{titleCase(latestReport.reportType)}</span>
-                  <span className="rounded-full border border-white/10 px-3 py-1">Version {latestReport.version}</span>
+                  <span className="whitespace-nowrap rounded-full border border-white/10 px-3 py-1">Version {latestReport.version}</span>
                 </div>
                 <Link
                   href={`/clubs/${club.slug}/reports/${latestReport.slug}`}
