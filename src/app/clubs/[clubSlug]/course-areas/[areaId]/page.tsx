@@ -95,10 +95,21 @@ export default async function CourseAreaDetailPage({
               </p>
             </section>
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-              <h2 className="text-xl font-semibold text-white">Historical comparison</h2>
-              <p className="mt-3 text-sm leading-6 text-white/58">
-                Repeat survey comparisons will appear here when annual monitoring data is available.
-              </p>
+              <h2 className="text-xl font-semibold text-white">Area status</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Latest survey</p>
+                  <p className="mt-2 text-sm font-semibold text-white">{latestReport?.surveyDate || "Pending"}</p>
+                </div>
+                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Open findings</p>
+                  <p className="mt-2 text-sm font-semibold text-white">{findings.length}</p>
+                </div>
+                <div className="rounded-[6px] border border-white/10 bg-black/16 p-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/42">Recommendations</p>
+                  <p className="mt-2 text-sm font-semibold text-white">{recommendations.length}</p>
+                </div>
+              </div>
             </section>
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
               <h2 className="text-xl font-semibold text-white">Linked findings</h2>

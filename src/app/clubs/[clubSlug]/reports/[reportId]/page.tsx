@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Clock,
-  Download,
   Layers3,
   MapPinned,
   Printer,
@@ -19,7 +18,7 @@ import {
   TrendingUp,
   UserRound,
 } from "lucide-react";
-import { ComingSoonButton, PrintReportButton } from "@/components/portal/PortalControls";
+import { PrintReportButton } from "@/components/portal/PortalControls";
 import { PortalShell } from "@/components/portal/PortalShell";
 import { requireClubMembership } from "@/lib/portal/access";
 import {
@@ -650,9 +649,6 @@ export default async function ReportReaderPage({
                 <PrintReportButton className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-5 text-sm font-semibold text-white/70">
                   Print view <Printer className="size-4" />
                 </PrintReportButton>
-                <ComingSoonButton tone="primary" className="inline-flex h-11 items-center gap-2 rounded-full px-5 text-sm font-semibold">
-                  Download PDF <Download className="size-4" />
-                </ComingSoonButton>
               </div>
             </div>
           </div>
