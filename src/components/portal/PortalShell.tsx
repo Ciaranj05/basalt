@@ -1,46 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import type { Club } from "@/lib/portal/types";
 import { LogoutButton } from "./AuthForms";
 
 const navItems = [
-  { label: "Overview", status: "available" },
-  { label: "Course Map", status: "coming-soon" },
-  { label: "Reports", status: "available" },
-  { label: "Course Areas", status: "available" },
-  { label: "Findings", status: "coming-soon" },
-  { label: "Recommendations", status: "coming-soon" },
-  { label: "Documents", status: "coming-soon" },
-  { label: "Team", status: "coming-soon" },
+  { label: "Overview", href: (clubSlug: string) => `/clubs/${clubSlug}` },
+  { label: "Reports", href: (clubSlug: string) => `/clubs/${clubSlug}/reports` },
+  { label: "Course Areas", href: (clubSlug: string) => `/clubs/${clubSlug}/course-areas` },
 ] as const;
-
-function getNavHref(label: string, clubSlug: string) {
-  if (label === "Overview") return `/clubs/${clubSlug}`;
-  if (label === "Reports") return `/clubs/${clubSlug}/reports`;
-  if (label === "Course Areas") return `/clubs/${clubSlug}/course-areas`;
-  return null;
-}
-
-function ComingSoonNavItem({ label, mobile = false }: { label: string; mobile?: boolean }) {
-  return (
-    <span
-      aria-disabled="true"
-      className={`inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-white/8 bg-white/[0.02] text-white/34 ${
-        mobile ? "justify-between px-4 py-3 text-sm" : "whitespace-nowrap px-3 py-2 text-sm"
-      }`}
-    >
-      <span>{label}</span>
-      <span className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-white/32">
-        Coming soon
-      </span>
-      <span className="sr-only">Unavailable, coming soon.</span>
-    </span>
-  );
-}
 
 export function PortalShell({
   club,
@@ -118,17 +89,6 @@ export function PortalShell({
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              title="Notifications coming soon"
-              className="hidden size-10 cursor-not-allowed items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/30 sm:flex"
-              aria-label="Notifications"
-            >
-              <Bell className="size-4" />
-              <span className="sr-only">Coming soon.</span>
-            </button>
             <LogoutButton />
             <button
               type="button"
@@ -144,11 +104,7 @@ export function PortalShell({
         </div>
         <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-3 sm:px-6 lg:px-8">
           {navItems.map((item) => {
-            const href = getNavHref(item.label, club.slug);
-
-            if (!href) {
-              return <ComingSoonNavItem key={item.label} label={item.label} />;
-            }
+            const href = item.href(club.slug);
 
             return (
               <Link
@@ -189,8 +145,7 @@ export function PortalShell({
             </div>
             <nav className="mt-8 grid gap-2" aria-label="Mobile portal navigation">
               {navItems.map((item) => {
-                const href = getNavHref(item.label, club.slug);
-                if (!href) return <ComingSoonNavItem key={item.label} label={item.label} mobile />;
+                const href = item.href(club.slug);
 
                 return (
                   <Link

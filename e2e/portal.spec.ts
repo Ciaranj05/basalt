@@ -72,14 +72,19 @@ test.describe("portal navigation and content", () => {
 
   test("dashboard renders and desktop primary navigation reaches supported pages", async ({ page }) => {
     await expect(page.getByRole("link", { name: "Open latest report" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /needs to know now/i })).toBeVisible();
+    for (const label of ["Course Map", "Findings", "Recommendations", "Documents", "Team"]) {
+      await expect(page.getByRole("link", { name: label })).toHaveCount(0);
+      await expect(page.getByText(label)).toHaveCount(0);
+    }
 
     await page.getByRole("link", { name: "Reports" }).click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/reports$/);
-    await expect(page.getByRole("heading", { name: "Published course reports." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Course intelligence library." })).toBeVisible();
 
     await page.getByRole("link", { name: "Course Areas" }).click();
     await expect(page).toHaveURL(/\/clubs\/north-coast-golf-club\/course-areas$/);
-    await expect(page.getByRole("heading", { name: "Course asset record." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Course asset register." })).toBeVisible();
 
     await page.getByRole("link", { name: "Overview" }).click();
     await expect(page).toHaveURL(new RegExp(`${northCoastPath}$`));
@@ -119,26 +124,23 @@ test.describe("portal navigation and content", () => {
     await expect(page.getByText("Current condition summary")).toBeVisible();
   });
 
-  test("placeholder navigation and unavailable buttons do not navigate", async ({ page }) => {
+  test("primary navigation contains only real customer routes", async ({ page }) => {
     const before = page.url();
 
     for (const label of ["Course Map", "Findings", "Recommendations", "Documents", "Team"]) {
-      await expect(page.getByText(label).first()).toBeVisible();
-      await expect(page.getByText(label).first()).not.toHaveAttribute("href", "#");
+      await expect(page.getByRole("link", { name: label })).toHaveCount(0);
+      await expect(page.getByText(label)).toHaveCount(0);
     }
 
-    await expect(page.getByRole("button", { name: /download pdf/i }).first()).toBeDisabled();
-    const notifications = page.getByRole("button", { name: /notifications/i });
-    if (await notifications.count()) {
-      await expect(notifications).toBeDisabled();
-    }
+    await expect(page.getByRole("button", { name: /download pdf/i })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /notifications/i })).toHaveCount(0);
     expect(page.url()).toBe(before);
   });
 
-  test("report unavailable controls are disabled", async ({ page }) => {
+  test("report avoids unavailable controls", async ({ page }) => {
     await page.getByRole("link", { name: "Open latest report" }).click();
 
-    await expect(page.getByRole("button", { name: /download pdf/i }).first()).toBeDisabled();
+    await expect(page.getByRole("button", { name: /download pdf/i })).toHaveCount(0);
     await expect(page.getByRole("button", { name: /previous section/i })).toHaveCount(0);
     await expect(page.getByRole("button", { name: /next section/i })).toHaveCount(0);
     await expect(page.getByRole("link", { name: /^Downloads$/ })).toHaveCount(0);
@@ -156,8 +158,8 @@ test.describe("portal navigation and content", () => {
 
     await page.getByRole("button", { name: /open navigation/i }).click();
     await expect(page.getByRole("dialog", { name: /portal navigation/i })).toBeVisible();
-    await expect(page.getByText("Course Map").last()).toBeVisible();
-    await expect(page.getByText("Coming soon").last()).toBeVisible();
+    await expect(page.getByRole("dialog", { name: /portal navigation/i }).getByRole("link")).toHaveCount(3);
+    await expect(page.getByText("Coming soon")).toHaveCount(0);
 
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog", { name: /portal navigation/i })).toHaveCount(0);
@@ -181,9 +183,9 @@ test.describe("core flows do not throw console errors", () => {
 
     await login(page);
     await page.getByRole("link", { name: "Reports" }).click();
-    await expect(page.getByRole("heading", { name: "Published course reports." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Course intelligence library." })).toBeVisible();
     await page.getByRole("link", { name: "Course Areas" }).click();
-    await expect(page.getByRole("heading", { name: "Course asset record." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Course asset register." })).toBeVisible();
 
     expect(pageErrors).toEqual([]);
     expect(consoleErrors).toEqual([]);
