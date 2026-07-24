@@ -58,7 +58,7 @@ export function canInviteToClub({
   targetClubId: string;
 }) {
   if (clubId !== targetClubId) return false;
-  if (globalRoles.some(isBasaltRole)) return true;
+  if (globalRoles.includes("basalt_super_admin")) return true;
 
   return memberships.some(
     (membership) =>
@@ -70,4 +70,8 @@ export function canInviteToClub({
 
 export function canClubUserSeeReport(status: ReportStatus) {
   return status === "published";
+}
+
+export function canBasaltStaffSeeReport(status: ReportStatus) {
+  return ["draft", "internal_review", "published", "archived"].includes(status);
 }

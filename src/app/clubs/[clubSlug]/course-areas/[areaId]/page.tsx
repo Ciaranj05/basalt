@@ -3,14 +3,18 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CourseMap } from "@/components/portal/CourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
+import { requireClubMembership } from "@/lib/portal/access";
 import {
-  demoCourseAreas,
-  demoFindings,
-  demoMapLayers,
-  demoRecommendations,
-  getDemoAreaById,
-  getDemoClubBySlug,
-} from "@/lib/portal/demo-data";
+  getCourseAreaById,
+  getCourseAreas,
+  getFindingsForReport,
+  getLatestPublishedReport,
+  getMapLayers,
+  getPrimaryCourse,
+  getRecommendationsForReport,
+} from "@/lib/portal/data";
+
+export const dynamic = "force-dynamic";
 
 export default async function CourseAreaDetailPage({
   params,
@@ -18,15 +22,27 @@ export default async function CourseAreaDetailPage({
   params: Promise<{ clubSlug: string; areaId: string }>;
 }) {
   const { clubSlug, areaId } = await params;
-  const club = getDemoClubBySlug(clubSlug);
-  const area = getDemoAreaById(areaId);
-  if (!club || !area || area.clubId !== club.id) notFound();
+  const { supabase, club } = await requireClubMembership(clubSlug);
+  const [area, courseAreas, course, latestReport] = await Promise.all([
+    getCourseAreaById(supabase, club.id, areaId),
+    getCourseAreas(supabase, club.id),
+    getPrimaryCourse(supabase, club.id),
+    getLatestPublishedReport(supabase, club.id),
+  ]);
 
-  const index = demoCourseAreas.findIndex((item) => item.id === area.id);
-  const previous = demoCourseAreas[index - 1];
-  const next = demoCourseAreas[index + 1];
-  const findings = demoFindings.filter((finding) => finding.courseAreaId === area.id);
-  const recommendations = demoRecommendations.filter(
+  if (!area) notFound();
+
+  const [mapLayers, allFindings, allRecommendations] = await Promise.all([
+    course ? getMapLayers(supabase, club.id, course.id, latestReport?.id) : Promise.resolve([]),
+    latestReport ? getFindingsForReport(supabase, club.id, latestReport.id) : Promise.resolve([]),
+    latestReport ? getRecommendationsForReport(supabase, club.id, latestReport.id) : Promise.resolve([]),
+  ]);
+
+  const index = courseAreas.findIndex((item) => item.id === area.id);
+  const previous = courseAreas[index - 1];
+  const next = courseAreas[index + 1];
+  const findings = allFindings.filter((finding) => finding.courseAreaId === area.id);
+  const recommendations = allRecommendations.filter(
     (recommendation) => recommendation.courseAreaId === area.id,
   );
 
@@ -66,8 +82,8 @@ export default async function CourseAreaDetailPage({
 
         <div className="mt-8 grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
           <CourseMap
-            areas={demoCourseAreas}
-            layers={demoMapLayers}
+            areas={courseAreas}
+            layers={mapLayers}
             selectedAreaId={area.id}
             mode="area"
           />
@@ -75,16 +91,13 @@ export default async function CourseAreaDetailPage({
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
               <h2 className="text-xl font-semibold text-white">Current condition summary</h2>
               <p className="mt-3 text-sm leading-6 text-white/58">
-                Basalt analyst commentary will combine relevant aerial imagery,
-                turf-health findings, drainage observations, terrain notes and
-                supporting photographs for this asset.
+                {area.summary}
               </p>
             </section>
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
               <h2 className="text-xl font-semibold text-white">Historical comparison</h2>
               <p className="mt-3 text-sm leading-6 text-white/58">
-                Development placeholder for comparison against previous surveys
-                when repeat monitoring data exists.
+                Repeat survey comparisons will appear here when annual monitoring data is available.
               </p>
             </section>
             <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
@@ -100,7 +113,7 @@ export default async function CourseAreaDetailPage({
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-white/48">No linked findings in the demo report.</p>
+                  <p className="text-sm text-white/48">No linked findings for this area.</p>
                 )}
               </div>
             </section>

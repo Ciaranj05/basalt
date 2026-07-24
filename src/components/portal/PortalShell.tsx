@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Bell, ChevronDown, Menu, UserCircle } from "lucide-react";
+import { Bell, ChevronDown, Menu } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import type { Club } from "@/lib/portal/types";
+import { LogoutButton } from "./AuthForms";
 
 const navItems = [
   "Overview",
@@ -51,13 +52,7 @@ export function PortalShell({
             >
               <Bell className="size-4" />
             </button>
-            <button
-              type="button"
-              className="hidden h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/64 transition hover:text-white sm:flex"
-            >
-              <UserCircle className="size-4" />
-              User menu
-            </button>
+            <LogoutButton />
             <button
               type="button"
               className="size-10 rounded-full border border-white/10 bg-white/[0.04] text-white/64 md:hidden"

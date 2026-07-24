@@ -3,30 +3,16 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Download, Printer } from "lucide-react";
 import { CourseMap } from "@/components/portal/CourseMap";
 import { PortalShell } from "@/components/portal/PortalShell";
+import { requireClubMembership } from "@/lib/portal/access";
 import {
-  demoCourseAreas,
-  demoFindings,
-  demoMapLayers,
-  demoRecommendations,
-  getDemoClubBySlug,
-  getDemoReportById,
-} from "@/lib/portal/demo-data";
+  getCourseAreas,
+  getFindingsForReport,
+  getMapLayers,
+  getRecommendationsForReport,
+  getReportBySlug,
+} from "@/lib/portal/data";
 
-const reportNav = [
-  "Overview",
-  "Greens",
-  "Fairways",
-  "Tees",
-  "Bunkers",
-  "Rough",
-  "Trees and Canopy",
-  "Paths and Infrastructure",
-  "Water and Drainage",
-  "Turf Health",
-  "Terrain and Contours",
-  "Recommendations",
-  "Downloads",
-];
+export const dynamic = "force-dynamic";
 
 export default async function ReportReaderPage({
   params,
@@ -34,17 +20,24 @@ export default async function ReportReaderPage({
   params: Promise<{ clubSlug: string; reportId: string }>;
 }) {
   const { clubSlug, reportId } = await params;
-  const club = getDemoClubBySlug(clubSlug);
-  const report = getDemoReportById(reportId);
-  if (!club || !report || report.clubId !== club.id) notFound();
+  const { supabase, club, isBasaltStaff } = await requireClubMembership(clubSlug);
+  const report = await getReportBySlug({
+    supabase,
+    clubId: club.id,
+    reportId,
+    includeInternal: isBasaltStaff,
+  });
 
-  const visibleNav = reportNav.filter((item) =>
-    report.sections.some((section) =>
-      item === "Overview"
-        ? section.title === "Overview"
-        : section.title.toLowerCase().includes(item.toLowerCase().split(" ")[0]),
-    ) || item === "Downloads",
-  );
+  if (!report) notFound();
+
+  const [courseAreas, mapLayers, findings, recommendations] = await Promise.all([
+    getCourseAreas(supabase, club.id),
+    getMapLayers(supabase, club.id, report.courseId, report.id),
+    getFindingsForReport(supabase, club.id, report.id),
+    getRecommendationsForReport(supabase, club.id, report.id),
+  ]);
+
+  const visibleNav = ["Overview", ...report.sections.map((section) => section.title), "Recommendations", "Downloads"];
 
   return (
     <PortalShell club={club} active="Reports">
@@ -57,6 +50,7 @@ export default async function ReportReaderPage({
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">
               {report.reportType} · {report.surveyDate}
+              {isBasaltStaff ? ` · ${report.status}` : ""}
             </p>
             <h1 className="mt-3 text-4xl font-semibold tracking-normal text-white sm:text-5xl">
               {report.title}
@@ -101,9 +95,9 @@ export default async function ReportReaderPage({
               <p className="mt-4 text-sm leading-6 text-white/62">{report.summary}</p>
             </section>
 
-            <CourseMap areas={demoCourseAreas} layers={demoMapLayers} mode="report" />
+            <CourseMap areas={courseAreas} layers={mapLayers} mode="report" />
 
-            {report.sections.slice(1).map((section) => (
+            {report.sections.filter((section) => section.title !== "Overview").map((section) => (
               <section
                 key={section.id}
                 id={section.title.toLowerCase().replaceAll(" ", "-")}
@@ -120,8 +114,8 @@ export default async function ReportReaderPage({
             <section id="recommendations" className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6">
               <h2 className="text-2xl font-semibold text-white">Findings and recommendations</h2>
               <div className="mt-5 grid gap-3">
-                {demoFindings.map((finding) => {
-                  const recommendation = demoRecommendations.find(
+                {findings.map((finding) => {
+                  const recommendation = recommendations.find(
                     (item) => item.findingId === finding.id,
                   );
                   return (

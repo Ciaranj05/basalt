@@ -24,7 +24,7 @@ function canEditClubRecords({ memberships, globalRoles, clubId }) {
 
 function canInviteToClub({ memberships, globalRoles, clubId, targetClubId }) {
   if (clubId !== targetClubId) return false;
-  if (globalRoles.some(isBasaltRole)) return true;
+  if (globalRoles.includes("basalt_super_admin")) return true;
   return memberships.some(
     (membership) =>
       membership.clubId === clubId &&
@@ -35,6 +35,19 @@ function canInviteToClub({ memberships, globalRoles, clubId, targetClubId }) {
 
 function canClubUserSeeReport(status) {
   return status === "published";
+}
+
+function canBasaltStaffSeeReport(status) {
+  return ["draft", "internal_review", "published", "archived"].includes(status);
+}
+
+function safeInternalPath(value) {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) {
+    return "/clubs";
+  }
+  return value.startsWith("/clubs") || value.startsWith("/admin") || value === "/"
+    ? value
+    : "/clubs";
 }
 
 test("unauthorised club slug changes do not grant access", () => {
@@ -87,7 +100,44 @@ test("basalt analyst can create draft report records", () => {
   );
 });
 
-test("draft report hidden and published report visible to club users", () => {
+test("only super admins can invite through the Basalt admin path", () => {
+  assert.equal(
+    canInviteToClub({
+      clubId: "club-a",
+      targetClubId: "club-a",
+      memberships: [],
+      globalRoles: ["basalt_analyst"],
+    }),
+    false,
+  );
+  assert.equal(
+    canInviteToClub({
+      clubId: "club-a",
+      targetClubId: "club-a",
+      memberships: [],
+      globalRoles: ["basalt_super_admin"],
+    }),
+    true,
+  );
+});
+
+test("draft and archived reports are hidden from club users", () => {
   assert.equal(canClubUserSeeReport("draft"), false);
+  assert.equal(canClubUserSeeReport("internal_review"), false);
   assert.equal(canClubUserSeeReport("published"), true);
+  assert.equal(canClubUserSeeReport("archived"), false);
+});
+
+test("basalt staff can inspect every report status", () => {
+  assert.equal(canBasaltStaffSeeReport("draft"), true);
+  assert.equal(canBasaltStaffSeeReport("internal_review"), true);
+  assert.equal(canBasaltStaffSeeReport("published"), true);
+  assert.equal(canBasaltStaffSeeReport("archived"), true);
+});
+
+test("callback redirects stay internal", () => {
+  assert.equal(safeInternalPath("/clubs/north-coast-golf-club"), "/clubs/north-coast-golf-club");
+  assert.equal(safeInternalPath("//evil.example"), "/clubs");
+  assert.equal(safeInternalPath("https://evil.example/admin"), "/clubs");
+  assert.equal(safeInternalPath("/unexpected"), "/clubs");
 });

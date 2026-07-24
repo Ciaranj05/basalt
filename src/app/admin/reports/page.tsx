@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Eye, ShieldCheck } from "lucide-react";
-import { demoReports } from "@/lib/portal/demo-data";
+import { requireBasaltRole } from "@/lib/portal/access";
+import { getAdminReports } from "@/lib/portal/data";
+
+export const dynamic = "force-dynamic";
 
 const builderCapabilities = [
   "Create and edit report metadata",
@@ -16,7 +19,10 @@ const builderCapabilities = [
   "Publish with explicit protected action",
 ];
 
-export default function ReportBuilderPage() {
+export default async function ReportBuilderPage() {
+  const { supabase } = await requireBasaltRole(["basalt_super_admin", "basalt_analyst"]);
+  const reports = await getAdminReports(supabase);
+
   return (
     <main className="min-h-screen bg-[#050807] text-white">
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -44,14 +50,14 @@ export default function ReportBuilderPage() {
           <section className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
             <h2 className="text-xl font-semibold text-white">Draft and published reports</h2>
             <div className="mt-4 grid gap-3">
-              {demoReports.map((report) => (
+              {reports.map((report) => (
                 <article key={report.id} className="rounded-[6px] border border-white/10 bg-black/16 p-4">
                   <p className="text-xs uppercase tracking-[0.18em] text-white/42">
                     {report.status} · Version {report.version}
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-white">{report.title}</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Link href={`/clubs/north-coast-golf-club/reports/${report.slug}`} className="inline-flex h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 text-sm text-white/70">
+                    <Link href={`/clubs/${report.clubSlug}/reports/${report.slug}`} className="inline-flex h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 text-sm text-white/70">
                       Preview <Eye className="size-4" />
                     </Link>
                     <button className="inline-flex h-10 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 text-sm text-white/70">

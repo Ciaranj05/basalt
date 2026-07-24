@@ -133,3 +133,139 @@ values
   ('11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', 'turf_health', 'Turf Health', 'Multispectral outputs show relative turf vigour variation and targeted inspection zones.', 4, true),
   ('11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', 'tree_canopy', 'Trees and Canopy', 'Canopy records support shade, airflow and woodland management discussions.', 5, true),
   ('11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', 'recommendations', 'Recommendations', 'Priority actions for drainage, bunker planning and annual monitoring.', 6, true);
+
+insert into public.reports (
+  id,
+  club_id,
+  course_id,
+  survey_id,
+  title,
+  slug,
+  report_type,
+  status,
+  summary,
+  survey_date,
+  version
+)
+values (
+  '44444444-4444-4444-8444-444444444445',
+  '11111111-1111-4111-8111-111111111111',
+  '22222222-2222-4222-8222-222222222222',
+  '33333333-3333-4333-8333-333333333334',
+  '2025 Monitoring Report Draft',
+  '2025-monitoring-draft',
+  'annual_monitoring',
+  'draft',
+  'Internal draft used to verify that unpublished reports remain hidden from normal club users.',
+  '2025-05-18',
+  1
+)
+on conflict (club_id, slug) do nothing;
+
+insert into public.map_layers (
+  id,
+  club_id,
+  course_id,
+  report_id,
+  name,
+  layer_type,
+  description,
+  opacity,
+  visible_by_default,
+  display_order
+)
+values
+  ('88888888-8888-4888-8888-888888888801', '11111111-1111-4111-8111-111111111111', '22222222-2222-4222-8222-222222222222', '44444444-4444-4444-8444-444444444444', 'Contours', 'contours', 'Elevation contour layer for planning and drainage discussion.', 0.74, true, 1),
+  ('88888888-8888-4888-8888-888888888802', '11111111-1111-4111-8111-111111111111', '22222222-2222-4222-8222-222222222222', '44444444-4444-4444-8444-444444444444', 'Drainage Priority', 'drainage', 'Surface-flow and low-area interpretation for targeted inspection.', 0.68, true, 2),
+  ('88888888-8888-4888-8888-888888888803', '11111111-1111-4111-8111-111111111111', '22222222-2222-4222-8222-222222222222', '44444444-4444-4444-8444-444444444444', 'Turf Vigour', 'multispectral', 'Relative turf vigour variation requiring ground inspection.', 0.58, false, 3)
+on conflict (id) do nothing;
+
+insert into public.findings (
+  id,
+  club_id,
+  report_id,
+  course_area_id,
+  finding_type,
+  title,
+  description,
+  severity,
+  confidence,
+  map_layer_id
+)
+values
+  ('99999999-9999-4999-8999-999999999901', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '77777777-7777-4777-8777-777777777702', 'drainage', 'Low fairway corridor requires drainage review', 'Surface-flow interpretation indicates a repeat collection corridor through Fairway 4.', 'high', 'High', '88888888-8888-4888-8888-888888888802'),
+  ('99999999-9999-4999-8999-999999999902', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '77777777-7777-4777-8777-777777777704', 'redevelopment', 'Bunker profile ready for remodelling scope', 'Measured bunker shape can support material planning and committee approval.', 'moderate', 'Medium', null),
+  ('99999999-9999-4999-8999-999999999903', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '77777777-7777-4777-8777-777777777705', 'tree_canopy', 'Canopy pressure near approach route', 'Tree cover should be reviewed for shade, airflow and playability impact.', 'moderate', 'Medium', null)
+on conflict (id) do nothing;
+
+insert into public.recommendations (
+  id,
+  club_id,
+  report_id,
+  finding_id,
+  course_area_id,
+  title,
+  description,
+  priority,
+  recommended_timeframe,
+  status
+)
+values
+  ('aaaaaaaa-9999-4999-8999-999999999901', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '99999999-9999-4999-8999-999999999901', '77777777-7777-4777-8777-777777777702', 'Commission targeted drainage design review', 'Use the mapped corridor to focus contractor inspection and scope design options.', 'High', '0-3 months', 'proposed'),
+  ('aaaaaaaa-9999-4999-8999-999999999902', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '99999999-9999-4999-8999-999999999902', '77777777-7777-4777-8777-777777777704', 'Prepare bunker remodelling quantities', 'Use baseline measurements for concept options and capital planning.', 'Medium', '3-6 months', 'planned')
+on conflict (id) do nothing;
+
+insert into public.report_media (
+  id,
+  club_id,
+  report_id,
+  course_area_id,
+  file_path,
+  media_type,
+  caption,
+  captured_at,
+  display_order
+)
+values
+  ('bbbbbbbb-9999-4999-8999-999999999901', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', null, '11111111-1111-4111-8111-111111111111/reports/orthomosaic.jpg', 'image', 'Orthomosaic preview', '2026-05-14', 1),
+  ('bbbbbbbb-9999-4999-8999-999999999902', '11111111-1111-4111-8111-111111111111', '44444444-4444-4444-8444-444444444444', '77777777-7777-4777-8777-777777777702', '11111111-1111-4111-8111-111111111111/reports/drainage-map.jpg', 'image', 'Drainage-priority map preview', '2026-05-14', 2)
+on conflict (id) do nothing;
+
+insert into public.activity_log (club_id, action, entity_type, entity_id, metadata_json)
+values
+  ('11111111-1111-4111-8111-111111111111', 'Published 2026 baseline report', 'report', '44444444-4444-4444-8444-444444444444', '{"status":"published"}'),
+  ('11111111-1111-4111-8111-111111111111', 'Added drainage priority recommendation', 'recommendation', 'aaaaaaaa-9999-4999-8999-999999999901', '{"priority":"High"}')
+on conflict (id) do nothing;
+
+insert into public.clubs (
+  id,
+  name,
+  slug,
+  package_id,
+  status,
+  onboarding_status,
+  primary_contact_name,
+  primary_contact_email
+)
+values (
+  '55555555-5555-4555-8555-555555555555',
+  'Harbour Dunes Golf Club',
+  'harbour-dunes-golf-club',
+  'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+  'active',
+  'demo',
+  'Aoife Morgan',
+  'aoife.morgan@harbourdunes.example'
+)
+on conflict (id) do nothing;
+
+insert into public.courses (id, club_id, name, hole_count, centre_latitude, centre_longitude)
+values (
+  '66666666-6666-4666-8666-666666666666',
+  '55555555-5555-4555-8555-555555555555',
+  'Harbour Course',
+  18,
+  54.721,
+  -5.803
+)
+on conflict (id) do nothing;

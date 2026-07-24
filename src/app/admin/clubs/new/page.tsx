@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { requireBasaltRole } from "@/lib/portal/access";
+
+export const dynamic = "force-dynamic";
 
 const steps = [
   {
@@ -28,7 +31,9 @@ const steps = [
   },
 ];
 
-export default function CreateClubPage() {
+export default async function CreateClubPage() {
+  await requireBasaltRole(["basalt_super_admin"]);
+
   return (
     <main className="min-h-screen bg-[#050807] text-white">
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
