@@ -4,33 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  FileText,
-  Map,
-  Repeat,
 } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import {
   CourseOutputPreview,
   RepeatDateComparison,
 } from "@/components/OutputExamples";
-
-const outcomes = [
-  {
-    icon: Map,
-    title: "Understand condition",
-    copy: "See course, turf and moisture information more clearly.",
-  },
-  {
-    icon: Repeat,
-    title: "See what is changing",
-    copy: "Compare surveys and identify areas improving, deteriorating or staying persistent.",
-  },
-  {
-    icon: FileText,
-    title: "Explain it clearly",
-    copy: "Turn course information into visual evidence for teams, managers and committees.",
-  },
-];
 
 const processSteps = [
   {
@@ -138,30 +117,16 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
-              What Basalt Shows You
+              Course Intelligence
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              Course information you can see, compare and explain.
+              See your course differently.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#314138]/72">
-              A visual way to understand course condition, turf change and
-              moisture patterns without turning the customer experience into
-              specialist GIS software.
+              Turn survey information into a clear visual picture of course
+              condition, with the ability to focus on individual areas and see
+              what warrants attention.
             </p>
-            <div className="mt-7 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              {outcomes.map((outcome) => {
-                const Icon = outcome.icon;
-                return (
-                  <article key={outcome.title} className="rounded-[8px] border border-[#d8d1c1] bg-white/58 p-4">
-                    <Icon className="size-5 text-[#486754]" />
-                    <h3 className="mt-4 text-lg font-semibold">{outcome.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-[#314138]/68">
-                      {outcome.copy}
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
           </div>
           <CourseOutputPreview />
         </div>
@@ -207,12 +172,12 @@ export default function Home() {
               See What Is Changing
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              One survey shows you the course. Repeat monitoring shows you the story.
+              See what&apos;s changing.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#314138]/70">
-              A simple history helps answer the questions greenkeepers and
-              committees actually ask: is it improving, getting worse, or still
-              behaving the same way?
+              A single survey gives you a snapshot. Repeat monitoring lets you
+              compare condition over time and build a clearer record of the
+              course.
             </p>
           </div>
           <RepeatDateComparison />
