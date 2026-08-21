@@ -9,26 +9,6 @@ export const metadata: Metadata = {
     "Meet the founders of Basalt and learn how golf, GIS, planning and software shaped our golf course intelligence platform.",
 };
 
-function CourseScene() {
-  return (
-    <div
-      className="landscape-scene scene-golf"
-      role="img"
-      aria-label="Coastal links golf landscape"
-    >
-      <span className="terrain-grid" />
-      <span className="contour contour-one" />
-      <span className="contour contour-two" />
-      <span className="route-line route-one" />
-      <span className="route-line route-two" />
-      <span className="asset-pin pin-one" />
-      <span className="asset-pin pin-two" />
-      <span className="zone zone-one" />
-      <span className="zone zone-two" />
-    </div>
-  );
-}
-
 const founderProfiles = [
   {
     name: "Ciaran McGoldrick",
@@ -53,7 +33,10 @@ export default function AboutPage() {
     <main className="min-h-screen bg-[#fbfaf6] text-[#07110d]">
       <section className="relative overflow-hidden bg-[#050807] text-white">
         <div className="absolute inset-0">
-          <CourseScene />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:58px_58px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_24%,rgba(184,242,210,0.22),transparent_24%),radial-gradient(circle_at_76%_58%,rgba(245,221,170,0.12),transparent_24%)]" />
+          <div className="absolute left-[12%] top-[26%] h-[38%] w-[42%] rounded-full border border-[#b8f2d2]/22 bg-[#b8f2d2]/8 -rotate-12" />
+          <div className="absolute bottom-[14%] right-[10%] h-[28%] w-[34%] rounded-full border border-white/14 bg-white/5 rotate-12" />
           <div className="absolute inset-0 bg-black/42" />
           <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#050807] to-transparent" />
         </div>

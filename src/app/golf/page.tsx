@@ -87,22 +87,6 @@ const solutions = [
   },
 ];
 
-function CourseScene() {
-  return (
-    <div className="landscape-scene scene-golf" role="img" aria-label="Golf course aerial with Basalt overlays">
-      <span className="terrain-grid" />
-      <span className="contour contour-one" />
-      <span className="contour contour-two" />
-      <span className="route-line route-one" />
-      <span className="route-line route-two" />
-      <span className="asset-pin pin-one" />
-      <span className="asset-pin pin-two" />
-      <span className="zone zone-one" />
-      <span className="zone zone-two" />
-    </div>
-  );
-}
-
 function SolutionSection({ solution }: { solution: (typeof solutions)[number] }) {
   return (
     <article className="grid gap-4 rounded-[8px] border border-[#d8d1c1] bg-white p-5 shadow-[0_24px_70px_rgba(20,28,22,0.06)] sm:p-7 lg:grid-cols-[0.72fr_1.28fr]">
@@ -141,6 +125,27 @@ function SolutionSection({ solution }: { solution: (typeof solutions)[number] })
         ))}
       </div>
     </article>
+  );
+}
+
+function GolfServiceVisual() {
+  return (
+    <div className="chapter-visual border-[#d8d1c1] bg-[#07100d] shadow-[0_34px_100px_rgba(20,28,22,0.18)]">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:46px_46px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_34%,rgba(184,242,210,0.24),transparent_22%),radial-gradient(circle_at_66%_62%,rgba(91,151,190,0.22),transparent_24%),radial-gradient(circle_at_72%_28%,rgba(245,221,170,0.1),transparent_20%)]" />
+      <div className="absolute left-[16%] top-[18%] h-[34%] w-[42%] rounded-full border border-[#b8f2d2]/42 bg-[#b8f2d2]/10 -rotate-12" />
+      <div className="absolute bottom-[18%] right-[16%] h-[28%] w-[34%] rounded-full border border-[#5b97be]/44 bg-[#5b97be]/12 rotate-12" />
+      <div className="absolute left-[25%] top-[52%] h-px w-[48%] rotate-12 bg-[#b8f2d2]/48" />
+      <div className="absolute left-5 top-5 rounded-[8px] border border-white/14 bg-[#07100d]/84 p-4 text-white backdrop-blur-xl">
+        <p className="text-xs uppercase tracking-[0.22em] text-[#b8f2d2]">
+          Solutions
+        </p>
+        <p className="mt-2 max-w-xs text-sm leading-6 text-white/70">
+          Course condition, turf variation, moisture patterns and repeat
+          comparisons in one golf-focused service.
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -186,9 +191,7 @@ export default function GolfPage() {
             Request a Proposal <ArrowRight className="size-4" />
           </Link>
         </div>
-        <div className="chapter-visual">
-          <CourseScene />
-        </div>
+        <GolfServiceVisual />
       </section>
 
       <section className="bg-[#f4f1e8] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">

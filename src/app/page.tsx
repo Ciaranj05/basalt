@@ -30,6 +30,33 @@ const clubBenefits = [
   },
 ];
 
+const solutionAreas = [
+  {
+    title: "Course Condition",
+    copy: "Understand the current state of key areas across the course.",
+  },
+  {
+    title: "Turf Health",
+    copy: "Identify meaningful variation and change in turf condition.",
+  },
+  {
+    title: "Moisture & Drainage",
+    copy: "Highlight patterns and areas that may warrant further investigation.",
+  },
+  {
+    title: "Repeat Monitoring",
+    copy: "Build a clearer picture of how the course changes over time.",
+  },
+  {
+    title: "Survey Comparison",
+    copy: "Compare survey dates and track improvement or deterioration.",
+  },
+  {
+    title: "Visual Reporting",
+    copy: "Give course teams and committees information they can understand quickly.",
+  },
+];
+
 const founderPillars = ["Golf", "GIS", "Planning", "Software"];
 
 function CourseScene({ label }: { label: string }) {
@@ -44,6 +71,27 @@ function CourseScene({ label }: { label: string }) {
       <span className="asset-pin pin-two" />
       <span className="zone zone-one" />
       <span className="zone zone-two" />
+    </div>
+  );
+}
+
+function CourseRecordPanel() {
+  return (
+    <div className="relative min-h-[420px] overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#07100d] text-white">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_32%,rgba(184,242,210,0.22),transparent_24%),radial-gradient(circle_at_70%_58%,rgba(245,221,170,0.14),transparent_22%)]" />
+      <div className="absolute left-[16%] top-[22%] h-[34%] w-[38%] rounded-full border border-[#b8f2d2]/36 bg-[#b8f2d2]/8 -rotate-12" />
+      <div className="absolute bottom-[20%] right-[17%] h-[25%] w-[28%] rounded-full border border-white/20 bg-white/5 rotate-12" />
+      <div className="absolute left-[22%] top-[48%] h-px w-[48%] rotate-12 bg-[#b8f2d2]/46" />
+      <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-white/14 bg-[#07100d]/82 p-5 backdrop-blur-xl sm:right-auto sm:max-w-md">
+        <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
+          Course record
+        </p>
+        <p className="mt-3 text-lg leading-7 text-white/76">
+          Golf, GIS, planning and software brought together around one clear
+          view of the course.
+        </p>
+      </div>
     </div>
   );
 }
@@ -97,7 +145,7 @@ export default function Home() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#solutions"
+                href="#product"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
               >
                 See the product <ArrowRight className="size-4" />
@@ -113,7 +161,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="solutions" className="bg-[#f4f1e8] px-5 py-18 text-[#07110d] sm:px-8 lg:px-10 lg:py-24">
+      <section id="product" className="bg-[#f4f1e8] px-5 py-18 text-[#07110d] sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
@@ -129,6 +177,44 @@ export default function Home() {
             </p>
           </div>
           <CourseOutputPreview />
+        </div>
+      </section>
+
+      <section id="solutions" className="bg-[#fbfaf6] px-5 py-16 text-[#07110d] sm:px-8 lg:px-10 lg:py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
+                Solutions
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
+                What we help you understand.
+              </h2>
+            </div>
+            <p className="max-w-lg text-base leading-7 text-[#314138]/70">
+              Clearer information about course condition, change and areas
+              worth investigating.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {solutionAreas.map((area) => (
+              <Link
+                key={area.title}
+                href="/golf"
+                className="group rounded-[8px] border border-[#d8d1c1] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#486754]/28 hover:shadow-[0_20px_54px_rgba(20,28,22,0.08)]"
+              >
+                <h3 className="text-lg font-semibold text-[#07110d]">
+                  {area.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-[#314138]/68">
+                  {area.copy}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#486754]/76 transition group-hover:text-[#486754]">
+                  Explore <ArrowRight className="size-4" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -185,19 +271,7 @@ export default function Home() {
 
       <section id="story" className="bg-[#e9e3d5] px-5 py-18 text-[#07110d] sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-          <div className="relative min-h-[420px] overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#07100d]">
-            <CourseScene label="North Coast inspired links golf landscape with Basalt overlays" />
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-white/14 bg-[#07100d]/82 p-5 text-white backdrop-blur-xl sm:right-auto sm:max-w-md">
-              <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
-                North Coast of Ireland
-              </p>
-              <p className="mt-3 text-lg leading-7 text-white/76">
-                Built in a place where golf, coastal landscapes and changing
-                conditions are part of everyday life.
-              </p>
-            </div>
-          </div>
+          <CourseRecordPanel />
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
               Why Basalt
