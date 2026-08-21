@@ -37,11 +37,7 @@ function ProductPreviewFrame({
 }) {
   return (
     <figure className="overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#07100d] shadow-[0_28px_90px_rgba(20,28,22,0.16)]">
-      <div className="border-b border-white/10 px-4 py-3 sm:px-5">
-        <figcaption className="text-xs uppercase tracking-[0.22em] text-[#b8f2d2]">
-          {label}
-        </figcaption>
-      </div>
+      <figcaption className="sr-only">{label}</figcaption>
       {children}
     </figure>
   );
