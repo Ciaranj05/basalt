@@ -43,18 +43,31 @@ function ProductPreviewFrame({
   );
 }
 
+function CroppedProductImage({
+  mockup,
+  priority = false,
+}: {
+  mockup: (typeof mockups)[keyof typeof mockups];
+  priority?: boolean;
+}) {
+  return (
+    <div className="relative aspect-[768/455] overflow-hidden">
+      <Image
+        src={mockup.src}
+        alt={mockup.alt}
+        fill
+        sizes="(min-width: 1024px) 54vw, 100vw"
+        className="object-cover object-bottom"
+        priority={priority}
+      />
+    </div>
+  );
+}
+
 export function CourseOutputPreview() {
   return (
     <ProductPreviewFrame label="Course Intelligence — illustrative interface">
-      <Image
-        src={mockups.courseOverview.src}
-        alt={mockups.courseOverview.alt}
-        width={mockups.courseOverview.width}
-        height={mockups.courseOverview.height}
-        sizes="(min-width: 1024px) 54vw, 100vw"
-        className="h-auto w-full"
-        priority
-      />
+      <CroppedProductImage mockup={mockups.courseOverview} priority />
     </ProductPreviewFrame>
   );
 }
@@ -62,14 +75,7 @@ export function CourseOutputPreview() {
 export function RepeatDateComparison() {
   return (
     <ProductPreviewFrame label="Survey comparison — illustrative interface">
-      <Image
-        src={mockups.change.src}
-        alt={mockups.change.alt}
-        width={mockups.change.width}
-        height={mockups.change.height}
-        sizes="(min-width: 1024px) 58vw, 100vw"
-        className="h-auto w-full"
-      />
+      <CroppedProductImage mockup={mockups.change} />
     </ProductPreviewFrame>
   );
 }
@@ -78,24 +84,10 @@ export function MoistureAndDrainagePreviews() {
   return (
     <div className="grid gap-4">
       <ProductPreviewFrame label="Moisture map — illustrative interface">
-        <Image
-          src={mockups.moisture.src}
-          alt={mockups.moisture.alt}
-          width={mockups.moisture.width}
-          height={mockups.moisture.height}
-          sizes="(min-width: 1024px) 54vw, 100vw"
-          className="h-auto w-full"
-        />
+        <CroppedProductImage mockup={mockups.moisture} />
       </ProductPreviewFrame>
       <ProductPreviewFrame label="Drainage analysis — illustrative interface">
-        <Image
-          src={mockups.drainage.src}
-          alt={mockups.drainage.alt}
-          width={mockups.drainage.width}
-          height={mockups.drainage.height}
-          sizes="(min-width: 1024px) 54vw, 100vw"
-          className="h-auto w-full"
-        />
+        <CroppedProductImage mockup={mockups.drainage} />
       </ProductPreviewFrame>
     </div>
   );

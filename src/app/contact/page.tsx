@@ -3,51 +3,14 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { emailHref, whatsappCtaHref, whatsappHref } from "@/lib/public-contact";
 
 export const metadata: Metadata = {
   title: "Contact Basalt | Golf Course Intelligence",
   description:
     "Message or email Basalt to talk through what better course information could show you about your golf course.",
 };
-
-const contactEmail =
-  process.env.NEXT_PUBLIC_BASALT_CONTACT_EMAIL?.trim() || "hello@basalt.co";
-const whatsappNumber = process.env.NEXT_PUBLIC_BASALT_WHATSAPP_NUMBER?.replace(
-  /\D/g,
-  "",
-);
-const whatsappMessage =
-  "Hi, I'd like to find out more about Basalt and what it could show us about our course.";
-const whatsappHref = whatsappNumber
-  ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
-  : null;
-const emailHref = `mailto:${contactEmail}?subject=${encodeURIComponent(
-  "Basalt course enquiry",
-)}`;
-
-function WhatsAppIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="size-5"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5.2 18.9 6 15.8a7.1 7.1 0 1 1 2.7 2.5l-3.5.6Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.2 8.7c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.3c.1.3 0 .5-.1.6l-.4.5c-.1.1-.1.3 0 .5.4.7 1 1.3 1.8 1.8.2.1.3.1.5 0l.6-.4c.2-.1.4-.2.6-.1l1.3.6c.3.1.4.3.4.6v.4c0 .3-.1.6-.4.8-.5.3-1.1.5-1.8.3-2.6-.6-4.7-2.6-5.4-5.1-.2-.7-.1-1.1.1-1.4Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
 
 function ContactOption({
   eyebrow,
@@ -117,6 +80,14 @@ export default function ContactPage() {
             About
           </Link>
         </div>
+        <a
+          href={whatsappCtaHref}
+          target={whatsappHref ? "_blank" : undefined}
+          rel={whatsappHref ? "noreferrer" : undefined}
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d8d1c1] bg-white px-4 text-sm font-medium text-[#07110d] transition hover:border-[#486754]/30 hover:bg-[#f4f1e8]"
+        >
+          <WhatsAppIcon className="size-4" /> WhatsApp us
+        </a>
       </nav>
 
       <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-22">
@@ -142,7 +113,7 @@ export default function ContactPage() {
             button="Message us on WhatsApp"
             href={whatsappHref}
             icon={<WhatsAppIcon />}
-            disabledMessage="WhatsApp will appear here once NEXT_PUBLIC_BASALT_WHATSAPP_NUMBER is configured."
+            disabledMessage="WhatsApp will appear here once NEXT_PUBLIC_WHATSAPP_NUMBER is configured."
           />
           <ContactOption
             eyebrow="Email"

@@ -1,15 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import {
   CourseOutputPreview,
   RepeatDateComparison,
 } from "@/components/OutputExamples";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { whatsappCtaHref, whatsappHref } from "@/lib/public-contact";
 
 const clubBenefits = [
   {
@@ -78,18 +79,22 @@ function CourseScene({ label }: { label: string }) {
 function CourseRecordPanel() {
   return (
     <div className="relative min-h-[420px] overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#07100d] text-white">
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:48px_48px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_32%,rgba(184,242,210,0.22),transparent_24%),radial-gradient(circle_at_70%_58%,rgba(245,221,170,0.14),transparent_22%)]" />
-      <div className="absolute left-[16%] top-[22%] h-[34%] w-[38%] rounded-full border border-[#b8f2d2]/36 bg-[#b8f2d2]/8 -rotate-12" />
-      <div className="absolute bottom-[20%] right-[17%] h-[25%] w-[28%] rounded-full border border-white/20 bg-white/5 rotate-12" />
-      <div className="absolute left-[22%] top-[48%] h-px w-[48%] rotate-12 bg-[#b8f2d2]/46" />
+      <Image
+        src="/images/marketing/drone-over-links-course.png"
+        alt="Survey drone above a links golf course with subtle course intelligence lines"
+        fill
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black/22" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#07100d]/82 via-[#07100d]/10 to-transparent" />
       <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-white/14 bg-[#07100d]/82 p-5 backdrop-blur-xl sm:right-auto sm:max-w-md">
         <p className="text-xs uppercase tracking-[0.24em] text-[#b8f2d2]">
           Course record
         </p>
         <p className="mt-3 text-lg leading-7 text-white/76">
-          Golf, GIS, planning and software brought together around one clear
-          view of the course.
+          A golf-specific view of condition, change and survey evidence across
+          the course.
         </p>
       </div>
     </div>
@@ -117,12 +122,14 @@ export default function Home() {
             <a href="#story" className="transition hover:text-white">Our Story</a>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>
           </div>
-          <Link
-            href="/contact"
+          <a
+            href={whatsappCtaHref}
+            target={whatsappHref ? "_blank" : undefined}
+            rel={whatsappHref ? "noreferrer" : undefined}
             className="hidden h-10 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 text-sm font-medium text-white backdrop-blur transition hover:bg-white/16 sm:inline-flex"
           >
-            Talk to us <ArrowRight className="size-4" />
-          </Link>
+            <WhatsAppIcon className="size-4" /> WhatsApp us
+          </a>
         </nav>
 
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-end px-5 pb-12 sm:px-8 lg:items-center lg:px-10">
@@ -321,12 +328,14 @@ export default function Home() {
               record over time.
             </p>
           </div>
-          <Link
-            href="/contact"
+          <a
+            href={whatsappCtaHref}
+            target={whatsappHref ? "_blank" : undefined}
+            rel={whatsappHref ? "noreferrer" : undefined}
             className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
           >
-            Start the conversation <ArrowRight className="size-4" />
-          </Link>
+            <WhatsAppIcon className="size-4" /> WhatsApp us
+          </a>
         </div>
         <footer className="mx-auto mt-14 flex max-w-7xl flex-col gap-5 border-t border-white/8 pt-8 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />

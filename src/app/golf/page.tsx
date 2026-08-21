@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 import { MoistureAndDrainagePreviews } from "@/components/OutputExamples";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { whatsappCtaHref, whatsappHref } from "@/lib/public-contact";
 
 export const metadata: Metadata = {
   title: "Golf Course Intelligence | Basalt",
@@ -131,11 +134,14 @@ function SolutionSection({ solution }: { solution: (typeof solutions)[number] })
 function GolfServiceVisual() {
   return (
     <div className="chapter-visual border-[#d8d1c1] bg-[#07100d] shadow-[0_34px_100px_rgba(20,28,22,0.18)]">
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.055)_1px,transparent_1px)] bg-[size:46px_46px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_32%_34%,rgba(184,242,210,0.24),transparent_22%),radial-gradient(circle_at_66%_62%,rgba(91,151,190,0.22),transparent_24%),radial-gradient(circle_at_72%_28%,rgba(245,221,170,0.1),transparent_20%)]" />
-      <div className="absolute left-[16%] top-[18%] h-[34%] w-[42%] rounded-full border border-[#b8f2d2]/42 bg-[#b8f2d2]/10 -rotate-12" />
-      <div className="absolute bottom-[18%] right-[16%] h-[28%] w-[34%] rounded-full border border-[#5b97be]/44 bg-[#5b97be]/12 rotate-12" />
-      <div className="absolute left-[25%] top-[52%] h-px w-[48%] rotate-12 bg-[#b8f2d2]/48" />
+      <Image
+        src="/images/marketing/golf-turf-insight-links.png"
+        alt="Simulated golf course intelligence overlay across a links green, approach and fairway"
+        fill
+        sizes="(min-width: 1024px) 58vw, 100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black/18" />
       <div className="absolute left-5 top-5 rounded-[8px] border border-white/14 bg-[#07100d]/84 p-4 text-white backdrop-blur-xl">
         <p className="text-xs uppercase tracking-[0.22em] text-[#b8f2d2]">
           Solutions
@@ -158,16 +164,26 @@ export default function GolfPage() {
         </Link>
         <div className="hidden items-center gap-7 text-sm text-[#314138]/64 md:flex">
           <Link href="/#solutions" className="transition hover:text-[#07110d]">Solutions</Link>
-          <Link href="/#reports" className="transition hover:text-[#07110d]">Reports</Link>
-          <Link href="/#technology" className="transition hover:text-[#07110d]">Technology</Link>
+          <Link href="/#record" className="transition hover:text-[#07110d]">Course Record</Link>
+          <Link href="/#monitoring" className="transition hover:text-[#07110d]">Monitoring</Link>
           <Link href="/about" className="transition hover:text-[#07110d]">About</Link>
         </div>
-        <Link
-          href="/contact"
-          className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d8d1c1] bg-white px-4 text-sm font-medium text-[#07110d] transition hover:border-[#486754]/30 hover:bg-[#f4f1e8]"
-        >
-          Request a Proposal <ArrowRight className="size-4" />
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/contact"
+            className="hidden text-sm text-[#314138]/64 transition hover:text-[#07110d] sm:inline"
+          >
+            Contact
+          </Link>
+          <a
+            href={whatsappCtaHref}
+            target={whatsappHref ? "_blank" : undefined}
+            rel={whatsappHref ? "noreferrer" : undefined}
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d8d1c1] bg-white px-4 text-sm font-medium text-[#07110d] transition hover:border-[#486754]/30 hover:bg-[#f4f1e8]"
+          >
+            <WhatsAppIcon className="size-4" /> WhatsApp us
+          </a>
+        </div>
       </nav>
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:py-24">
@@ -184,12 +200,14 @@ export default function GolfPage() {
             reporting so your team can understand course condition and how it
             changes over time.
           </p>
-          <Link
-            href="/contact"
+          <a
+            href={whatsappCtaHref}
+            target={whatsappHref ? "_blank" : undefined}
+            rel={whatsappHref ? "noreferrer" : undefined}
             className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#07110d] px-5 text-sm font-semibold text-white transition hover:bg-[#1b2b22]"
           >
-            Request a Proposal <ArrowRight className="size-4" />
-          </Link>
+            <WhatsAppIcon className="size-4" /> Talk to us
+          </a>
         </div>
         <GolfServiceVisual />
       </section>
