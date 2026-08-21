@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
+import {
+  RepeatDateComparison,
+  RgbMultispectralComparison,
+} from "@/components/OutputExamples";
 
 export const metadata: Metadata = {
   title: "Golf Course Intelligence | Basalt",
@@ -209,6 +213,27 @@ export default function GolfPage() {
             deteriorating, persistent moisture patterns, seasonal changes,
             shifts in turf condition and the impact of maintenance work.
           </p>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-12 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:px-10">
+        <div>
+          <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+            Example Outputs
+          </p>
+          <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+            Normal photography, enhanced by interpretable turf overlays.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-white/62">
+            RGB imagery keeps the course recognisable. Simulated multispectral
+            and repeat-date examples show how Basalt can present turf variation
+            and change for greenkeeper review without inventing measurements or
+            replacing on-course assessment.
+          </p>
+        </div>
+        <div className="space-y-3">
+          <RgbMultispectralComparison />
+          <RepeatDateComparison />
         </div>
       </section>
 

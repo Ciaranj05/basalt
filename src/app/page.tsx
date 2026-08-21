@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -10,6 +9,10 @@ import {
   Repeat,
 } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
+import {
+  CourseOutputPreview,
+  RepeatDateComparison,
+} from "@/components/OutputExamples";
 
 const outcomes = [
   {
@@ -48,59 +51,6 @@ const processSteps = [
   },
 ];
 
-const courseLayers = [
-  "Course condition",
-  "Turf health",
-  "Moisture",
-  "Previous survey",
-];
-
-const courseMarkers = [
-  {
-    label: "Green 7",
-    note: "Turf change detected",
-    position: "left-[28%] top-[32%]",
-  },
-  {
-    label: "12th Fairway",
-    note: "Persistent moisture area",
-    position: "right-[18%] top-[48%]",
-  },
-  {
-    label: "Green 4",
-    note: "Condition improving",
-    position: "left-[42%] bottom-[22%]",
-  },
-];
-
-const months = [
-  {
-    label: "Apr",
-    title: "Baseline established",
-    note: "The first survey creates a clear reference point.",
-  },
-  {
-    label: "May",
-    title: "Moisture area identified",
-    note: "A recurring wet area is marked for closer review.",
-  },
-  {
-    label: "Jun",
-    title: "Area monitored",
-    note: "The same location is compared against the previous survey.",
-  },
-  {
-    label: "Jul",
-    title: "Improvement detected",
-    note: "The record shows the area beginning to recover.",
-  },
-  {
-    label: "Aug",
-    title: "Condition stable",
-    note: "The trend can be explained with a simple visual history.",
-  },
-];
-
 const founderPillars = ["Golf", "GIS", "Planning", "Software"];
 
 function CourseScene({ label }: { label: string }) {
@@ -119,47 +69,7 @@ function CourseScene({ label }: { label: string }) {
   );
 }
 
-function GolfMapPreview() {
-  return (
-    <div className="relative min-h-[420px] overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#07100d] shadow-[0_28px_90px_rgba(20,28,22,0.18)] sm:min-h-[520px]">
-      <CourseScene label="Example Basalt report preview showing a golf course with subtle intelligence overlays" />
-      <div className="absolute inset-0 bg-black/18" />
-      <div className="absolute left-4 top-4 z-10 max-w-[18rem] rounded-[8px] border border-white/14 bg-[#07100d]/82 p-4 text-white backdrop-blur-xl">
-        <p className="text-xs uppercase tracking-[0.24em] text-white/46">
-          Example report preview
-        </p>
-        <h3 className="mt-2 text-xl font-semibold">Course view</h3>
-        <div className="mt-4 grid gap-2">
-          {courseLayers.map((layer, index) => (
-            <div key={layer} className="flex items-center gap-2 text-sm text-white/72">
-              <span
-                className={`size-2 rounded-full ${
-                  index < 2 ? "bg-[#b8f2d2]" : "border border-white/42"
-                }`}
-              />
-              {layer}
-            </div>
-          ))}
-        </div>
-      </div>
-      {courseMarkers.map((marker) => (
-        <div
-          key={marker.label}
-          className={`absolute z-10 hidden max-w-[11rem] rounded-[8px] border border-white/14 bg-[#07100d]/82 p-3 text-white backdrop-blur-xl sm:block ${marker.position}`}
-        >
-          <p className="text-xs uppercase tracking-[0.18em] text-[#b8f2d2]">
-            {marker.label}
-          </p>
-          <p className="mt-1 text-sm leading-5 text-white/76">{marker.note}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function Home() {
-  const [activeMonth, setActiveMonth] = useState(months[1]);
-
   return (
     <main className="min-h-screen overflow-hidden bg-[#050807] text-white">
       <section className="relative flex min-h-screen flex-col overflow-hidden">
@@ -253,7 +163,7 @@ export default function Home() {
               })}
             </div>
           </div>
-          <GolfMapPreview />
+          <CourseOutputPreview />
         </div>
       </section>
 
@@ -305,38 +215,7 @@ export default function Home() {
               behaving the same way?
             </p>
           </div>
-          <div className="overflow-hidden rounded-[8px] border border-[#d8d1c1] bg-[#f4f1e8] shadow-[0_28px_90px_rgba(20,28,22,0.13)]">
-            <div className="report-map report-golf min-h-[300px] border-0 sm:min-h-[360px]">
-              <span className="report-grid" />
-              <span className="report-zone report-zone-one" />
-              <span className="report-zone report-zone-two" />
-              <span className="report-marker report-marker-one" />
-              <span className="report-marker report-marker-two" />
-              <div className="absolute bottom-4 left-4 right-4 rounded-[8px] border border-white/14 bg-[#07100d]/82 p-4 text-white backdrop-blur-xl sm:left-auto sm:max-w-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-[#b8f2d2]">
-                  7th Green
-                </p>
-                <h3 className="mt-2 text-2xl font-semibold">{activeMonth.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/66">{activeMonth.note}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-5 gap-1 p-3 sm:p-4">
-              {months.map((month) => (
-                <button
-                  key={month.label}
-                  type="button"
-                  onClick={() => setActiveMonth(month)}
-                  className={`rounded-[6px] px-3 py-3 text-center text-sm font-semibold transition ${
-                    activeMonth.label === month.label
-                      ? "bg-[#07110d] text-white"
-                      : "bg-white/72 text-[#314138]/62 hover:bg-white"
-                  }`}
-                >
-                  {month.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <RepeatDateComparison />
         </div>
       </section>
 
