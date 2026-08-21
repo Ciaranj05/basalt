@@ -24,91 +24,91 @@ const fadeUp = {
 const problems = [
   {
     icon: Droplets,
-    quote: "We need to know where drainage and moisture issues are developing.",
+    quote: "Where are moisture patterns starting to affect the course?",
   },
   {
     icon: BarChart3,
-    quote: "We want to identify turf stress before it is obvious from ground level.",
+    quote: "Which turf changes deserve closer inspection this month?",
   },
   {
     icon: FileText,
-    quote: "The committee needs clear evidence before approving maintenance spend.",
+    quote: "How do we explain course condition clearly to the committee?",
   },
   {
     icon: Map,
-    quote: "We need a consistent view of greens, tees and fairways in one survey.",
+    quote: "Can we see greens, tees and fairways in one consistent record?",
   },
   {
     icon: Repeat,
-    quote: "We want to compare course condition across the season.",
+    quote: "What has changed since the last survey?",
   },
 ];
 
 const solutions = [
   {
     icon: Map,
-    title: "Golf Course Intelligence",
-    copy: "A clearer view of course condition across greens, tees and fairways.",
+    title: "Course Baseline",
+    copy: "A clear starting point for understanding current course condition.",
     items: [
       "Whole course coverage",
       "Greens, tees and fairways",
-      "Objective aerial evidence",
-      "Course condition overview",
+      "Current imagery",
+      "Condition overview",
     ],
   },
   {
     icon: Droplets,
-    title: "Drainage & Moisture Analysis",
-    copy: "Visual evidence for waterlogging, moisture patterns and drainage issues.",
+    title: "Water & Moisture Patterns",
+    copy: "Highlight areas where moisture behaviour warrants further investigation.",
     items: [
-      "Wet area review",
-      "Moisture pattern insight",
-      "Drainage issue evidence",
-      "Targeted maintenance support",
+      "Persistent wet areas",
+      "Moisture observations",
+      "Drainage concerns",
+      "Areas to inspect",
     ],
   },
   {
     icon: BarChart3,
-    title: "Turf Health Monitoring",
-    copy: "Multispectral insight that highlights areas needing closer inspection.",
+    title: "Turf Insight",
+    copy: "Use repeat imagery and multispectral analysis to understand meaningful turf change.",
     items: [
-      "Turf stress indicators",
+      "Turf condition",
       "Growth variation",
-      "Inspection priorities",
-      "Repeat comparison",
+      "Repeat imagery",
+      "Inspection focus",
     ],
   },
   {
     icon: CircleDot,
-    title: "Course Condition Reporting",
-    copy: "Clear visual reports for greenkeepers, managers and committees.",
+    title: "Condition Monitoring",
+    copy: "Track specific areas of concern or interest through the season.",
     items: [
       "Key areas of concern",
-      "Practical recommendations",
-      "Committee-ready visuals",
-      "Maintenance priorities",
+      "Monthly observations",
+      "Progress notes",
+      "Maintenance context",
     ],
   },
   {
     icon: Repeat,
-    title: "Repeat Survey Comparison",
-    copy: "Compare survey results over time to understand course change.",
+    title: "Change Tracking",
+    copy: "Compare surveys and understand what has improved, deteriorated or persisted.",
     items: [
       "Seasonal comparison",
-      "Historical change",
+      "Previous surveys",
       "Maintenance impact",
       "Progress tracking",
     ],
   },
   {
     icon: FileText,
-    title: "Maintenance Priorities",
-    copy: "Focus inspections and maintenance where they will have the greatest impact.",
+    title: "Course Intelligence Reports",
+    copy: "Turn survey information into clear visual evidence for club decisions.",
     items: [
-      "Earlier issue detection",
-      "Budget focus",
-      "Treatment targeting",
+      "Visual reports",
+      "Committee clarity",
       "Decision support",
+      "Practical summaries",
     ],
   },
 ];
@@ -116,38 +116,38 @@ const solutions = [
 const programmes = [
   {
     icon: Map,
-    title: "Course Survey",
-    summary: "A planned aerial survey that creates a clear visual record of course condition.",
+    title: "Establish the baseline",
+    summary: "Create the first clear record of current course condition.",
     includes: [
       "Whole course coverage",
       "Greens, tees and fairways",
-      "Consistent aerial imagery",
-      "Course condition reporting",
-      "Practical maintenance priorities",
+      "Current imagery",
+      "Areas requiring attention",
+      "Visual reporting",
     ],
   },
   {
     icon: Repeat,
-    title: "Monthly Monitoring",
-    summary: "Repeatable monthly surveys for clubs that want to track seasonal change.",
+    title: "Monitor the change",
+    summary: "Use regular monitoring to understand what has changed since the last survey.",
     includes: [
-      "Repeatable flight plans",
-      "Change analysis over time",
-      "Drainage and turf condition review",
-      "Progress monitoring",
+      "Monthly comparisons",
+      "Seasonal movement",
+      "Persistent moisture patterns",
+      "Areas improving or deteriorating",
       "Updated visual reports",
     ],
   },
   {
     icon: BarChart3,
-    title: "Multispectral Monitoring",
-    summary: "Additional turf insight for clubs that want to investigate growth variation and stress indicators.",
+    title: "Explain the picture",
+    summary: "Bring GIS, planning judgement and software together so technical outputs are easier to use.",
     includes: [
-      "Multispectral analysis",
-      "Turf health indicators",
-      "Areas for closer inspection",
-      "Seasonal comparison",
-      "Clear committee reporting",
+      "Turf condition context",
+      "Moisture observations",
+      "Clear priorities",
+      "Committee-ready language",
+      "Course intelligence in one place",
     ],
   },
 ];
@@ -155,19 +155,19 @@ const programmes = [
 const processSteps = [
   {
     title: "Survey",
-    copy: "Capture accurate course data.",
+    copy: "Capture a consistent view of the course.",
   },
   {
-    title: "Analyse",
-    copy: "Convert imagery into practical course intelligence.",
+    title: "Compare",
+    copy: "Review current imagery against previous surveys.",
   },
   {
-    title: "Report",
-    copy: "Deliver committee-ready reports.",
+    title: "Explain",
+    copy: "Turn observations into clear course intelligence.",
   },
   {
     title: "Monitor",
-    copy: "Compare repeat surveys over time.",
+    copy: "Build a more useful record over time.",
   },
 ];
 
@@ -200,35 +200,37 @@ const reportCards = [
 ];
 
 const reasons = [
-  "Spot developing issues earlier",
-  "Focus maintenance budget where it matters",
-  "Monitor change across the course",
-  "Compare repeat surveys over time",
-  "Give committees clear visual reporting",
+  "See areas improving, deteriorating or persisting",
+  "Understand moisture and turf patterns over time",
+  "Support greenkeeping insight with visual evidence",
+  "Give committees a clearer shared record",
+  "Build history rather than a one-off snapshot",
 ];
 
 const technology = [
   {
-    title: "Drone Mapping",
-    copy: "Repeatable aerial surveys of greens, tees and fairways.",
+    title: "Drone-based monitoring",
+    copy: "Repeatable aerial surveys create a consistent view of course condition.",
   },
   {
-    title: "Multispectral",
-    copy: "Turf health and growth variation indicators.",
+    title: "Repeat multispectral imagery",
+    copy: "Additional imagery helps highlight changes in turf condition for closer review.",
   },
   {
     title: "GIS",
-    copy: "Organised course layers for visual reporting.",
+    copy: "Course information is organised into layers that are easier to explore and explain.",
   },
   {
-    title: "AI Analysis",
-    copy: "Assisted review that supports practical reporting.",
+    title: "Planning judgement",
+    copy: "Spatial evidence is presented in a way that supports practical club decisions.",
   },
   {
-    title: "Course Reports",
-    copy: "Clear outputs for greenkeepers, managers and committees.",
+    title: "Software",
+    copy: "Visual reports and portal views keep course information in one place.",
   },
 ];
+
+const experiencePillars = ["Golf", "GIS", "Planning", "Software"];
 
 function CourseScene({ label }: { label: string }) {
   return (
@@ -264,8 +266,9 @@ export default function Home() {
           </Link>
           <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
-            <a href="#programmes" className="transition hover:text-white">Programmes</a>
+            <a href="#monitoring" className="transition hover:text-white">Monitoring</a>
             <a href="#reports" className="transition hover:text-white">Reports</a>
+            <a href="#story" className="transition hover:text-white">Story</a>
             <a href="#technology" className="transition hover:text-white">Technology</a>
             <Link href="/about" className="transition hover:text-white">About</Link>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>
@@ -289,27 +292,70 @@ export default function Home() {
               Golf Course Intelligence
             </p>
             <h1 className="mt-5 text-5xl font-semibold leading-[0.94] tracking-normal text-white sm:text-balance sm:text-7xl lg:text-8xl">
-              Understand Your Course. Plan With Confidence.
+              Your course. Better understood.
             </h1>
             <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/76 sm:text-xl">
-              Helping golf clubs make better decisions through accurate course
-              intelligence, mapping and repeatable monitoring.
+              Basalt combines drone-based monitoring, GIS and clear visual
+              reporting to help golf clubs understand course condition and how
+              it changes over time.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/contact"
+              <a
+                href="#how-it-works"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
               >
-                Book a Discovery Call <ArrowRight className="size-4" />
-              </Link>
-              <a
-                href="#reports"
+                Explore how it works <ArrowRight className="size-4" />
+              </a>
+              <Link
+                href="/contact"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/18 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/16"
               >
-                View Sample Report
-              </a>
+                Talk to us about your course
+              </Link>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      <section id="story" className="px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8 lg:grid-cols-[0.86fr_1.14fr] lg:p-10">
+          <div>
+            <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+              North Coast of Ireland
+            </p>
+            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
+              Built around golf. Backed by the right experience.
+            </h2>
+          </div>
+          <div>
+            <p className="text-base leading-7 text-white/66">
+              Founded on the North Coast of Ireland, Basalt brings together
+              more than two decades of experience across golf technology, GIS,
+              environmental and town planning, and software development.
+            </p>
+            <p className="mt-4 text-base leading-7 text-white/58">
+              We are based in one of golf&apos;s most distinctive regions, with
+              links courses and coastal landscapes on our doorstep. Golf is not
+              simply the market we chose to enter. It has always been part of
+              our lives.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {experiencePillars.map((pillar) => (
+                <span
+                  key={pillar}
+                  className="rounded-full border border-[#a6d8bd]/20 bg-[#a6d8bd]/10 px-4 py-2 text-sm font-medium text-[#dff4e8]"
+                >
+                  {pillar}
+                </span>
+              ))}
+            </div>
+            <Link
+              href="/about"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#a6d8bd]"
+            >
+              Read our story <ArrowRight className="size-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -323,10 +369,10 @@ export default function Home() {
             variants={fadeUp}
           >
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-              The Problems We Solve
+              What Clubs Need To Know
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              Course decisions need evidence.
+              A course changes every week. The record should change with it.
             </h2>
           </motion.div>
 
@@ -361,13 +407,13 @@ export default function Home() {
                 Solutions
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Intelligence for every major course decision.
+                Course intelligence designed around golf clubs.
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Basalt gives course teams, managers and committees the record
-              they need to identify developing issues, focus maintenance and
-              monitor progress over time.
+              We combine golf understanding, spatial analysis, planning
+              judgement and software so course information becomes clearer,
+              easier to compare and easier to explain.
             </p>
           </div>
 
@@ -405,22 +451,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="programmes" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section id="monitoring" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Monitoring Programmes
+                See What&apos;s Changing
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Choose the level of course intelligence your club needs.
+                Do not just see your course. See how it changes.
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Start with a course survey or build a repeatable monitoring
-              programme that tracks condition across the season. Every
-              option is designed around practical decisions, clear reports and
-              evidence your team can act on.
+              A one-off survey gives a snapshot. Repeat monitoring creates a
+              record, helping clubs understand what has improved, deteriorated
+              or stayed persistently difficult across the season.
             </p>
           </div>
 
@@ -464,14 +509,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section id="how-it-works" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
               How It Works
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              From course survey to repeatable evidence.
+              Survey. Compare. Explain.
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-4">
@@ -495,16 +540,17 @@ export default function Home() {
           <div className="mb-10 grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
-                Sample Report
+                Course Intelligence
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Committee-ready course intelligence.
+                Your course information, in one place.
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Sample report cards show the kind of evidence Basalt can provide
-              for maintenance planning, investment discussions and annual
-              course records.
+              Basalt brings together current imagery, previous surveys, turf
+              condition, moisture observations, areas of concern and clear
+              visual reports without making the customer experience feel like
+              specialist GIS software.
             </p>
           </div>
 
@@ -566,12 +612,12 @@ export default function Home() {
               Why Basalt
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              Better decisions, not more data.
+              The value is in the comparison.
             </h2>
             <p className="mt-6 text-base leading-7 text-white/62">
-              Golf clubs speak to Basalt before major works because course
-              decisions need a reliable record, clear evidence and a report
-              that can be understood beyond the maintenance team.
+              A single image can be useful. A record built over time is more
+              powerful. Basalt helps clubs see patterns, monitor areas of
+              concern and communicate course change with confidence.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -595,11 +641,12 @@ export default function Home() {
               Technology
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              The tools behind course intelligence.
+              Technology kept in service of the decision.
             </h2>
             <p className="mt-6 text-base leading-7 text-white/62">
-              Technology is selected for the course, the decision and the level
-              of accuracy required.
+              We use drone-based monitoring, repeat imagery, multispectral
+              analysis, GIS and software to make course condition easier to
+              understand, compare and explain.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -627,11 +674,11 @@ export default function Home() {
             <div>
               <BasaltLogo variant="horizontal" theme="grey" size="compact" className="text-sm" />
               <h2 className="mt-4 max-w-3xl text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-                Planning a course investment?
+                Ready to understand your course more clearly?
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
-                Speak to Basalt before making drainage, irrigation, maintenance
-                or monthly monitoring decisions.
+                Talk to us about condition monitoring, turf change, moisture
+                patterns or building a clearer course record over time.
               </p>
             </div>
             <Link
@@ -649,8 +696,9 @@ export default function Home() {
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
-            <a href="#programmes" className="transition hover:text-white">Programmes</a>
+            <a href="#monitoring" className="transition hover:text-white">Monitoring</a>
             <a href="#reports" className="transition hover:text-white">Reports</a>
+            <a href="#story" className="transition hover:text-white">Story</a>
             <a href="#technology" className="transition hover:text-white">Technology</a>
             <Link href="/about" className="transition hover:text-white">About</Link>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>

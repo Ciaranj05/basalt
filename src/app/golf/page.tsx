@@ -6,38 +6,37 @@ import { BasaltLogo } from "@/components/BasaltLogo";
 export const metadata: Metadata = {
   title: "Golf Course Intelligence | Basalt",
   description:
-    "Golf course intelligence for turf health, drainage and moisture analysis, repeat aerial surveys, monthly monitoring and clear visual reporting.",
+    "Course intelligence and monitoring designed specifically for golf clubs, combining drone-based monitoring, GIS, turf insight, moisture observations and clear visual reporting.",
 };
 
 const solutions = [
   {
     eyebrow: "Golf solution 1",
-    title: "Golf Course Drone Surveys",
+    title: "Course Baseline",
     copy:
-      "Create a consistent aerial view of key course areas so greenkeeping teams can see condition clearly.",
+      "Establish a clear visual record of current course condition across the areas your team manages every day.",
     items: [
-      "Repeatable drone surveys",
       "Whole course coverage",
       "Greens, tees and fairways",
-      "Consistent aerial imagery",
+      "Current imagery",
+      "Areas warranting attention",
       "Visual course record",
-      "Clear survey outputs",
+      "Clear reporting",
     ],
   },
   {
     eyebrow: "Golf solution 2",
-    title: "Turf Health Monitoring",
+    title: "Turf Insight",
     copy:
-      "Multispectral surveys help identify differences in turf condition across greens, tees, fairways and rough, giving teams an additional layer of evidence when prioritising inspections and maintenance.",
+      "Repeat imagery and multispectral analysis help identify meaningful changes in turf condition for closer inspection.",
     items: [
-      "Multispectral aerial imagery",
-      "Turf health indicators",
+      "Repeat imagery",
+      "Multispectral analysis",
       "Growth variation",
-      "Stress-area indicators",
-      "Comparison of greens, tees and fairways",
+      "Turf condition indicators",
       "Targeted inspection areas",
-      "Repeat survey comparison",
-      "Management-ready visual maps",
+      "Survey comparison",
+      "Management-ready maps",
     ],
     note:
       "Multispectral imagery indicates relative differences in vegetation condition and should support, not replace, on-site agronomic assessment, soil testing or specialist turf advice.",
@@ -45,44 +44,43 @@ const solutions = [
   },
   {
     eyebrow: "Golf solution 3",
-    title: "Drainage & Moisture Analysis",
+    title: "Water & Moisture Patterns",
     copy:
-      "Reveal waterlogging, moisture patterns and drainage issues so maintenance can be focused where it is needed most.",
+      "Highlight areas where moisture behaviour or surface condition suggests further investigation.",
     items: [
-      "Wet area review",
-      "Moisture pattern insight",
-      "Drainage issue evidence",
-      "Irrigation change monitoring",
-      "Targeted maintenance areas",
-      "Clear visual reporting",
+      "Persistent wet areas",
+      "Moisture observations",
+      "Drainage concerns",
+      "Irrigation context",
+      "Areas to inspect",
+      "Visual evidence",
     ],
   },
   {
     eyebrow: "Golf solution 4",
-    title: "Course Condition Reporting",
+    title: "Change Tracking",
     copy:
-      "Turn course survey outputs into practical reports that greenkeepers, course managers and committees can understand.",
+      "Compare surveys over time and understand what has improved, deteriorated or remained persistent.",
     items: [
-      "Key areas of concern",
-      "Course condition maps",
-      "Turf health visuals",
-      "Drainage and moisture visuals",
-      "Maintenance priorities",
-      "Committee and board-level reports",
+      "Previous survey comparison",
+      "Seasonal changes",
+      "Areas improving",
+      "Areas deteriorating",
+      "Maintenance impact",
+      "Persistent concerns",
     ],
   },
   {
     eyebrow: "Golf solution 5",
-    title: "Monthly Monitoring Plans",
+    title: "Course Intelligence Reports",
     copy:
-      "Repeat surveys throughout the season help clubs monitor change and measure whether maintenance programmes are working.",
+      "Turn survey information into clear visual evidence for greenkeepers, managers and committees.",
     items: [
-      "Monthly repeat surveys",
-      "Consistent flight plans",
-      "Historical comparison",
-      "Seasonal change tracking",
-      "Drainage and turf comparison",
-      "Maintenance impact review",
+      "Current imagery",
+      "Previous surveys",
+      "Areas of concern",
+      "Moisture observations",
+      "Turf condition",
       "Updated visual reports",
     ],
   },
@@ -172,12 +170,13 @@ export default function GolfPage() {
             Golf Course Intelligence
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
-            Course intelligence for better maintenance decisions
+            Your course. Better understood.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">
-            Basalt helps golf clubs understand course condition through
-            repeatable aerial surveys, turf health monitoring, drainage and
-            moisture analysis, and clear visual reports.
+            Course intelligence and monitoring designed specifically for golf
+            clubs, combining drone-based monitoring, GIS and clear visual
+            reporting so your team can understand course condition and how it
+            changes over time.
           </p>
           <Link
             href="/contact"
@@ -188,6 +187,28 @@ export default function GolfPage() {
         </div>
         <div className="chapter-visual">
           <CourseScene />
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-12 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:px-10">
+        <div>
+          <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+            Monitor. Compare. Understand.
+          </p>
+          <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+            Build a clearer record of your course over time.
+          </h2>
+        </div>
+        <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+          <p className="text-base leading-7 text-white/66">
+            The value is not simply in flying the course. It is in
+            understanding what has changed since the last survey.
+          </p>
+          <p className="mt-4 text-sm leading-6 text-white/58">
+            Regular monitoring can help clubs identify areas improving, areas
+            deteriorating, persistent moisture patterns, seasonal changes,
+            shifts in turf condition and the impact of maintenance work.
+          </p>
         </div>
       </section>
 
