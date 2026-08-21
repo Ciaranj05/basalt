@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
+  CalendarDays,
   CheckCircle2,
   CircleDot,
   Droplets,
@@ -13,7 +14,9 @@ import {
   Layers3,
   Map,
   Milestone,
+  Repeat,
   ScanLine,
+  Sparkles,
   Trees,
 } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
@@ -115,6 +118,57 @@ const solutions = [
       "Historical change",
       "Committee reporting",
       "Capital planning",
+    ],
+  },
+];
+
+const programmes = [
+  {
+    icon: Map,
+    title: "Annual Baseline",
+    summary: "A complete course intelligence record for planning, maintenance and committee decisions.",
+    includes: [
+      "Full detailed course survey",
+      "Course mapping and asset record",
+      "Terrain, contour and drainage baseline",
+      "Canopy and infrastructure review",
+      "Committee-ready report and portal access",
+    ],
+  },
+  {
+    icon: CalendarDays,
+    title: "Quarterly Monitoring",
+    summary: "Seasonal survey updates that help clubs track change without committing to monthly visits.",
+    includes: [
+      "Four repeat survey visits",
+      "Change analysis across key course areas",
+      "Drainage, turf and surface condition review",
+      "Portal updates after each survey",
+      "Priority notes for maintenance planning",
+    ],
+  },
+  {
+    icon: Repeat,
+    title: "Monthly Monitoring",
+    summary: "A repeatable monitoring programme for clubs that want a living record of course condition.",
+    includes: [
+      "Twelve planned survey visits",
+      "Health and change analysis through the season",
+      "Updated map layers and reports in the portal",
+      "Evidence for drainage, turf and renovation decisions",
+      "Year-round course intelligence record",
+    ],
+  },
+  {
+    icon: Sparkles,
+    title: "Premium Monthly",
+    summary: "Monthly monitoring with advanced analysis and closer decision support for high-priority clubs.",
+    includes: [
+      "Monthly monitoring programme",
+      "Multispectral survey options",
+      "Reviewed AI-assisted report drafting",
+      "Priority analysis for managers and committees",
+      "Enhanced support for planning and investment decisions",
     ],
   },
 ];
@@ -240,6 +294,7 @@ export default function Home() {
           </Link>
           <div className="hidden items-center gap-8 text-sm text-white/70 md:flex">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
+            <a href="#programmes" className="transition hover:text-white">Programmes</a>
             <a href="#reports" className="transition hover:text-white">Reports</a>
             <a href="#technology" className="transition hover:text-white">Technology</a>
             <Link href="/about" className="transition hover:text-white">About</Link>
@@ -268,7 +323,7 @@ export default function Home() {
             </h1>
             <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/76 sm:text-xl">
               Helping golf clubs make better decisions through accurate course
-              intelligence, mapping and long-term monitoring.
+              intelligence, mapping and repeatable monitoring.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -367,6 +422,65 @@ export default function Home() {
                   </p>
                   <div className="mt-5 grid gap-2">
                     {solution.items.map((item) => (
+                      <div key={item} className="flex items-start gap-3 text-sm leading-5 text-white/62">
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="programmes" className="px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <div>
+              <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+                Monitoring Programmes
+              </p>
+              <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
+                Choose the level of course intelligence your club needs.
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
+              Start with a detailed baseline or build a repeatable monitoring
+              programme that tracks course condition across the season. Every
+              option is designed around practical decisions, clear reports and
+              a long-term digital course record.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            {programmes.map((programme, index) => {
+              const Icon = programme.icon;
+              return (
+                <motion.article
+                  key={programme.title}
+                  className="group rounded-[8px] border border-white/10 bg-white/[0.04] p-6 transition hover:border-[#a6d8bd]/26 hover:bg-white/[0.055]"
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: index * 0.04 }}
+                >
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-[8px] border border-[#a6d8bd]/20 bg-[#a6d8bd]/10">
+                      <Icon className="size-5 text-[#a6d8bd]" />
+                    </span>
+                    <div>
+                      <h3 className="text-2xl font-semibold text-white">
+                        {programme.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-white/62">
+                        {programme.summary}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-6 grid gap-2 sm:grid-cols-2">
+                    {programme.includes.map((item) => (
                       <div key={item} className="flex items-start gap-3 text-sm leading-5 text-white/62">
                         <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
                         {item}
@@ -547,7 +661,8 @@ export default function Home() {
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
                 Speak to Basalt before committing to drainage, bunker work,
-                irrigation changes or long-term course improvements.
+                irrigation changes, monthly monitoring or long-term course
+                improvements.
               </p>
             </div>
             <Link
@@ -565,6 +680,7 @@ export default function Home() {
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
+            <a href="#programmes" className="transition hover:text-white">Programmes</a>
             <a href="#reports" className="transition hover:text-white">Reports</a>
             <a href="#technology" className="transition hover:text-white">Technology</a>
             <Link href="/about" className="transition hover:text-white">About</Link>
