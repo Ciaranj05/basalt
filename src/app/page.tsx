@@ -11,22 +11,22 @@ import {
   RepeatDateComparison,
 } from "@/components/OutputExamples";
 
-const processSteps = [
+const clubBenefits = [
   {
-    title: "Survey",
-    copy: "Capture a consistent view of the course.",
+    title: "Preserve knowledge",
+    copy: "Keep important course history with the club, rather than relying on individual memory.",
   },
   {
-    title: "Understand",
-    copy: "Organise imagery, turf condition and moisture observations.",
+    title: "Support investment",
+    copy: "Give committees clear visual evidence when prioritising work and considering future expenditure.",
   },
   {
-    title: "Compare",
-    copy: "Review current findings against previous surveys.",
+    title: "Track the impact",
+    copy: "Compare surveys to understand what changed following maintenance and improvement work.",
   },
   {
-    title: "Monitor",
-    copy: "Build a clearer record through the season.",
+    title: "Create continuity",
+    copy: "Give future greenkeepers, managers and committee members a clearer record of what came before them.",
   },
 ];
 
@@ -64,8 +64,8 @@ export default function Home() {
           </Link>
           <div className="hidden items-center gap-8 text-sm text-white/72 md:flex">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
+            <a href="#record" className="transition hover:text-white">Course Record</a>
             <a href="#monitoring" className="transition hover:text-white">Monitoring</a>
-            <a href="#how-it-works" className="transition hover:text-white">How It Works</a>
             <a href="#story" className="transition hover:text-white">Our Story</a>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>
           </div>
@@ -97,10 +97,10 @@ export default function Home() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#how-it-works"
+                href="#solutions"
                 className="inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
               >
-                Explore how it works <ArrowRight className="size-4" />
+                See the product <ArrowRight className="size-4" />
               </a>
               <Link
                 href="/contact"
@@ -120,48 +120,48 @@ export default function Home() {
               Course Intelligence
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              See your course differently.
+              One shared view of your course.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#314138]/72">
-              Turn survey information into a clear visual picture of course
-              condition, with the ability to focus on individual areas and see
-              what warrants attention.
+              Bring course condition, observations and survey dates into a
+              clearer visual record that course teams, managers and committees
+              can discuss together.
             </p>
           </div>
           <CourseOutputPreview />
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[#07110d] px-5 py-18 sm:px-8 lg:px-10 lg:py-22">
+      <section id="record" className="bg-[#07110d] px-5 py-18 sm:px-8 lg:px-10 lg:py-22">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-9 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="mb-9 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
               <p className="text-sm uppercase tracking-[0.28em] text-[#b8f2d2]">
-                How It Works
+                Club-Wide Value
               </p>
               <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
-                Survey. Understand. Compare. Monitor.
+                More than a survey. A record of your course.
               </h2>
             </div>
-            <Link
-              href="/golf"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-white/78 transition hover:text-white"
-            >
-              Explore the golf service <ArrowRight className="size-4" />
-            </Link>
+            <p className="max-w-2xl text-base leading-7 text-white/62">
+              Build a permanent record of course condition, observations and
+              change, preserving knowledge, supporting better conversations and
+              giving future teams a clearer understanding of the course they
+              inherit.
+            </p>
           </div>
+          <p className="mb-7 max-w-3xl text-balance text-2xl font-semibold leading-tight text-white sm:text-4xl">
+            Course knowledge should stay with the club, not disappear when
+            people change.
+          </p>
           <div className="grid gap-3 md:grid-cols-4">
-            {processSteps.map((step, index) => (
-              <article key={step.title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-                <p className="font-mono text-xs text-white/34">0{index + 1}</p>
-                <h3 className="mt-5 text-xl font-semibold text-white">{step.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/58">{step.copy}</p>
+            {clubBenefits.map((benefit) => (
+              <article key={benefit.title} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
+                <h3 className="text-lg font-semibold text-white">{benefit.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/58">{benefit.copy}</p>
               </article>
             ))}
           </div>
-          <p className="mt-8 text-sm leading-6 text-white/52">
-            Built using drone monitoring, multispectral imagery, GIS and software.
-          </p>
         </div>
       </section>
 
@@ -172,12 +172,11 @@ export default function Home() {
               See What Is Changing
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              See what&apos;s changing.
+              From a snapshot to a history.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#314138]/70">
-              A single survey gives you a snapshot. Repeat monitoring lets you
-              compare condition over time and build a clearer record of the
-              course.
+              Each survey captures a moment. Together, they show how your
+              course changes over months and years.
             </p>
           </div>
           <RepeatDateComparison />
@@ -259,8 +258,8 @@ export default function Home() {
           <BasaltLogo variant="horizontal" theme="grey" size="compact" />
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a href="#solutions" className="transition hover:text-white">Solutions</a>
+            <a href="#record" className="transition hover:text-white">Course Record</a>
             <a href="#monitoring" className="transition hover:text-white">Monitoring</a>
-            <a href="#how-it-works" className="transition hover:text-white">How It Works</a>
             <a href="#story" className="transition hover:text-white">Our Story</a>
             <Link href="/contact" className="transition hover:text-white">Contact</Link>
           </div>
