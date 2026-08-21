@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 
 export const metadata: Metadata = {
@@ -9,26 +9,56 @@ export const metadata: Metadata = {
     "Meet the founders of Basalt and learn how golf, GIS, planning and software shaped our golf course intelligence platform.",
 };
 
-const principles = [
-  "Golf technology",
-  "Environmental planning",
-  "GIS",
-  "Town and country planning",
-  "Software development",
-];
+function CourseScene() {
+  return (
+    <div
+      className="landscape-scene scene-golf"
+      role="img"
+      aria-label="Coastal links golf landscape"
+    >
+      <span className="terrain-grid" />
+      <span className="contour contour-one" />
+      <span className="contour contour-two" />
+      <span className="route-line route-one" />
+      <span className="route-line route-two" />
+      <span className="asset-pin pin-one" />
+      <span className="asset-pin pin-two" />
+      <span className="zone zone-one" />
+      <span className="zone zone-two" />
+    </div>
+  );
+}
 
-const beliefs = [
-  "Greenkeepers and course managers know their course better than anyone.",
-  "Repeat monitoring can add clearer evidence to that expertise.",
-  "Course information should be easy for managers and committees to understand.",
-  "The most useful record is one that shows how the course changes over time.",
+const founderProfiles = [
+  {
+    name: "Ciaran McGoldrick",
+    title: "Golf technology, environmental planning and software",
+    copy:
+      "Golf has always been a major part of Ciaran's life. For more than 13 years he has worked for a golf technology company, working closely with golf clubs and seeing first-hand how technology can support their operations and decision-making.",
+    detail:
+      "He holds a degree in Environmental Planning and a Master's in Software Development.",
+  },
+  {
+    name: "Ciaran Lenehan",
+    title: "Town and country planning, GIS and spatial analysis",
+    copy:
+      "Ciaran brings more than 10 years of professional experience in Town & Country Planning, together with postgraduate expertise in Geographic Information Systems and Town & Country Planning.",
+    detail:
+      "His background brings experience in mapping, spatial analysis, land use and turning geographical information into useful evidence.",
+  },
 ];
 
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#fbfaf6] text-[#07110d]">
-      <section className="bg-[#050807] text-white">
-        <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
+      <section className="relative overflow-hidden bg-[#050807] text-white">
+        <div className="absolute inset-0">
+          <CourseScene />
+          <div className="absolute inset-0 bg-black/42" />
+          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#050807] to-transparent" />
+        </div>
+
+        <nav className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
           <Link href="/" aria-label="Basalt home">
             <BasaltLogo variant="horizontal" theme="dark" />
           </Link>
@@ -40,155 +70,105 @@ export default function AboutPage() {
           </Link>
         </nav>
 
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 pb-18 pt-12 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:pb-24 lg:pt-20">
-          <div>
+        <div className="relative z-10 mx-auto flex min-h-[76vh] max-w-7xl items-end px-5 pb-14 pt-16 sm:px-8 lg:px-10 lg:pb-20">
+          <div className="max-w-4xl">
             <p className="text-sm uppercase tracking-[0.32em] text-[#b8f2d2]">
               Our Story
             </p>
             <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
               Built around golf. Backed by the right experience.
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/70">
-              We are Ciaran McGoldrick and Ciaran Lenehan, two lifelong golf
-              enthusiasts based on the North Coast of Ireland.
-            </p>
-          </div>
-          <div className="rounded-[8px] border border-white/12 bg-white/[0.055] p-6 shadow-[0_34px_100px_rgba(0,0,0,0.28)] sm:p-8">
-            <p className="text-lg leading-8 text-white/72">
-              Golf has always been a major part of our lives, and living in one
-              of the game&apos;s most distinctive regions means we are surrounded by
-              links golf and coastal landscapes that shape how we think about
-              courses.
-            </p>
-            <p className="mt-5 text-base leading-7 text-white/60">
-              Our move into this space is about more than a love of the game.
-              Between us, our professional backgrounds span golf technology,
-              environmental planning, GIS, town and country planning, and
-              software development.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {principles.map((principle) => (
-                <span
-                  key={principle}
-                  className="rounded-full border border-[#b8f2d2]/20 bg-[#b8f2d2]/10 px-4 py-2 text-sm font-semibold text-[#dff4e8]"
-                >
-                  {principle}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#f4f1e8] px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-          <div>
-            <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
-              North Coast of Ireland
+      <section className="bg-[#fbfaf6] px-5 py-16 sm:px-8 lg:px-10 lg:py-22">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <p className="max-w-lg text-2xl font-semibold leading-9 tracking-normal text-[#07110d] sm:text-3xl sm:leading-10">
+            We&apos;re Ciaran McGoldrick and Ciaran Lenehan, two lifelong golf
+            enthusiasts based on the North Coast of Ireland.
+          </p>
+          <div className="max-w-2xl space-y-5 text-base leading-7 text-[#314138]/74">
+            <p>
+              Golf has always been a major part of our lives. Living in a part
+              of the world where links golf, coastline, dunes and natural
+              grasses are on our doorstep has only strengthened that connection.
             </p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              From golf country, for golf clubs.
-            </h2>
+            <p>
+              But Basalt wasn&apos;t created simply because we love golf.
+              Between us, our professional backgrounds span golf technology,
+              environmental planning, GIS, town & country planning and software
+              development.
+            </p>
+            <p>
+              When we brought those experiences together, the opportunity felt
+              natural: use modern mapping, monitoring and technology to give
+              golf clubs a clearer understanding of what is happening across
+              their course, and how it changes over time. That became Basalt.
+            </p>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-[#314138]/72 lg:justify-self-end">
-            Basalt comes from a place where course condition, coastal weather,
-            links landscapes and the rhythms of golf are part of everyday life.
-            That gives the work a natural connection to the clubs we want to
-            help.
+        </div>
+      </section>
+
+      <section className="bg-[#e9e3d5] px-5 py-14 sm:px-8 lg:px-10 lg:py-18">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-balance text-4xl font-semibold tracking-normal text-[#07110d] sm:text-6xl lg:text-7xl">
+            Golf × GIS × Planning × Software
+          </p>
+          <p className="mt-6 max-w-3xl text-base leading-7 text-[#314138]/72">
+            Between us, these are the worlds we&apos;ve spent our careers
+            working in. Basalt brings them together to help golf clubs turn
+            course information into something clearer, more visual and easier
+            to use.
           </p>
         </div>
       </section>
 
-      <section className="bg-[#fbfaf6] px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
+      <section className="bg-[#fbfaf6] px-5 py-16 sm:px-8 lg:px-10 lg:py-22">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 max-w-3xl">
+          <div className="mb-10 max-w-3xl">
             <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
-              Founders
+              Meet the Founders
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
-              Golf, planning and software experience brought together.
+              The people behind Basalt.
             </h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <article className="rounded-[8px] border border-[#d8d1c1] bg-white p-6 shadow-[0_24px_70px_rgba(20,28,22,0.08)] sm:p-8">
-              <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
-                Ciaran McGoldrick
-              </p>
-              <h3 className="mt-4 text-3xl font-semibold tracking-normal text-[#07110d]">
-                Golf technology, environmental planning and software.
-              </h3>
-              <p className="mt-5 text-sm leading-6 text-[#314138]/70">
-                Golf has always been a major part of my life, and for more than
-                13 years I have worked for a golf technology company, working
-                closely with golf clubs and seeing first-hand how technology can
-                help them operate, evolve and make better decisions.
-              </p>
-              <p className="mt-4 text-sm leading-6 text-[#314138]/62">
-                My academic background combines a degree in Environmental
-                Planning with a Master&apos;s in Software Development. That has given
-                me experience across both the physical environment and the
-                technology that can make complex information easier to understand
-                and use.
-              </p>
-            </article>
 
-            <article className="rounded-[8px] border border-[#d8d1c1] bg-white p-6 shadow-[0_24px_70px_rgba(20,28,22,0.08)] sm:p-8">
-              <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
-                Ciaran Lenehan
-              </p>
-              <h3 className="mt-4 text-3xl font-semibold tracking-normal text-[#07110d]">
-                Town and country planning, GIS and spatial analysis.
-              </h3>
-              <p className="mt-5 text-sm leading-6 text-[#314138]/70">
-                Ciaran brings more than 10 years of professional experience in
-                Town and Country Planning, alongside postgraduate expertise in
-                Geographic Information Systems and Town and Country Planning.
-              </p>
-              <p className="mt-4 text-sm leading-6 text-[#314138]/62">
-                His background brings a strong understanding of mapping, spatial
-                analysis, land use and how geographical information can be used
-                to support better decision-making.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#e9e3d5] px-5 py-18 sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
-              Why We Built This
-            </p>
-            <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              Golf + GIS + Planning + Software.
-            </h2>
-            <p className="mt-6 text-base leading-7 text-[#314138]/72">
-              Golf courses are complex environments that change continually.
-              Weather, moisture, drainage, turf condition and maintenance work
-              can all influence how a course performs and presents.
-            </p>
-          </div>
-          <div className="rounded-[8px] border border-[#d8d1c1] bg-[#fbfaf6]/78 p-6 sm:p-8">
-            <p className="text-lg leading-8 text-[#314138]/78">
-              Our aim is simple: give golf clubs a better way to understand what
-              is happening across their course and how it is changing over time.
-            </p>
-            <p className="mt-5 text-base leading-7 text-[#314138]/66">
-              We are not trying to replace the expertise of greenkeepers or
-              course managers. Our role is to give them an additional layer of
-              information, helping them monitor change, identify patterns and
-              communicate what is happening more clearly.
-            </p>
-            <div className="mt-7 grid gap-3">
-              {beliefs.map((belief) => (
-                <div key={belief} className="flex items-start gap-3 text-sm leading-6 text-[#314138]/70">
-                  <CheckCircle2 className="mt-1 size-4 shrink-0 text-[#486754]" />
-                  {belief}
+          <div className="grid gap-5 lg:grid-cols-2">
+            {founderProfiles.map((profile) => (
+              <article
+                key={profile.name}
+                className="rounded-[8px] border border-[#d8d1c1] bg-white p-6 shadow-[0_24px_70px_rgba(20,28,22,0.07)] sm:p-8"
+              >
+                <div className="mb-7 flex h-28 items-end overflow-hidden rounded-[6px] bg-[#07110d] p-5 text-white">
+                  <p className="text-5xl font-semibold leading-none tracking-normal text-white/88">
+                    {profile.name
+                      .split(" ")
+                      .map((part) => part[0])
+                      .join("")}
+                  </p>
                 </div>
-              ))}
-            </div>
+                <p className="text-sm uppercase tracking-[0.28em] text-[#486754]">
+                  {profile.name}
+                </p>
+                <h3 className="mt-4 text-2xl font-semibold tracking-normal text-[#07110d]">
+                  {profile.title}
+                </h3>
+                <p className="mt-5 text-sm leading-6 text-[#314138]/70">
+                  {profile.copy}
+                </p>
+                <p className="mt-4 text-sm leading-6 text-[#314138]/62">
+                  {profile.detail}
+                </p>
+              </article>
+            ))}
           </div>
+
+          <blockquote className="mx-auto mt-14 max-w-4xl text-balance border-y border-[#d8d1c1] py-10 text-center text-3xl font-semibold leading-tight tracking-normal text-[#07110d] sm:text-5xl">
+            We&apos;re not here to tell greenkeepers how to manage their course.
+            We&apos;re here to give them better information to work with.
+          </blockquote>
         </div>
       </section>
 
