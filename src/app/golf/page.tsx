@@ -6,44 +6,38 @@ import { BasaltLogo } from "@/components/BasaltLogo";
 export const metadata: Metadata = {
   title: "Golf Course Intelligence | Basalt",
   description:
-    "Course intelligence for golf maintenance, turf health, drainage planning, capital investment and long-term course development.",
+    "Golf course intelligence for turf health, drainage and moisture analysis, repeat aerial surveys, monthly monitoring and clear visual reporting.",
 };
 
 const solutions = [
   {
     eyebrow: "Golf solution 1",
-    title: "Course Baseline",
+    title: "Golf Course Drone Surveys",
     copy:
-      "Create an accurate digital reference for the course, assets and core playing surfaces.",
+      "Create a consistent aerial view of key course areas so greenkeeping teams can see condition clearly.",
     items: [
-      "High-resolution aerial course map",
-      "Orthomosaic imagery",
-      "Accurate measurements",
-      "Digital terrain model",
-      "Contour mapping",
-      "Greens, tees, bunkers and fairway mapping",
-      "Tree and major asset locations",
-      "3D course visualisation",
-      "Interactive digital viewer",
-      "Professional baseline report",
+      "Repeatable drone surveys",
+      "Whole course coverage",
+      "Greens, tees and fairways",
+      "Consistent aerial imagery",
+      "Visual course record",
+      "Clear survey outputs",
     ],
   },
   {
     eyebrow: "Golf solution 2",
-    title: "See turf stress before it becomes visually obvious",
+    title: "Turf Health Monitoring",
     copy:
-      "Multispectral surveys help identify differences in turf vigour, moisture stress and vegetation performance across greens, tees, fairways and rough. This gives greenkeeping teams an additional layer of evidence when prioritising inspections, treatment and maintenance.",
+      "Multispectral surveys help identify differences in turf condition across greens, tees, fairways and rough, giving teams an additional layer of evidence when prioritising inspections and maintenance.",
     items: [
       "Multispectral aerial imagery",
-      "Turf vigour mapping",
-      "Vegetation index analysis",
-      "Stress-area identification",
+      "Turf health indicators",
+      "Growth variation",
+      "Stress-area indicators",
       "Comparison of greens, tees and fairways",
-      "Moisture and drainage stress indicators",
-      "Treatment-zone mapping",
       "Targeted inspection areas",
       "Repeat survey comparison",
-      "Management-ready health maps",
+      "Management-ready visual maps",
     ],
     note:
       "Multispectral imagery indicates relative differences in vegetation condition and should support, not replace, on-site agronomic assessment, soil testing or specialist turf advice.",
@@ -51,58 +45,45 @@ const solutions = [
   },
   {
     eyebrow: "Golf solution 3",
-    title: "Course Intelligence",
+    title: "Drainage & Moisture Analysis",
     copy:
-      "Turn survey data into practical management layers for daily maintenance and medium-term planning.",
+      "Reveal waterlogging, moisture patterns and drainage issues so maintenance can be focused where it is needed most.",
     items: [
-      "Green slope analysis",
-      "Surface-water flow modelling",
-      "Drainage risk areas",
-      "Tree inventory",
-      "Canopy coverage",
-      "Shade analysis",
-      "Bunker measurements",
-      "Fairway and rough area calculations",
-      "Maintenance priority mapping",
-      "Turf health analysis where required",
-      "Management recommendations",
+      "Wet area review",
+      "Moisture pattern insight",
+      "Drainage issue evidence",
+      "Irrigation change monitoring",
+      "Targeted maintenance areas",
+      "Clear visual reporting",
     ],
   },
   {
     eyebrow: "Golf solution 4",
-    title: "Strategic Course Management",
+    title: "Course Condition Reporting",
     copy:
-      "Support capital works, infrastructure planning and committee-level decisions with detailed spatial evidence.",
+      "Turn course survey outputs into practical reports that greenkeepers, course managers and committees can understand.",
     items: [
-      "LiDAR surveying where appropriate",
-      "Detailed ground modelling",
-      "Volumetric calculations",
-      "Cut-and-fill analysis",
-      "Irrigation planning support",
-      "Drainage planning support",
-      "Irrigation and course infrastructure mapping",
-      "Estate and boundary mapping",
-      "Capital project planning support",
+      "Key areas of concern",
+      "Course condition maps",
+      "Turf health visuals",
+      "Drainage and moisture visuals",
+      "Maintenance priorities",
       "Committee and board-level reports",
-      "Digital course archive",
     ],
   },
   {
     eyebrow: "Golf solution 5",
-    title: "Annual Monitoring",
+    title: "Monthly Monitoring Plans",
     copy:
-      "Keep the digital course record alive with repeat surveys and year-on-year comparison.",
+      "Repeat surveys throughout the season help clubs monitor change and measure whether maintenance programmes are working.",
     items: [
-      "Scheduled repeat surveys",
-      "Updated course mapping",
+      "Monthly repeat surveys",
+      "Consistent flight plans",
       "Historical comparison",
-      "Change detection",
-      "Tree and canopy growth monitoring",
-      "Drainage comparison",
-      "Turf health trend monitoring",
-      "Erosion and terrain change monitoring",
-      "Updated asset records",
-      "Annual management report",
+      "Seasonal change tracking",
+      "Drainage and turf comparison",
+      "Maintenance impact review",
+      "Updated visual reports",
     ],
   },
 ];
@@ -191,13 +172,12 @@ export default function GolfPage() {
             Golf Course Intelligence
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
-            Course intelligence for better maintenance, planning and investment
+            Course intelligence for better maintenance decisions
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">
-            We create accurate digital records of golf courses and turn survey
-            data into practical information that supports turf management,
-            drainage planning, tree management, capital investment and long-term
-            course development.
+            Basalt helps golf clubs understand course condition through
+            repeatable aerial surveys, turf health monitoring, drainage and
+            moisture analysis, and clear visual reports.
           </p>
           <Link
             href="/contact"

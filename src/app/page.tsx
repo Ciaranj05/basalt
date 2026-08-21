@@ -6,18 +6,13 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
-  CalendarDays,
   CheckCircle2,
   CircleDot,
   Droplets,
   FileText,
-  Layers3,
   Map,
-  Milestone,
   Repeat,
   ScanLine,
-  Sparkles,
-  Trees,
 } from "lucide-react";
 import { BasaltLogo } from "@/components/BasaltLogo";
 
@@ -29,95 +24,91 @@ const fadeUp = {
 const problems = [
   {
     icon: Droplets,
-    quote: "I know there's a drainage problem but can't prove where.",
+    quote: "We need to know where drainage and moisture issues are developing.",
   },
   {
-    icon: Milestone,
-    quote: "We're planning a bunker renovation.",
+    icon: BarChart3,
+    quote: "We want to identify turf stress before it is obvious from ground level.",
   },
   {
     icon: FileText,
-    quote: "The committee wants evidence before approving investment.",
+    quote: "The committee needs clear evidence before approving maintenance spend.",
   },
   {
     icon: Map,
-    quote: "We have no accurate digital record of the course.",
+    quote: "We need a consistent view of greens, tees and fairways in one survey.",
   },
   {
-    icon: CircleDot,
-    quote: "Our knowledge exists only in the greenkeeper's head.",
+    icon: Repeat,
+    quote: "We want to compare course condition across the season.",
   },
 ];
 
 const solutions = [
   {
     icon: Map,
-    title: "Course Baseline",
-    copy: "A complete digital record of the golf course.",
+    title: "Golf Course Intelligence",
+    copy: "A clearer view of course condition across greens, tees and fairways.",
     items: [
-      "Orthomosaic",
-      "Terrain model",
-      "Contours",
-      "Asset mapping",
-      "Infrastructure",
-      "Measurements",
+      "Whole course coverage",
+      "Greens, tees and fairways",
+      "Objective aerial evidence",
+      "Course condition overview",
     ],
   },
   {
     icon: Droplets,
-    title: "Drainage Intelligence",
-    copy: "Evidence for wet areas, low points and drainage planning.",
+    title: "Drainage & Moisture Analysis",
+    copy: "Visual evidence for waterlogging, moisture patterns and drainage issues.",
     items: [
-      "Low area identification",
-      "Surface water flow",
-      "Potential ponding",
-      "Drainage planning support",
+      "Wet area review",
+      "Moisture pattern insight",
+      "Drainage issue evidence",
+      "Targeted maintenance support",
     ],
   },
   {
     icon: BarChart3,
-    title: "Turf Performance",
-    copy:
-      "Multispectral insight that highlights areas requiring further inspection and comparison over time.",
+    title: "Turf Health Monitoring",
+    copy: "Multispectral insight that highlights areas needing closer inspection.",
     items: [
-      "Turf vigour mapping",
-      "Stress-area indicators",
-      "Targeted inspection zones",
+      "Turf stress indicators",
+      "Growth variation",
+      "Inspection priorities",
       "Repeat comparison",
     ],
   },
   {
-    icon: Layers3,
-    title: "Course Redevelopment",
-    copy: "Measured support for course projects before work begins.",
+    icon: CircleDot,
+    title: "Course Condition Reporting",
+    copy: "Clear visual reports for greenkeepers, managers and committees.",
     items: [
-      "Bunker redesign",
-      "New tees",
-      "Green extensions",
-      "Earthworks",
-      "Irrigation planning",
+      "Key areas of concern",
+      "Practical recommendations",
+      "Committee-ready visuals",
+      "Maintenance priorities",
     ],
   },
   {
-    icon: Trees,
-    title: "Tree & Woodland Management",
-    copy: "Structured records for trees, canopy, woodland and planning.",
+    icon: Repeat,
+    title: "Repeat Survey Comparison",
+    copy: "Compare survey results over time to understand course change.",
     items: [
-      "Tree inventory",
-      "Canopy change",
-      "Woodland monitoring",
-      "Planning support",
+      "Seasonal comparison",
+      "Historical change",
+      "Maintenance impact",
+      "Progress tracking",
     ],
   },
   {
     icon: FileText,
-    title: "Annual Course Monitoring",
-    copy: "The flagship recurring product for long-term course intelligence.",
+    title: "Maintenance Priorities",
+    copy: "Focus inspections and maintenance where they will have the greatest impact.",
     items: [
-      "Annual comparison",
-      "Historical change",
-      "Committee reporting",
-      "Capital planning",
+      "Earlier issue detection",
+      "Budget focus",
+      "Treatment targeting",
+      "Decision support",
     ],
   },
 ];
@@ -125,50 +116,38 @@ const solutions = [
 const programmes = [
   {
     icon: Map,
-    title: "Annual Baseline",
-    summary: "A complete course intelligence record for planning, maintenance and committee decisions.",
+    title: "Course Survey",
+    summary: "A planned aerial survey that creates a clear visual record of course condition.",
     includes: [
-      "Full detailed course survey",
-      "Course mapping and asset record",
-      "Terrain, contour and drainage baseline",
-      "Canopy and infrastructure review",
-      "Committee-ready report and portal access",
-    ],
-  },
-  {
-    icon: CalendarDays,
-    title: "Quarterly Monitoring",
-    summary: "Seasonal survey updates that help clubs track change without committing to monthly visits.",
-    includes: [
-      "Four repeat survey visits",
-      "Change analysis across key course areas",
-      "Drainage, turf and surface condition review",
-      "Portal updates after each survey",
-      "Priority notes for maintenance planning",
+      "Whole course coverage",
+      "Greens, tees and fairways",
+      "Consistent aerial imagery",
+      "Course condition reporting",
+      "Practical maintenance priorities",
     ],
   },
   {
     icon: Repeat,
     title: "Monthly Monitoring",
-    summary: "A repeatable monitoring programme for clubs that want a living record of course condition.",
+    summary: "Repeatable monthly surveys for clubs that want to track seasonal change.",
     includes: [
-      "Twelve planned survey visits",
-      "Health and change analysis through the season",
-      "Updated map layers and reports in the portal",
-      "Evidence for drainage, turf and renovation decisions",
-      "Year-round course intelligence record",
+      "Repeatable flight plans",
+      "Change analysis over time",
+      "Drainage and turf condition review",
+      "Progress monitoring",
+      "Updated visual reports",
     ],
   },
   {
-    icon: Sparkles,
-    title: "Premium Monthly",
-    summary: "Monthly monitoring with advanced analysis and closer decision support for high-priority clubs.",
+    icon: BarChart3,
+    title: "Multispectral Monitoring",
+    summary: "Additional turf insight for clubs that want to investigate growth variation and stress indicators.",
     includes: [
-      "Monthly monitoring programme",
-      "Multispectral survey options",
-      "Reviewed AI-assisted report drafting",
-      "Priority analysis for managers and committees",
-      "Enhanced support for planning and investment decisions",
+      "Multispectral analysis",
+      "Turf health indicators",
+      "Areas for closer inspection",
+      "Seasonal comparison",
+      "Clear committee reporting",
     ],
   },
 ];
@@ -188,75 +167,66 @@ const processSteps = [
   },
   {
     title: "Monitor",
-    copy: "Track change year after year.",
+    copy: "Compare repeat surveys over time.",
   },
 ];
 
 const reportCards = [
   {
-    title: "Orthomosaic",
-    copy: "A high-resolution visual record of the entire course.",
-    layer: "Course image",
+    title: "Course condition map",
+    copy: "A clear visual record of greens, tees, fairways and areas needing review.",
+    layer: "Course condition",
   },
   {
-    title: "Contour plan",
-    copy: "Levels and contours that make the course easier to understand.",
-    layer: "Contours",
-  },
-  {
-    title: "Slope analysis",
-    copy: "Gradients that influence playability, maintenance and project design.",
-    layer: "Slope",
-  },
-  {
-    title: "Drainage map",
-    copy: "Likely flow routes, low points and areas that need closer review.",
-    layer: "Water flow",
+    title: "Drainage & moisture",
+    copy: "Visual evidence of wet areas, moisture patterns and drainage concerns.",
+    layer: "Drainage",
   },
   {
     title: "Turf health",
-    copy: "Relative vegetation variation that supports targeted inspection.",
-    layer: "Turf vigour",
+    copy: "Multispectral insight that helps identify areas for closer inspection.",
+    layer: "Turf health",
   },
   {
-    title: "Management recommendations",
-    copy: "Clear priorities for managers, committees and future planning.",
-    layer: "Actions",
+    title: "Repeat comparison",
+    copy: "Survey comparisons that show whether course condition is improving over time.",
+    layer: "Change",
+  },
+  {
+    title: "Maintenance priorities",
+    copy: "Practical next steps for greenkeepers, course managers and committees.",
+    layer: "Priorities",
   },
 ];
 
 const reasons = [
-  "Justify investment with clear evidence",
+  "Spot developing issues earlier",
+  "Focus maintenance budget where it matters",
   "Monitor change across the course",
-  "Improve maintenance planning",
-  "Preserve institutional knowledge",
-  "Build a long-term digital course record",
+  "Compare repeat surveys over time",
+  "Give committees clear visual reporting",
 ];
 
 const technology = [
   {
-    title: "RGB",
-    copy: "High-resolution visual course records.",
-  },
-  {
-    title: "RTK",
-    copy: "Accurate positioning for reliable mapping.",
-  },
-  {
-    title: "Photogrammetry",
-    copy: "Measured surface models from overlapping imagery.",
-  },
-  {
-    title: "LiDAR",
-    copy: "Used where appropriate for detailed ground information.",
+    title: "Drone Mapping",
+    copy: "Repeatable aerial surveys of greens, tees and fairways.",
   },
   {
     title: "Multispectral",
-    copy: "Relative turf vigour and vegetation variation.",
+    copy: "Turf health and growth variation indicators.",
   },
   {
     title: "GIS",
-    copy: "Organised layers for course records and reporting.",
+    copy: "Organised course layers for visual reporting.",
+  },
+  {
+    title: "AI Analysis",
+    copy: "Assisted review that supports practical reporting.",
+  },
+  {
+    title: "Course Reports",
+    copy: "Clear outputs for greenkeepers, managers and committees.",
   },
 ];
 
@@ -396,8 +366,8 @@ export default function Home() {
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
               Basalt gives course teams, managers and committees the record
-              they need before committing to drainage, renovation, maintenance
-              or capital works.
+              they need to identify developing issues, focus maintenance and
+              monitor progress over time.
             </p>
           </div>
 
@@ -447,10 +417,10 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-2xl text-base leading-7 text-white/62 lg:justify-self-end">
-              Start with a detailed baseline or build a repeatable monitoring
-              programme that tracks course condition across the season. Every
+              Start with a course survey or build a repeatable monitoring
+              programme that tracks condition across the season. Every
               option is designed around practical decisions, clear reports and
-              a long-term digital course record.
+              evidence your team can act on.
             </p>
           </div>
 
@@ -501,7 +471,7 @@ export default function Home() {
               How It Works
             </p>
             <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
-              From course survey to annual evidence.
+              From course survey to repeatable evidence.
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-4">
@@ -660,9 +630,8 @@ export default function Home() {
                 Planning a course investment?
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/62">
-                Speak to Basalt before committing to drainage, bunker work,
-                irrigation changes, monthly monitoring or long-term course
-                improvements.
+                Speak to Basalt before making drainage, irrigation, maintenance
+                or monthly monitoring decisions.
               </p>
             </div>
             <Link

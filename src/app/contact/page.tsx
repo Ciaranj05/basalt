@@ -6,16 +6,16 @@ import { BasaltLogo } from "@/components/BasaltLogo";
 export const metadata: Metadata = {
   title: "Book a Discovery Call | Basalt",
   description:
-    "Book a discovery call with Basalt to discuss course intelligence, sample reporting, monitoring and golf course improvement planning.",
+    "Book a discovery call with Basalt to discuss course intelligence, visual reporting, turf health, drainage and monthly monitoring.",
 };
 
 const topics = [
-  "Drainage evidence",
-  "Bunker or tee renovation",
-  "Course baseline mapping",
-  "Turf performance monitoring",
-  "Tree and woodland records",
-  "Annual committee reporting",
+  "Drainage and moisture evidence",
+  "Turf health monitoring",
+  "Course condition reporting",
+  "Monthly monitoring",
+  "Repeat survey comparison",
+  "Committee-ready visual reports",
 ];
 
 export default function ContactPage() {
@@ -42,8 +42,8 @@ export default function ContactPage() {
             Book a Discovery Call
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">
-            Speak to Basalt before committing to drainage, bunker work,
-            irrigation changes or long-term course improvements.
+            Speak to Basalt about course condition, drainage, turf health,
+            monthly monitoring and clear visual reporting.
           </p>
           <a
             href="mailto:hello@basalt.co?subject=Book%20a%20Basalt%20discovery%20call"
