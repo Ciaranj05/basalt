@@ -108,25 +108,25 @@ function CourseScene() {
 
 function SolutionSection({ solution }: { solution: (typeof solutions)[number] }) {
   return (
-    <article className="grid gap-4 rounded-[8px] border border-white/10 bg-white/[0.04] p-5 sm:p-7 lg:grid-cols-[0.72fr_1.28fr]">
+    <article className="grid gap-4 rounded-[8px] border border-[#d8d1c1] bg-white p-5 shadow-[0_24px_70px_rgba(20,28,22,0.06)] sm:p-7 lg:grid-cols-[0.72fr_1.28fr]">
       <div>
-        <p className="text-xs uppercase tracking-[0.28em] text-[#a6d8bd]">
+        <p className="text-xs uppercase tracking-[0.28em] text-[#486754]">
           {solution.eyebrow}
         </p>
-        <h2 className="mt-4 text-3xl font-semibold tracking-normal text-white">
+        <h2 className="mt-4 text-3xl font-semibold tracking-normal text-[#07110d]">
           {solution.title}
         </h2>
-        <p className="mt-4 text-sm leading-6 text-white/62">{solution.copy}</p>
+        <p className="mt-4 text-sm leading-6 text-[#314138]/70">{solution.copy}</p>
         {"note" in solution ? (
-          <div className="mt-5 flex items-start gap-3 rounded-[8px] border border-white/10 bg-black/18 p-4">
-            <ShieldCheck className="mt-1 size-5 shrink-0 text-[#a6d8bd]" />
-            <p className="text-sm leading-6 text-white/58">{solution.note}</p>
+          <div className="mt-5 flex items-start gap-3 rounded-[8px] border border-[#d8d1c1] bg-[#f4f1e8] p-4">
+            <ShieldCheck className="mt-1 size-5 shrink-0 text-[#486754]" />
+            <p className="text-sm leading-6 text-[#314138]/68">{solution.note}</p>
           </div>
         ) : null}
         {"cta" in solution ? (
           <a
             href="mailto:hello@basalt.co?subject=Turf%20Health%20Mapping"
-            className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+            className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#07110d] px-5 text-sm font-semibold text-white transition hover:bg-[#1b2b22]"
           >
             {solution.cta} <ArrowRight className="size-4" />
           </a>
@@ -136,9 +136,9 @@ function SolutionSection({ solution }: { solution: (typeof solutions)[number] })
         {solution.items.map((item) => (
           <div
             key={item}
-            className="flex items-start gap-3 rounded-[6px] border border-white/10 bg-black/16 p-3 text-sm leading-5 text-white/64"
+            className="flex items-start gap-3 rounded-[6px] border border-[#d8d1c1] bg-[#fbfaf6] p-3 text-sm leading-5 text-[#314138]/72"
           >
-            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#a6d8bd]" />
+            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#486754]" />
             {item}
           </div>
         ))}
@@ -149,20 +149,20 @@ function SolutionSection({ solution }: { solution: (typeof solutions)[number] })
 
 export default function GolfPage() {
   return (
-    <main className="min-h-screen bg-[#050807] text-white">
+    <main className="min-h-screen bg-[#fbfaf6] text-[#07110d]">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
         <Link href="/" aria-label="Basalt home">
-          <BasaltLogo variant="horizontal" product="Golf" theme="dark" />
+          <BasaltLogo variant="horizontal" product="Golf" theme="light" />
         </Link>
-        <div className="hidden items-center gap-7 text-sm text-white/62 md:flex">
-          <Link href="/#solutions" className="transition hover:text-white">Solutions</Link>
-          <Link href="/#reports" className="transition hover:text-white">Reports</Link>
-          <Link href="/#technology" className="transition hover:text-white">Technology</Link>
-          <Link href="/about" className="transition hover:text-white">About</Link>
+        <div className="hidden items-center gap-7 text-sm text-[#314138]/64 md:flex">
+          <Link href="/#solutions" className="transition hover:text-[#07110d]">Solutions</Link>
+          <Link href="/#reports" className="transition hover:text-[#07110d]">Reports</Link>
+          <Link href="/#technology" className="transition hover:text-[#07110d]">Technology</Link>
+          <Link href="/about" className="transition hover:text-[#07110d]">About</Link>
         </div>
         <Link
           href="/contact"
-          className="inline-flex h-10 items-center gap-2 rounded-full border border-white/18 bg-white/10 px-4 text-sm font-medium text-white transition hover:bg-white/16"
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d8d1c1] bg-white px-4 text-sm font-medium text-[#07110d] transition hover:border-[#486754]/30 hover:bg-[#f4f1e8]"
         >
           Request a Proposal <ArrowRight className="size-4" />
         </Link>
@@ -170,13 +170,13 @@ export default function GolfPage() {
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:py-24">
         <div>
-          <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+          <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
             Golf Course Intelligence
           </p>
           <h1 className="mt-5 text-balance text-5xl font-semibold leading-[0.94] tracking-normal sm:text-7xl">
             Your course. Better understood.
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#314138]/72">
             Course intelligence and monitoring designed specifically for golf
             clubs, combining drone-based monitoring, GIS and clear visual
             reporting so your team can understand course condition and how it
@@ -184,7 +184,7 @@ export default function GolfPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-[#07110d] transition hover:bg-[#dff4e8]"
+            className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#07110d] px-5 text-sm font-semibold text-white transition hover:bg-[#1b2b22]"
           >
             Request a Proposal <ArrowRight className="size-4" />
           </Link>
@@ -194,37 +194,39 @@ export default function GolfPage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-12 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:px-10">
+      <section className="bg-[#f4f1e8] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr]">
         <div>
-          <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+          <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
             Monitor. Compare. Understand.
           </p>
           <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
             Build a clearer record of your course over time.
           </h2>
         </div>
-        <div className="rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-          <p className="text-base leading-7 text-white/66">
+        <div className="rounded-[8px] border border-[#d8d1c1] bg-white p-6 shadow-[0_24px_70px_rgba(20,28,22,0.06)] sm:p-8">
+          <p className="text-base leading-7 text-[#314138]/76">
             The value is not simply in flying the course. It is in
             understanding what has changed since the last survey.
           </p>
-          <p className="mt-4 text-sm leading-6 text-white/58">
+          <p className="mt-4 text-sm leading-6 text-[#314138]/64">
             Regular monitoring can help clubs identify areas improving, areas
             deteriorating, persistent moisture patterns, seasonal changes,
             shifts in turf condition and the impact of maintenance work.
           </p>
         </div>
+        </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-12 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:px-10">
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:px-10 lg:py-20">
         <div>
-          <p className="text-sm uppercase tracking-[0.32em] text-[#a6d8bd]">
+          <p className="text-sm uppercase tracking-[0.32em] text-[#486754]">
             Example Outputs
           </p>
           <h2 className="mt-4 text-balance text-4xl font-semibold tracking-normal sm:text-6xl">
             Normal photography, enhanced by interpretable turf overlays.
           </h2>
-          <p className="mt-5 text-base leading-7 text-white/62">
+          <p className="mt-5 text-base leading-7 text-[#314138]/70">
             RGB imagery keeps the course recognisable. Simulated multispectral
             and repeat-date examples show how Basalt can present turf variation
             and change for greenkeeper review without inventing measurements or
@@ -237,10 +239,12 @@ export default function GolfPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl space-y-4 px-5 pb-20 sm:px-8 lg:px-10">
+      <section className="bg-[#f4f1e8] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="mx-auto max-w-7xl space-y-4">
         {solutions.map((solution) => (
           <SolutionSection key={solution.title} solution={solution} />
         ))}
+        </div>
       </section>
     </main>
   );
